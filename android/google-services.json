@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "761396048210",
+    "project_id": "homeeaze-backend",
+    "storage_bucket": "homeeaze-backend.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761396048210:android:7df8459e56c796e1498a8b",
+        "android_client_info": {
+          "package_name": "com.example.homeeaze_sourcecode"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "761396048210-17ukg82l9ghdgbjhmsfkg5vtum1v8u7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARWkT9FjcQFgHS1UuhLNA2k7LcXvxitVc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761396048210-17ukg82l9ghdgbjhmsfkg5vtum1v8u7n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
