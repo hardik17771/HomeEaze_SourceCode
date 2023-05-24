@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/LoginPage.dart';
 import 'package:homeeaze_sourcecode/button.dart';
+import 'package:homeeaze_sourcecode/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class ServicePage extends StatefulWidget {
-  const ServicePage({super.key} );
+   ServicePage({super.key} );
 
   @override
   State<ServicePage> createState() => _ServicePageState();
 }
 
 class _ServicePageState extends State<ServicePage> {
+  final User? user= Auth().currentUser;
+  Future<void> signOut() async
+  {
+    await Auth().signOut();
+  }
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -29,14 +38,23 @@ class _ServicePageState extends State<ServicePage> {
                 GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w500),
           ),
         ),
-        body: Column(
-          children: [
-            Buttons("Wash + Iron"),
-            Buttons("Wash Only"),
-            Buttons("Iron"),
-            Buttons("Dry Clean"),
-            Buttons("Stitch"),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Buttons("Wash + Iron"),
+              Buttons("Wash Only"),
+              Buttons("Iron"),
+              Buttons("Dry Clean"),
+              Buttons("Stitch"),
+              TextButton(onPressed:()
+                {
+                  signOut;
+                  Navigator.push(context,MaterialPageRoute(builder: (context)=> LoginPage())
+                  );
+                },
+               child: Text('Sign Out'),)
+               ],
+          ),
         ));
   }
 }

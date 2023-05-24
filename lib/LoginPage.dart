@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:homeeaze_sourcecode/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-final emailController=TextEditingController();
-final passController=TextEditingController();
+
 class LoginPage extends StatefulWidget {
 
   const LoginPage({super.key});
@@ -14,6 +14,29 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String? errMessage = '';
+  bool isLogin= false;
+  final TextEditingController emailController=TextEditingController();
+  final TextEditingController passController=TextEditingController();
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      Auth().signInWithEmailAndPassword(email: emailController.text, password: passController.text);
+    } on FirebaseAuthException catch(e) {
+      setState(() {
+        errMessage=e.message;
+      });
+    }
+  }
+  Future<void> createUserWithEmailAndPassword() async {
+    try {
+      Auth().createUserWithEmailAndPassword(email: emailController.text, password: passController.text);
+    } on FirebaseAuthException catch(e) {
+      setState(() {
+        errMessage=e.message;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -41,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   hintStyle: GoogleFonts.poppins(
                       fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
-                  hintText: "   Enter your email",
+                  hintText: " Enter your email",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -54,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   hintStyle: GoogleFonts.poppins(
                       fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
-                  hintText: '   Enter Password',
+                  hintText: 'Enter Password',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -73,17 +96,34 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(height: screenHeight * .015),
-              Container(
-                width: screenWidth * .70,
-                child: FloatingActionButton.extended(
+
+                SizedBox(
+                  width: screenWidth * .7,
+                  child: FloatingActionButton(
+
+                    onPressed: () {
+
+                      isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword();
+                    },
+                    backgroundColor: Color(0xFF0793C5),
+                    child: Text(isLogin? 'Login': 'Register'),
+                  ),
+                ),
+
+              SizedBox(height: screenHeight * .005),
+              SizedBox(
+                width: screenWidth * .7,
+                child: TextButton(
+
                   onPressed: () {
-                    signIn;
+
+                   setState(() {
+                     isLogin=!isLogin;
+                   });
                   },
-                  label: Text('Login'),
-                  backgroundColor: Color(0xFF0793C5),
+                  child: Text(isLogin? 'Register Instead': 'Login Instead'),
                 ),
               ),
-              SizedBox(height: screenHeight * .005),
               TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -103,11 +143,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-  }
-  Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passController.text.trim());
   }
 
 }
