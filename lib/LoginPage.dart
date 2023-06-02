@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/ServicePage.dart';
 import 'package:homeeaze_sourcecode/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:homeeaze_sourcecode/auth.dart';
@@ -22,9 +23,13 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> signInWithEmailAndPassword() async {
     try {
       Auth().signInWithEmailAndPassword(email: emailController.text, password: passController.text);
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ServicePage()));
     } on FirebaseAuthException catch(e) {
       setState(() {
         errMessage=e.message;
+        print(errMessage);
       });
     }
   }
@@ -103,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     onPressed: () {
 
-                      isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword();
+                      isLogin ? signInWithEmailAndPassword() : createUserWithEmailAndPassword();
                     },
                     backgroundColor: Color(0xFF0793C5),
                     child: Text(isLogin? 'Login': 'Register'),
