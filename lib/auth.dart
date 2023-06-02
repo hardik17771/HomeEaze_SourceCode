@@ -18,7 +18,6 @@ import 'package:firebase_auth/firebase_auth.dart';
         password: password
       );
     }
-
   Future<void> createUserWithEmailAndPassword(
       {
         required String email,
