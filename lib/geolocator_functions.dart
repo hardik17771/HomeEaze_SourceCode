@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -8,8 +9,14 @@ class NearbyVendorsPage extends StatefulWidget {
 }
 
 class _NearbyVendorsPageState extends State<NearbyVendorsPage> {
-  late Position _userPosition;
-  late String _userAddress;
+   Position _userPosition=Position(latitude: 35.7749, longitude: -11.4194,
+     speedAccuracy: 5,
+     timestamp: null,
+     accuracy: 10.0,
+     altitude: 00.0,
+     heading: 160.0,
+     speed: 5.0,);
+  String? _userAddress;
   Position _vendorPosition = Position(latitude: 37.7749, longitude: -122.4194,
     speedAccuracy: 5,
     timestamp: null,
@@ -17,8 +24,8 @@ class _NearbyVendorsPageState extends State<NearbyVendorsPage> {
     altitude: 100.0,
     heading: 180.0,
     speed: 5.0,); // Sample vendor location
-  double _distance = 0.0;
-  double _radius = 1000.0; // Radius in meters
+  double _distance = 10.0;
+  double _radius = 10.0; // Radius in meters
 
   @override
   void initState() {
@@ -40,6 +47,9 @@ class _NearbyVendorsPageState extends State<NearbyVendorsPage> {
       if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
         Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
         setState(() {
+          if (kDebugMode) {
+            print('hello');
+          }
           _userPosition = position;
         });
         _getUserAddress(position);
@@ -47,7 +57,9 @@ class _NearbyVendorsPageState extends State<NearbyVendorsPage> {
       }
     } catch (e) {
       // Handle location retrieval error
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
   }
 
@@ -84,8 +96,13 @@ class _NearbyVendorsPageState extends State<NearbyVendorsPage> {
     return _distance <= _radius;
   }
 
+
   @override
   Widget build(BuildContext context) {
+    _getUserLocation();
+    _isWithinRadius();
+
+    _calculateDistance();
     return Scaffold(
       appBar: AppBar(
         title: Text('Nearby Vendors'),
@@ -115,8 +132,3 @@ class _NearbyVendorsPageState extends State<NearbyVendorsPage> {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: NearbyVendorsPage(),
-  ));
-}

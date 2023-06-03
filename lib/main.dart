@@ -6,6 +6,7 @@ import 'package:homeeaze_sourcecode/ServicePage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:homeeaze_sourcecode/auth.dart';
+import 'package:homeeaze_sourcecode/geolocator_functions.dart';
 
 
 
@@ -27,7 +28,7 @@ class MainPage extends StatelessWidget {
         stream: Auth().authStateChanges,
         builder: (context, snapshot) {
           if(snapshot.hasData) {
-            return ServicePage();
+            return NearbyVendorsPage();
           }
           else {
             return LoginPage();
