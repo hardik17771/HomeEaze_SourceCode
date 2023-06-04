@@ -35,8 +35,7 @@ Future<void> fetchUser(String userId) async {
     String username = userData['user_name'] as String;
     String email = userData['user_email'] as String;
 
-
-    // Do something with the user data
+    
     if (kDebugMode) {
       print('User ID: $userId, Username: $username, Email: $email');
     }
