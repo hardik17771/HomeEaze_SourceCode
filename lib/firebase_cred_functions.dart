@@ -22,8 +22,8 @@ Future<void> createUser() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  createUser();
-  fetchUser('h');
+
+  fetchUser('Yv2oA5FCee58OVhI7Bp3');
 }
 
 Future<void> fetchUser(String userId) async {
@@ -32,14 +32,18 @@ Future<void> fetchUser(String userId) async {
 
   if (userSnapshot.exists) {
     Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
-    String username = userData['username'] as String;
-    String email = userData['email'] as String;
+    String username = userData['user_name'] as String;
+    String email = userData['user_email'] as String;
 
 
     // Do something with the user data
-    print('User ID: $userId, Username: $username, Email: $email');
+    if (kDebugMode) {
+      print('User ID: $userId, Username: $username, Email: $email');
+    }
   } else {
-    print('User with ID $userId does not exist.');
+    if (kDebugMode) {
+      print('User with ID $userId does not exist.');
+    }
   }
 }
 
