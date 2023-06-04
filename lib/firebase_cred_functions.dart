@@ -31,9 +31,10 @@ Future<void> fetchUser(String userId) async {
   await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
   if (userSnapshot.exists) {
-    // Access the user data
-    String username = userSnapshot.data()!['username'] as String;
-    String email = userSnapshot.data()!['email'] as String;
+    Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+    String username = userData['username'] as String;
+    String email = userData['email'] as String;
+
 
     // Do something with the user data
     print('User ID: $userId, Username: $username, Email: $email');
