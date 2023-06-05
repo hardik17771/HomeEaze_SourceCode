@@ -37,14 +37,10 @@ Future<void> createOrder() async {
 
   CollectionReference subCollectionRef = mainDocumentRef.collection('order_details');
   DocumentReference subDocumentRef = subCollectionRef.doc('Laundary');
-  await subDocumentRef.set({
-    'subField1': 'Sub Value 1',
-    'subField2': 'Sub Value 2',
-  });
 
   await subDocumentRef.set({
-    'subField1': 'Sub Value 3',
-    'subField2': 'Sub Value 4',
+    'bed-sheets': '12',
+    'pillow_cover': '2',
   });
 
   print('Sub-documents created successfully.');
