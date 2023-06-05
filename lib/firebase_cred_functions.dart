@@ -19,11 +19,43 @@ Future<void> createUser() async {
   }
 }
 
+
+Future<void> createOrder() async {
+  CollectionReference mainCollectionRef = FirebaseFirestore.instance.collection('orders');
+  DocumentReference mainDocumentRef = mainCollectionRef.doc('order_2');
+
+   mainDocumentRef = await mainCollectionRef.add({
+    'user_id': 'Value 1',
+    'vendor_id': 'Value 2',
+  });
+
+  String mainDocumentId = mainDocumentRef.id;
+  if (kDebugMode) {
+    print('Main Document ID: $mainDocumentId');
+  }
+
+
+  CollectionReference subCollectionRef = mainDocumentRef.collection('order_details');
+  DocumentReference subDocumentRef = subCollectionRef.doc('Laundary');
+  await subDocumentRef.set({
+    'subField1': 'Sub Value 1',
+    'subField2': 'Sub Value 2',
+  });
+
+  await subDocumentRef.set({
+    'subField1': 'Sub Value 3',
+    'subField2': 'Sub Value 4',
+  });
+
+  print('Sub-documents created successfully.');
+}
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  fetchUser('Yv2oA5FCee58OVhI7Bp3');
+  createOrder();
 }
 
 Future<void> fetchUser(String userId) async {
@@ -35,7 +67,7 @@ Future<void> fetchUser(String userId) async {
     String username = userData['user_name'] as String;
     String email = userData['user_email'] as String;
 
-    
+
     if (kDebugMode) {
       print('User ID: $userId, Username: $username, Email: $email');
     }
