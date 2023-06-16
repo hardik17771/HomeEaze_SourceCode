@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/LoginPage.dart';
-import 'package:homeeaze_sourcecode/button.dart';
-import 'package:homeeaze_sourcecode/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../Models/auth.dart';
+import '../../Widgets/button.dart';
+import 'LoginPage.dart';
 
 
 class ServicePage extends StatefulWidget {

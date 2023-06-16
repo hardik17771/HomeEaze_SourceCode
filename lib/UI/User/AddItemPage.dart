@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/button.dart';
-import 'package:homeeaze_sourcecode/AddItemPage.dart';
+
+import '../../Widgets/button.dart';
+
 
 class AddItem extends StatefulWidget {
   const AddItem({super.key});

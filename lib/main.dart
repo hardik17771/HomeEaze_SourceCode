@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:homeeaze_sourcecode/AddItemPage.dart';
-import 'package:homeeaze_sourcecode/FirstPage.dart';
-import 'package:homeeaze_sourcecode/LoginPage.dart';
-import 'package:homeeaze_sourcecode/ServicePage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:homeeaze_sourcecode/auth.dart';
-import 'package:homeeaze_sourcecode/geolocator_functions.dart';
+
+import 'Models/auth.dart';
+import 'Models/geolocator_functions.dart';
+import 'UI/User/LoginPage.dart';
+
 
 
 
