@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:homeeaze_sourcecode/UI/User/get_address.dart';
 
 import 'Models/auth.dart';
 import 'Models/geolocator_functions.dart';
@@ -15,7 +15,7 @@ Future main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: MainPage(), ));
+    home: LocationPage(), ));
 }
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
