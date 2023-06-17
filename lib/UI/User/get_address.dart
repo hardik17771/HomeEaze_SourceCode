@@ -84,8 +84,55 @@ class LocationPage extends StatelessWidget {
                     width: 120.0,
                     color: Colors.grey,
                   ),
+
                 ],
               ),
+            ),
+            SizedBox(
+              height: screenHeight*0.02,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Enter Address Manually',
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(
+                  height: screenHeight*0.02,
+                ),
+                TextField(
+
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintStyle: GoogleFonts.poppins(
+                        fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
+                    hintText: 'Enter Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: screenHeight*0.01,
+                ),
+                TextField(
+
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintStyle: GoogleFonts.poppins(
+                        fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
+                    hintText: 'Enter Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+              ],
             )
 
           ],
