@@ -134,7 +134,7 @@ class _OrderPageState extends State<OrderPage> {
           SizedBox(
             height: 32,
           ),
-          SvgPicture.asset("lib/images/noOrders.svg"),
+          SvgPicture.asset("assets/noOrders.svg"),
         ],
       ),
     );

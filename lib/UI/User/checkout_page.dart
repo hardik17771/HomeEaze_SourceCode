@@ -44,7 +44,7 @@ class CheckOut extends StatelessWidget {
              const SizedBox(
                 height: 30,
               ),
-              Image.asset("lib/images/checkOut.png"),
+              Image.asset("assets/checkOut.png"),
              const SizedBox(
                 height: 16,
               ),

@@ -120,7 +120,7 @@ class _ChoseMatchState extends State<ChoseMatch> {
               width: double.infinity,
               height: 400,
               child: Image.asset(
-                "lib/images/launderyImage1.png",
+                "assets/image1.png",
                 alignment: Alignment.center,
               ),
             ),
