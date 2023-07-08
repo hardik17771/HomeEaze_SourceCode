@@ -1,6 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/Widgets/address_form_widget.dart';
 
 class LocationPage extends StatelessWidget {
    LocationPage({Key? key}) : super(key: key);
@@ -105,33 +106,34 @@ class LocationPage extends StatelessWidget {
                 SizedBox(
                   height: screenHeight*0.02,
                 ),
-                TextField(
-
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintStyle: GoogleFonts.poppins(
-                        fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
-                    hintText: 'Enter Password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: screenHeight*0.01,
-                ),
-                TextField(
-
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintStyle: GoogleFonts.poppins(
-                        fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
-                    hintText: 'Enter Password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
+                AddressFormWidget(),
+                // TextField(
+                //
+                //   obscureText: true,
+                //   decoration: InputDecoration(
+                //     hintStyle: GoogleFonts.poppins(
+                //         fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
+                //     hintText: 'Enter Password',
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(8.0),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: screenHeight*0.01,
+                // ),
+                // TextField(
+                //
+                //   obscureText: true,
+                //   decoration: InputDecoration(
+                //     hintStyle: GoogleFonts.poppins(
+                //         fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
+                //     hintText: 'Enter Password',
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(8.0),
+                //     ),
+                //   ),
+                // ),
               ],
             )
 
