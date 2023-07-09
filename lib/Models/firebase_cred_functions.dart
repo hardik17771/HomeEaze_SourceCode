@@ -25,7 +25,7 @@ Future<void> createUser() async {
     }
 
     // Get the user's address
-    String address = await _getUserAddress();
+    // String address = await _getUserAddress();
 
     // Update the 'address' field in the user document
     await newUserDoc.update({'address': address});

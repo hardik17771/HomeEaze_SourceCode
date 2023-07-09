@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -60,12 +61,26 @@ class _LoginPageState extends State<LoginPage> {
       String userEmail = FirebaseAuth.instance.currentUser?.email ?? '';
       String userName = ''; // You can set the user's name from the next page
 
+      CollectionReference usersCollection =
+      FirebaseFirestore.instance.collection('users');
+
+      DocumentReference newUserDoc = usersCollection.doc(userId);
+
+      DocumentSnapshot userSnapshot = await newUserDoc.get();
+      if (!userSnapshot.exists) {
+        // Create the user document with the provided user details
+        await newUserDoc.set({
+          'user_name': userName,
+          'user_email': userEmail,
+        });
+      }
+
       // Navigate to the next page and pass the user details
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => LocationPage(
-            userId: userId,
+            userID: userId,
           ),
         ),
       );
@@ -75,6 +90,8 @@ class _LoginPageState extends State<LoginPage> {
       });
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

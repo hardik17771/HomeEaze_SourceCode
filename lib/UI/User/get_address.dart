@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -6,38 +7,64 @@ import 'package:homeeaze_sourcecode/UI/User/order_page.dart';
 
 class LocationPage extends StatefulWidget {
 
-  LocationPage({Key? key}) : super(key: key);
+
+   LocationPage({
+    super.key,
+    required this.userID,
+
+  });
+
+  final String userID;
 
   @override
   State<LocationPage> createState() => _LocationPageState();
 }
 
 class _LocationPageState extends State<LocationPage> {
-  void _getCurrentLocationAndPostToFirebase() async {
-
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission != LocationPermission.whileInUse &&
-          permission != LocationPermission.always) {
-
-        return;
-      }
-    }
-
+  // void _getCurrentLocationAndPostToFirebase() async {
+  //
+  //   LocationPermission permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission != LocationPermission.whileInUse &&
+  //         permission != LocationPermission.always) {
+  //
+  //       return;
+  //     }
+  //   }
+  //
+  //   Position position = await Geolocator.getCurrentPosition(
+  //     desiredAccuracy: LocationAccuracy.high,
+  //   );
+  //
+  //   // Store the location data in Firebase
+  //   // await _postLocationToFirebase(position.latitude, position.longitude);
+  //
+  //   // Navigate to the next screen
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => OrderPage()),
+  //   );
+  // }
+  Future<void> getLocationAndCreateDocument() async {
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
+    double latitude = position.latitude;
+    double longitude = position.longitude;
 
-    // Store the location data in Firebase
-    // await _postLocationToFirebase(position.latitude, position.longitude);
-
-    // Navigate to the next screen
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => OrderPage()),
-    );
+    if (widget.userID.isNotEmpty) {
+      DocumentReference userDoc =
+      FirebaseFirestore.instance.collection('users').doc(widget.userID);
+      await userDoc.set({
+        'user_address': {
+          'latitude': latitude,
+          'longitude': longitude,
+        },
+      }, SetOptions(merge: true));
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +101,7 @@ class _LocationPageState extends State<LocationPage> {
                 child: ElevatedButton(
 
                   onPressed:()=>{
-                  _getCurrentLocationAndPostToFirebase(),
+                  getLocationAndCreateDocument(),
                   },
 
                   child: Center(
@@ -174,4 +201,5 @@ class _LocationPageState extends State<LocationPage> {
       ),
     );
   }
-}
+
+
