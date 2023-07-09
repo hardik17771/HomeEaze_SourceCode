@@ -1,23 +1,46 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 
 Future<void> createUser() async {
+  User? currentUser = FirebaseAuth.instance.currentUser;
 
-  CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
-  DocumentReference newUserDoc = await usersCollection.add({
-    'user_name': 'Hardikk',
-    'user_mobile': 'hardik@gmail.com',
+  if (currentUser != null) {
+    CollectionReference usersCollection =
+    FirebaseFirestore.instance.collection('users');
 
-  });
+    DocumentReference newUserDoc = usersCollection.doc(currentUser.uid);
 
-  String newUserId = newUserDoc.id;
-  if (kDebugMode) {
-    print('Newly created user ID: $newUserId');
+
+    DocumentSnapshot userSnapshot = await newUserDoc.get();
+    if (!userSnapshot.exists) {
+      // Create the user document with the authenticated user's ID
+      await newUserDoc.set({
+        'user_name': currentUser.displayName,
+        'user_email': currentUser.email,
+      });
+    }
+
+    // Get the user's address
+    String address = await _getUserAddress();
+
+    // Update the 'address' field in the user document
+    await newUserDoc.update({'address': address});
+
+    String newUserId = newUserDoc.id;
+    if (kDebugMode) {
+      print('Newly created user ID: $newUserId');
+    }
+  } else {
+    if (kDebugMode) {
+      print('No authenticated user found.');
+    }
   }
 }
+
 
 
 Future<void> createOrder() async {
@@ -73,6 +96,19 @@ Future<void> fetchUser(String userId) async {
     }
   }
 }
+
+Future<void> _postLocationToFirebase(double latitude, double longitude) async {
+  try {
+    await databaseReference.child('locations').push().set({
+      'latitude': latitude,
+      'longitude': longitude,
+    });
+  } catch (e) {
+    // Handle any errors that occur while posting to Firebase
+    print('Error posting location to Firebase: $e');
+  }
+}
+
 
 
 

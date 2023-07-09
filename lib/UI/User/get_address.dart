@@ -1,10 +1,43 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/Widgets/address_form_widget.dart';
+import 'package:homeeaze_sourcecode/UI/User/order_page.dart';
 
-class LocationPage extends StatelessWidget {
-   LocationPage({Key? key}) : super(key: key);
+class LocationPage extends StatefulWidget {
+
+  LocationPage({Key? key}) : super(key: key);
+
+  @override
+  State<LocationPage> createState() => _LocationPageState();
+}
+
+class _LocationPageState extends State<LocationPage> {
+  void _getCurrentLocationAndPostToFirebase() async {
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
+
+        return;
+      }
+    }
+
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+
+    // Store the location data in Firebase
+    // await _postLocationToFirebase(position.latitude, position.longitude);
+
+    // Navigate to the next screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => OrderPage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +59,10 @@ class LocationPage extends StatelessWidget {
 
             ),
             Text('Want to see services near you?',
-            style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w500,
-              fontSize: 22,
-            ),),
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+              ),),
             SizedBox(
               height: screenHeight*0.05,
             ),
@@ -40,20 +73,20 @@ class LocationPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
                 child: ElevatedButton(
 
-                    onPressed:()=>{
+                  onPressed:()=>{
+                  _getCurrentLocationAndPostToFirebase(),
+                  },
 
-    },
-
-                    child: Center(
-                      child: Text(
-                        'Use my Current Location',
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
+                  child: Center(
+                    child: Text(
+                      'Use my Current Location',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
+                  ),
                 ),
               ),
             ),
@@ -106,34 +139,33 @@ class LocationPage extends StatelessWidget {
                 SizedBox(
                   height: screenHeight*0.02,
                 ),
-                AddressFormWidget(),
-                // TextField(
-                //
-                //   obscureText: true,
-                //   decoration: InputDecoration(
-                //     hintStyle: GoogleFonts.poppins(
-                //         fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
-                //     hintText: 'Enter Password',
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(8.0),
-                //     ),
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: screenHeight*0.01,
-                // ),
-                // TextField(
-                //
-                //   obscureText: true,
-                //   decoration: InputDecoration(
-                //     hintStyle: GoogleFonts.poppins(
-                //         fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
-                //     hintText: 'Enter Password',
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(8.0),
-                //     ),
-                //   ),
-                // ),
+                TextField(
+
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintStyle: GoogleFonts.poppins(
+                        fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
+                    hintText: 'Enter Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: screenHeight*0.01,
+                ),
+                TextField(
+
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintStyle: GoogleFonts.poppins(
+                        fontSize: 10, color: Color(0xFFA8A7A7).withOpacity(.5)),
+                    hintText: 'Enter Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
               ],
             )
 

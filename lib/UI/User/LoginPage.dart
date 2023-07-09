@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:homeeaze_sourcecode/UI/User/FirstPage.dart';
+import 'package:homeeaze_sourcecode/UI/User/get_address.dart';
 
 import '../../Models/auth.dart';
 import 'ServicePage.dart';
@@ -21,28 +23,59 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController=TextEditingController();
   final TextEditingController passController=TextEditingController();
 
-  Future<void> signInWithEmailAndPassword() async {
+  void loginUser() async {
     try {
-      Auth().signInWithEmailAndPassword(email: emailController.text, password: passController.text);
+      await Auth().signInWithEmailAndPassword(
+          email: emailController.text, password: passController.text);
+
+      // Get the user's details
+      String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+      String userEmail = FirebaseAuth.instance.currentUser?.email ?? '';
+      String userName = ''; // You can get the user's name from the Firestore database
+
+      // Navigate to the next page and pass the user details
       Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ServicePage()));
-    } on FirebaseAuthException catch(e) {
+        context,
+        MaterialPageRoute(
+          builder: (context) => FirstPage(
+            // userId: userId,
+            // userEmail: userEmail,
+            // userName: userName,
+          ),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
       setState(() {
-        errMessage=e.message;
-        print(errMessage);
+        errMessage = e.message;
       });
     }
   }
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      Auth().createUserWithEmailAndPassword(email: emailController.text, password: passController.text);
-    } on FirebaseAuthException catch(e) {
+      await Auth().createUserWithEmailAndPassword(
+          email: emailController.text, password: passController.text);
+
+      // Get the user's details
+      String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+      String userEmail = FirebaseAuth.instance.currentUser?.email ?? '';
+      String userName = ''; // You can set the user's name from the next page
+
+      // Navigate to the next page and pass the user details
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LocationPage(
+            userId: userId,
+          ),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
       setState(() {
-        errMessage=e.message;
+        errMessage = e.message;
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
 
@@ -109,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     onPressed: () {
 
-                      isLogin ? signInWithEmailAndPassword() : createUserWithEmailAndPassword();
+                      isLogin ? loginUser() : createUserWithEmailAndPassword();
                     },
                     backgroundColor: Color(0xFF0793C5),
                     child: Text(isLogin? 'Login': 'Register'),

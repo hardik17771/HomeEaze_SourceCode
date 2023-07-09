@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 
+
 class NearbyVendorsPage extends StatefulWidget {
+
   @override
   _NearbyVendorsPageState createState() => _NearbyVendorsPageState();
 }
