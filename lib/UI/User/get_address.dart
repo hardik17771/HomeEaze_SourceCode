@@ -68,15 +68,24 @@ class _LocationPageState extends State<LocationPage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Scaffold(
       appBar: AppBar(
 
       ),
       backgroundColor: Colors.white,
       body: Padding(
-        padding:  EdgeInsets.only(left: screenWidth*0.04,top: screenHeight*0.03,right: screenWidth*0.04,bottom: screenHeight*0.02),
+        padding: EdgeInsets.only(left: screenWidth * 0.04,
+            top: screenHeight * 0.03,
+            right: screenWidth * 0.04,
+            bottom: screenHeight * 0.02),
         child: Column(
           children: [
             Center(
@@ -91,17 +100,18 @@ class _LocationPageState extends State<LocationPage> {
                 fontSize: 22,
               ),),
             SizedBox(
-              height: screenHeight*0.05,
+              height: screenHeight * 0.05,
             ),
             SizedBox(
 
-              height: screenHeight*0.07,
+              height: screenHeight * 0.07,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: ElevatedButton(
 
-                  onPressed:()=>{
-                  getLocationAndCreateDocument(),
+                  onPressed: () =>
+                  {
+                    getLocationAndCreateDocument(),
                   },
 
                   child: Center(
@@ -118,7 +128,7 @@ class _LocationPageState extends State<LocationPage> {
               ),
             ),
             SizedBox(
-              height: screenHeight*0.02,
+              height: screenHeight * 0.02,
             ),
             Container(
               child: Row(
@@ -150,7 +160,7 @@ class _LocationPageState extends State<LocationPage> {
               ),
             ),
             SizedBox(
-              height: screenHeight*0.02,
+              height: screenHeight * 0.02,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +174,7 @@ class _LocationPageState extends State<LocationPage> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight*0.02,
+                  height: screenHeight * 0.02,
                 ),
                 TextField(
 
@@ -179,7 +189,7 @@ class _LocationPageState extends State<LocationPage> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight*0.01,
+                  height: screenHeight * 0.01,
                 ),
                 TextField(
 
@@ -202,4 +212,4 @@ class _LocationPageState extends State<LocationPage> {
     );
   }
 
-
+}
