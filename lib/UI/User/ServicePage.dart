@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../Models/auth.dart';
+import '../../Models/cart_model.dart';
 import '../../Widgets/button.dart';
+import 'AddItemPage.dart';
 import 'LoginPage.dart';
 
 
@@ -39,23 +41,63 @@ class _ServicePageState extends State<ServicePage> {
                 GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w500),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Buttons("Wash + Iron"),
-              Buttons("Wash Only"),
-              Buttons("Iron"),
-              Buttons("Dry Clean"),
-              Buttons("Stitch"),
-              TextButton(onPressed:()
-                {
-                  signOut;
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=> LoginPage())
-                  );
-                },
-               child: Text('Sign Out'),)
-               ],
-          ),
-        ));
+        body: ListView.builder(
+          itemCount: services.length,
+          itemBuilder: (context, index) {
+            final service = services[index];
+            final totalSelectedItems = service.selectedItems.length;
+            return Container(
+              margin:
+              EdgeInsets.only(top: screenHeight * .04, left: screenWidth * .025),
+              width: screenWidth * .95,
+              height: screenHeight * .12,
+              child: GestureDetector(
+
+                child: FloatingActionButton(
+                  onPressed: () async {
+                    final updatedService = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddItem(service: service),
+                      ),
+                    );
+                    if (updatedService != null) {
+                      setState(() {
+                        service.selectedItems = updatedService.selectedItems;
+                      });
+                    }
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        service.name,
+                        style: GoogleFonts.poppins(
+                          color: Color(0xFFFFFFFF), // Update text color based on tap state
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 17,
+                        ),
+                      ),
+                      Text(
+                          'Selected Item Types: $totalSelectedItems',
+                        style: GoogleFonts.poppins(
+                          color: Color(0xFFFFFFFF), // Update text color based on tap state
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ],
+                  ),
+                  backgroundColor: Color(0xFF0793C5), // Update background color based on tap state
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),);
   }
 }

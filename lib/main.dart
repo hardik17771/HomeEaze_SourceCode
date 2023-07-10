@@ -20,7 +20,7 @@ Future main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: AddItem()));
+    home: ServicePage()));
 }
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
