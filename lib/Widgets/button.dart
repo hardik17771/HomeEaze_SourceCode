@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:input_quantity/input_quantity.dart';
 
 Widget buttons(String textToWrigth, double screenWidth, double screenHeight) {
   return Container(
@@ -38,7 +39,7 @@ AddButton(String text, double screenWidth, double screenHeight) {
     decoration: BoxDecoration(
         border: BorderDirectional(
             bottom: BorderSide(color: Colors.black, width: .08))),
-    child: Row(
+    child: Row( 
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(text,
@@ -46,23 +47,32 @@ AddButton(String text, double screenWidth, double screenHeight) {
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
                 color: Colors.black)),
-        // SizedBox(
-        //   width: scre,
-        // ),
-        ElevatedButton.icon(
-          onPressed: () {},
-          icon: Icon(Icons.add),
-          label: Text('Add'),
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+        InputQty(
+          textFieldDecoration: InputDecoration(
+            hintStyle: GoogleFonts.poppins(
+              color:  Color(0xFF0793C5),
             ),
+
           ),
-        ),
+          boxDecoration: BoxDecoration(
+            border: Border.all(color: Color(0xFF0793C5)),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          showMessageLimit: false,
+          initVal: 0,
+          btnColor1: Color(0xFF0793C5),
+          btnColor2: Color(0xFF0793C5), // color of the increase and decrease icon
+          maxVal: double.maxFinite, // min starting value
+          onQtyChanged: (val) {
+            }
+
+        )
+
       ],
     ),
   );
 }
+
 
 class AddButtons extends StatefulWidget {
   String text;
@@ -78,26 +88,7 @@ class _AddButtonsState extends State<Buttons> {
 
   _AddButtonsState(this.text);
 
-  void _onTapDown(TapDownDetails details) {
-    setState(() {
-      // Update the state when the button is tapped down
-      isTapped = true;
-    });
-  }
 
-  void _onTapUp(TapUpDetails details) {
-    setState(() {
-      // Update the state when the button is released
-      isTapped = false;
-    });
-  }
-
-  void _onTapCancel() {
-    setState(() {
-      // Update the state when the tap is cancelled (e.g., if user swipes away from the button)
-      isTapped = false;
-    });
-  }
 
   void _onButtonPressed() {
     setState(() {

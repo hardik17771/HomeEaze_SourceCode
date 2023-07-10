@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:homeeaze_sourcecode/UI/User/AddItemPage.dart';
+import 'package:homeeaze_sourcecode/UI/User/ServicePage.dart';
 import 'package:homeeaze_sourcecode/UI/User/get_address.dart';
 import 'package:homeeaze_sourcecode/UI/User/outlet_details.dart';
+import 'package:homeeaze_sourcecode/UI/User/provided_service.dart';
 
 import 'Models/auth.dart';
 import 'Models/geolocator_functions.dart';
@@ -17,7 +20,7 @@ Future main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: LoginPage()));
+    home: AddItem()));
 }
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);

@@ -34,7 +34,7 @@ class _ServicePageState extends State<ServicePage> {
             ),
           ],
           title: Text(
-            "How can we surve you today?",
+            "How can we serve you today?",
             style:
                 GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w500),
           ),

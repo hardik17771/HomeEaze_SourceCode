@@ -21,31 +21,7 @@ class LocationPage extends StatefulWidget {
 }
 
 class _LocationPageState extends State<LocationPage> {
-  // void _getCurrentLocationAndPostToFirebase() async {
-  //
-  //   LocationPermission permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission != LocationPermission.whileInUse &&
-  //         permission != LocationPermission.always) {
-  //
-  //       return;
-  //     }
-  //   }
-  //
-  //   Position position = await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   );
-  //
-  //   // Store the location data in Firebase
-  //   // await _postLocationToFirebase(position.latitude, position.longitude);
-  //
-  //   // Navigate to the next screen
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(builder: (context) => OrderPage()),
-  //   );
-  // }
+
   Future<void> getLocationAndCreateDocument() async {
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,

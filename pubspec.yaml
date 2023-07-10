@@ -43,6 +43,7 @@ dependencies:
   firebase: ^9.0.3
   flutter_svg: ^2.0.5
   flutter_typeahead: ^4.6.1
+  input_quantity: ^1.2.1
 
 dev_dependencies:
   flutter_test:
