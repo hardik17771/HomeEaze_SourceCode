@@ -3,15 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/UI/User/order_page.dart';
 
 class LocationPage extends StatefulWidget {
-
-
-   LocationPage({
+  LocationPage({
     super.key,
     required this.userID,
-
   });
 
   final String userID;
@@ -21,7 +17,6 @@ class LocationPage extends StatefulWidget {
 }
 
 class _LocationPageState extends State<LocationPage> {
-
   Future<void> getLocationAndCreateDocument() async {
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
@@ -31,7 +26,7 @@ class _LocationPageState extends State<LocationPage> {
 
     if (widget.userID.isNotEmpty) {
       DocumentReference userDoc =
-      FirebaseFirestore.instance.collection('users').doc(widget.userID);
+          FirebaseFirestore.instance.collection('users').doc(widget.userID);
       await userDoc.set({
         'user_address': {
           'latitude': latitude,
@@ -41,24 +36,16 @@ class _LocationPageState extends State<LocationPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-
-      ),
+      appBar: AppBar(),
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.only(left: screenWidth * 0.04,
+        padding: EdgeInsets.only(
+            left: screenWidth * 0.04,
             top: screenHeight * 0.03,
             right: screenWidth * 0.04,
             bottom: screenHeight * 0.02),
@@ -68,28 +55,25 @@ class _LocationPageState extends State<LocationPage> {
               child: Image.asset(
                 'assets/Pin.png',
               ),
-
             ),
-            Text('Want to see services near you?',
+            Text(
+              'Want to see services near you?',
               style: GoogleFonts.poppins(
                 fontWeight: FontWeight.w500,
                 fontSize: 22,
-              ),),
+              ),
+            ),
             SizedBox(
               height: screenHeight * 0.05,
             ),
             SizedBox(
-
               height: screenHeight * 0.07,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: ElevatedButton(
-
-                  onPressed: () =>
-                  {
+                  onPressed: () => {
                     getLocationAndCreateDocument(),
                   },
-
                   child: Center(
                     child: Text(
                       'Use my Current Location',
@@ -131,7 +115,6 @@ class _LocationPageState extends State<LocationPage> {
                     width: 120.0,
                     color: Colors.grey,
                   ),
-
                 ],
               ),
             ),
@@ -153,7 +136,6 @@ class _LocationPageState extends State<LocationPage> {
                   height: screenHeight * 0.02,
                 ),
                 TextField(
-
                   obscureText: true,
                   decoration: InputDecoration(
                     hintStyle: GoogleFonts.poppins(
@@ -168,7 +150,6 @@ class _LocationPageState extends State<LocationPage> {
                   height: screenHeight * 0.01,
                 ),
                 TextField(
-
                   obscureText: true,
                   decoration: InputDecoration(
                     hintStyle: GoogleFonts.poppins(
@@ -181,11 +162,9 @@ class _LocationPageState extends State<LocationPage> {
                 ),
               ],
             )
-
           ],
         ),
       ),
     );
   }
-
 }

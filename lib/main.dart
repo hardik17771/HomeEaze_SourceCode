@@ -1,44 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:homeeaze_sourcecode/UI/User/AddItemPage.dart';
-import 'package:homeeaze_sourcecode/UI/User/ServicePage.dart';
-import 'package:homeeaze_sourcecode/UI/User/get_address.dart';
-import 'package:homeeaze_sourcecode/UI/User/outlet_details.dart';
-import 'package:homeeaze_sourcecode/UI/User/provided_service.dart';
-
-import 'Models/auth.dart';
-import 'Models/geolocator_functions.dart';
-import 'UI/User/LoginPage.dart';
-import 'UI/User/checkout_page.dart';
-
-
-
+import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/core/utils.dart';
+import 'package:homeeaze_sourcecode/views/auth/first_page.dart';
+import 'package:homeeaze_sourcecode/views/home_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: ServicePage()));
+  runApp(const MyApp());
 }
-class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return
-    StreamBuilder(
-        stream: Auth().authStateChanges,
-        builder: (context, snapshot) {
-          if(snapshot.hasData) {
-            return NearbyVendorsPage();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Droby',
+      home: StreamBuilder(
+        stream: AuthController().authStateChanges,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Loader();
+          } else if (snapshot.hasData) {
+            return const HomePage();
+          } else {
+            return const FirstPage();
           }
-          else {
-            return LoginPage();
-          }}
+        },
+      ),
     );
   }
 }
-
-

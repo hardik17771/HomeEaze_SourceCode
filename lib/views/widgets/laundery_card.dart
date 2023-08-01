@@ -1,10 +1,5 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../UI/User/outlet_details.dart';
-
 
 class UnselectedCard extends StatelessWidget {
   const UnselectedCard(
@@ -39,7 +34,7 @@ class UnselectedCard extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w700),
             ),
-          const  SizedBox(
+            const SizedBox(
               height: 9,
             ),
             Text(
@@ -49,7 +44,7 @@ class UnselectedCard extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w700),
             ),
-          const  SizedBox(
+            const SizedBox(
               height: 9,
             ),
             Text(
@@ -59,7 +54,7 @@ class UnselectedCard extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w700),
             ),
-          const  SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Container(
@@ -112,6 +107,8 @@ class SelectedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const buttonColor = Color(0xFF0793C5);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Container(
@@ -131,17 +128,17 @@ class SelectedCard extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w700),
             ),
-           const SizedBox(
+            const SizedBox(
               height: 9,
             ),
             Text(
-             "Amount - Rs " + amount.toString(),
+              "Amount - Rs " + amount.toString(),
               style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontSize: 16,
                   fontWeight: FontWeight.w700),
             ),
-           const SizedBox(
+            const SizedBox(
               height: 9,
             ),
             Text(
