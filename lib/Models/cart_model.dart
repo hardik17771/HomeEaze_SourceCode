@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-
 class Service {
   final String name;
   final List<Item> items;
   List<Item> selectedItems;
-
-  Service({required this.name, required this.items}): selectedItems = [];
+  Service({
+    required this.name,
+    required this.items,
+  }) : selectedItems = [];
 
   // int getTotalSelectedItems() {
   //   int total = 0;
@@ -18,9 +18,20 @@ class Service {
 
 class Item {
   final String name;
-  late  int quantity;
+  late int quantity;
+  Item({
+    required this.name,
+    required this.quantity,
+  });
+}
 
-  Item({required this.name, required this.quantity});
+class CartItem {
+  final Service service;
+  final List<Item> items;
+  CartItem({
+    required this.service,
+    required this.items,
+  });
 }
 
 List<Service> services = [
@@ -52,7 +63,6 @@ List<Service> services = [
       Item(name: "CARPET", quantity: 0),
     ],
   ),
-
   Service(
     name: "Iron",
     items: [
@@ -95,14 +105,4 @@ List<Service> services = [
       Item(name: "CARPET", quantity: 0),
     ],
   ),
-
 ];
-
-class CartItem {
-  final Service service;
-  final List<Item> items;
-
-  CartItem({required this.service, required this.items});
-}
-
-

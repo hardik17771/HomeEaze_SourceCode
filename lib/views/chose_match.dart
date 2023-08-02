@@ -1,16 +1,11 @@
-
-
 import 'package:flutter/material.dart';
-
-
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../Widgets/laundery_card.dart';
+import 'package:homeeaze_sourcecode/views/widgets/laundery_card.dart';
 import 'checkout_page.dart';
-import 'outlet_details.dart';
-
 
 class ChoseMatch extends StatefulWidget {
+  const ChoseMatch({super.key});
+
   @override
   _ChoseMatchState createState() => _ChoseMatchState();
 }
@@ -37,6 +32,7 @@ class _ChoseMatchState extends State<ChoseMatch> {
 
   @override
   Widget build(BuildContext context) {
+    const buttonColor = Color(0xFF0793C5);
     return Scaffold(
       bottomNavigationBar: selectedThoratLaundrySlot != null ||
               selectedCleanupLaundrySlot != null
@@ -62,11 +58,12 @@ class _ChoseMatchState extends State<ChoseMatch> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CheckOut(
+                              builder: (context) => CheckOutPage(
                                 amount: selectedCleanupLaundrySlot != null
                                     ? priceCleanupLaundery
                                     : priceThoratLaundery,
-                                pickUpSlot: (selectedCleanupLaundrySlot ?? selectedThoratLaundrySlot)!,
+                                pickUpSlot: (selectedCleanupLaundrySlot ??
+                                    selectedThoratLaundrySlot)!,
                                 typeOfLaundery:
                                     selectedCleanupLaundrySlot != null
                                         ? "Cleanup Laundry"
@@ -113,7 +110,7 @@ class _ChoseMatchState extends State<ChoseMatch> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-          const  SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Container(

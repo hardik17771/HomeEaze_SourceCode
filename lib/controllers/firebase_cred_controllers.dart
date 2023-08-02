@@ -68,14 +68,8 @@
 //
 //   print('Sub-documents created successfully.');
 // }
-//
-//
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//
-//   createOrder();
-// }
+////
+
 //
 // Future<void> fetchUser(String userId) async {
 //   DocumentSnapshot userSnapshot =

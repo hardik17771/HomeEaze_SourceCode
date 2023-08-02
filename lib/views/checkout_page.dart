@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'outlet_details.dart';
-
-class CheckOut extends StatelessWidget {
-  const  CheckOut({
-    required this.amount,
-    required this.pickUpSlot,
-    required this.typeOfLaundery,
-    Key? key,
-  });
+class CheckOutPage extends StatelessWidget {
   final String typeOfLaundery;
   final int amount;
   final String pickUpSlot;
+  const CheckOutPage({
+    super.key,
+    required this.amount,
+    required this.pickUpSlot,
+    required this.typeOfLaundery,
+  });
 
   @override
   Widget build(BuildContext context) {
+    const buttonColor = Color(0xFF0793C5);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 90,
@@ -41,11 +40,11 @@ class CheckOut extends StatelessWidget {
           ),
           child: Column(
             children: [
-             const SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Image.asset("assets/checkOut.png"),
-             const SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Container(
@@ -87,7 +86,7 @@ class CheckOut extends StatelessWidget {
                     borderRadius: BorderRadius.circular(
                         20), // Adjust the radius value as needed
                   )),
-             const SizedBox(
+              const SizedBox(
                 height: 64,
               ),
               Container(
@@ -107,14 +106,15 @@ class CheckOut extends StatelessWidget {
                 ),
               ),
               TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Cancel",
-                    style: GoogleFonts.poppins(
-                        color:const Color(0xFF767272),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ))
+                onPressed: () {},
+                child: Text(
+                  "Cancel",
+                  style: GoogleFonts.poppins(
+                      color: const Color(0xFF767272),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                ),
+              )
             ],
           ),
         ),
