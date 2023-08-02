@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
 import 'package:homeeaze_sourcecode/views/cart_services/cart_page.dart';
 import 'package:homeeaze_sourcecode/views/cart_services/service_page.dart';
 
@@ -17,12 +18,15 @@ class _HomePageState extends State<HomePage> {
     const ServicePage(),
     const CartPage(),
     Center(
-      child: TextButton(
-        onPressed: () {
-          // AuthController().signOut(context);
-        },
-        child: const Text("LogOut"),
-      ),
+      child: Builder(builder: (context) {
+        return TextButton(
+          onPressed: () {
+            // AuthController().signOut(context);
+            // DataController().putVendorOutletData(context);
+          },
+          child: const Text("LogOut"),
+        );
+      }),
     ),
     Container(), // Previous Orders
   ];

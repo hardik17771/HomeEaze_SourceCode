@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
+import 'package:homeeaze_sourcecode/views/cart_services/choose_vendor.dart';
 
 class MyBasketPage extends StatefulWidget {
   final List<Service> services;
@@ -264,7 +265,13 @@ class _MyBasketPageState extends State<MyBasketPage> {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return const ChooseVendorPage();
+                          },
+                        ));
+                      },
                       child: Container(
                         height: 46,
                         margin: const EdgeInsets.only(

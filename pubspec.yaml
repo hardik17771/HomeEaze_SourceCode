@@ -44,6 +44,7 @@ dependencies:
   flutter_typeahead: ^4.6.1
   input_quantity: ^1.2.1
   firebase_core: ^2.15.0
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:

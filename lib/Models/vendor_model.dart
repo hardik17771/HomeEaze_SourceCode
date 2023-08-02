@@ -1,0 +1,102 @@
+class VendorModel {
+  final String vendorName;
+  final String outletName;
+  final String vendorMobileNumber;
+  final String outletMobileNumber;
+  final String outletAddress;
+  final double outletRating;
+  final String outletProfilePicUrl;
+  final DateTime openingTime1;
+  final DateTime closingTime1;
+  final DateTime openingTime2;
+  final DateTime closingTime2;
+  final double outletLatitude;
+  final double outletLongitude;
+  VendorModel({
+    required this.vendorName,
+    required this.outletName,
+    required this.vendorMobileNumber,
+    required this.outletMobileNumber,
+    required this.outletAddress,
+    required this.outletRating,
+    required this.outletProfilePicUrl,
+    required this.openingTime1,
+    required this.closingTime1,
+    required this.openingTime2,
+    required this.closingTime2,
+    required this.outletLatitude,
+    required this.outletLongitude,
+  });
+
+  VendorModel copyWith({
+    String? vendorName,
+    String? outletName,
+    String? vendorMobileNumber,
+    String? outletMobileNumber,
+    String? outletAddress,
+    double? outletRating,
+    String? outletProfilePicUrl,
+    DateTime? openingTime1,
+    DateTime? closingTime1,
+    DateTime? openingTime2,
+    DateTime? closingTime2,
+    double? outletLatitude,
+    double? outletLongitude,
+  }) {
+    return VendorModel(
+      vendorName: vendorName ?? this.vendorName,
+      outletName: outletName ?? this.outletName,
+      vendorMobileNumber: vendorMobileNumber ?? this.vendorMobileNumber,
+      outletMobileNumber: outletMobileNumber ?? this.outletMobileNumber,
+      outletAddress: outletAddress ?? this.outletAddress,
+      outletRating: outletRating ?? this.outletRating,
+      outletProfilePicUrl: outletProfilePicUrl ?? this.outletProfilePicUrl,
+      openingTime1: openingTime1 ?? this.openingTime1,
+      closingTime1: closingTime1 ?? this.closingTime1,
+      openingTime2: openingTime2 ?? this.openingTime2,
+      closingTime2: closingTime2 ?? this.closingTime2,
+      outletLatitude: outletLatitude ?? this.outletLatitude,
+      outletLongitude: outletLongitude ?? this.outletLongitude,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'vendorName': vendorName,
+      'outletName': outletName,
+      'vendorMobileNumber': vendorMobileNumber,
+      'outletMobileNumber': outletMobileNumber,
+      'outletAddress': outletAddress,
+      'outletRating': outletRating,
+      'outletProfilePicUrl': outletProfilePicUrl,
+      'openingTime1': openingTime1.millisecondsSinceEpoch,
+      'closingTime1': closingTime1.millisecondsSinceEpoch,
+      'openingTime2': openingTime2.millisecondsSinceEpoch,
+      'closingTime2': closingTime2.millisecondsSinceEpoch,
+      'outletLatitude': outletLatitude,
+      'outletLongitude': outletLongitude,
+    };
+  }
+
+  factory VendorModel.fromMap(Map<String, dynamic> map) {
+    return VendorModel(
+      vendorName: map['vendorName'] as String,
+      outletName: map['outletName'] as String,
+      vendorMobileNumber: map['vendorMobileNumber'] as String,
+      outletMobileNumber: map['outletMobileNumber'] as String,
+      outletAddress: map['outletAddress'] as String,
+      outletRating: map['outletRating'] as double,
+      outletProfilePicUrl: map['outletProfilePicUrl'] as String,
+      openingTime1:
+          DateTime.fromMillisecondsSinceEpoch(map['openingTime1'] as int),
+      closingTime1:
+          DateTime.fromMillisecondsSinceEpoch(map['closingTime1'] as int),
+      openingTime2:
+          DateTime.fromMillisecondsSinceEpoch(map['openingTime2'] as int),
+      closingTime2:
+          DateTime.fromMillisecondsSinceEpoch(map['closingTime2'] as int),
+      outletLatitude: map['outletLatitude'] as double,
+      outletLongitude: map['outletLongitude'] as double,
+    );
+  }
+}
