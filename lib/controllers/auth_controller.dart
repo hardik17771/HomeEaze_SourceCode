@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
+import 'package:homeeaze_sourcecode/models/user_model.dart';
+import 'package:homeeaze_sourcecode/views/auth/location_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/login_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 
 class AuthController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Getters
   User? get currentUser => _firebaseAuth.currentUser;
@@ -44,17 +48,17 @@ class AuthController {
     required BuildContext context,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // -----> Save user Data to Firebase
-
+      User user = userCredential.user!;
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) {
-          return const HomePage();
+          return LocationPage(user: user);
         }),
         (route) => false,
       );
@@ -66,10 +70,24 @@ class AuthController {
     }
   }
 
-  Future<void> saveUserDataToFirestore(
-    BuildContext context,
-  ) async {
+  Future<void> saveUserDataToFirestore({
+    required User user,
+    required double userLongitude,
+    required double userLatitude,
+    required BuildContext context,
+  }) async {
     try {
+      UserModel userModel = UserModel(
+        username: "username",
+        userEmail: user.email!,
+        userUid: user.uid,
+        userMobileNumber: "9898989898",
+        userLatitude: userLatitude,
+        userLongitude: userLongitude,
+      );
+
+      await _firestore.collection("users").doc(user.uid).set(userModel.toMap());
+
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
@@ -83,6 +101,14 @@ class AuthController {
         text: e.message!,
       );
     }
+  }
+
+  Stream<UserModel> getUserData(String uid) {
+    return _firestore.collection("users").doc(uid).snapshots().map(
+          (event) => UserModel.fromMap(
+            event.data() as Map<String, dynamic>,
+          ),
+        );
   }
 
   Future<void> signOut(BuildContext context) async {

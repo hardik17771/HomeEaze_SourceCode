@@ -1,10 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
-import 'package:homeeaze_sourcecode/views/widgets/datetime_card.dart';
+import 'package:homeeaze_sourcecode/models/user_model.dart';
+import 'package:homeeaze_sourcecode/models/vendor_model.dart';
+import 'package:homeeaze_sourcecode/views/widgets/laundry_card.dart';
 
 class ChooseVendorPage extends StatefulWidget {
   const ChooseVendorPage({super.key});
@@ -14,16 +16,19 @@ class ChooseVendorPage extends StatefulWidget {
 }
 
 class _ChooseVendorPageState extends State<ChooseVendorPage> {
-  final DataController dataController = DataController();
+  final AuthController _authController = AuthController();
+  final DataController _dataController = DataController();
+  int _selectedIndex = -1;
+  VendorModel? _selectedVendor;
+  UserModel? _userModel;
 
   @override
   Widget build(BuildContext context) {
     const buttonColor = Color(0xFF0793C5);
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: screenHeight * 0.09,
+        toolbarHeight: 90,
         backgroundColor: buttonColor,
         title: Text(
           "Choose your perfect match!",
@@ -35,161 +40,76 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 16, left: 2, right: 2),
-        child: StreamBuilder<Object>(
-          stream: dataController.fetchvendorOutletData(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Loader();
-            } else if (snapshot.hasData) {
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (BuildContext context, int index) {
-                  DocumentSnapshot vendor = snapshot.data.docs[index];
-                  return Container(
-                    height: 124,
-                    width: screenWidth,
-                    padding: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0xFFD0D2D5),
-                          offset: Offset(4.0, 4.0),
-                          blurRadius: 4.0,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          margin:
-                              const EdgeInsets.only(left: 8, right: 8, top: 4),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    vendor["outletName"],
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Text(
-                                    vendor["outletAddress"],
-                                    style: GoogleFonts.poppins(
-                                      color: const Color(0xFF767272),
-                                      fontSize: 7,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
+        child: StreamBuilder<UserModel>(
+            stream:
+                _authController.getUserData(_authController.currentUser!.uid),
+            builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Loader();
+              } else if (snapshot.hasData) {
+                UserModel? userModel = snapshot.data;
+                _userModel = userModel;
+                return StreamBuilder<List<VendorModel>>(
+                  stream: _dataController.fetchVendorOutletData(
+                    userLatitude: userModel!.userLatitude,
+                    userLongitude: userModel.userLongitude,
+                  ),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<VendorModel>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Loader();
+                    } else if (snapshot.hasData) {
+                      debugPrint("hasData");
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          VendorModel vendor = snapshot.data![index];
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedIndex = index;
+                                _selectedVendor = vendor;
+                              });
+                            },
+                            child: Container(
+                              height: 134,
+                              margin: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: (_selectedIndex == index)
+                                      ? buttonColor
+                                      : const Color(0xFFC4C4C4),
+                                  width: (_selectedIndex == index) ? 2 : 1,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    width: 15,
-                                    height: 15,
-                                    child: SvgPicture.asset(
-                                        "assets/icons/point_pin_icon.svg"),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    "${2} kms",
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.poppins(
-                                      color: const Color(0xFF767272),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          margin: const EdgeInsets.only(
-                              left: 20, top: 4, bottom: 4),
-                          child: Text(
-                            "Choose a pickup slot convenient for you:",
-                            textAlign: TextAlign.start,
-                            style: GoogleFonts.poppins(
-                              color: const Color(0xFFC4C4C4),
-                              fontStyle: FontStyle.italic,
-                              fontSize: 8,
-                              fontWeight: FontWeight.w600,
+                              width: screenWidth,
+                              child: Center(
+                                child: LaundaryCard(
+                                  vendor: vendor,
+                                  userLatitude: userModel.userLatitude,
+                                  userLongitude: userModel.userLongitude,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            DateTimeCard(text: "In 60 mins."),
-                            DateTimeCard(text: "1 PM"),
-                            DateTimeCard(text: "5 PM"),
-                          ],
-                        ),
-                        const Divider(thickness: 1),
-                        Container(
-                          margin: const EdgeInsets.only(left: 8, right: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: 32,
-                                height: 14,
-                                color: const Color(0xFFD9D9D9),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      vendor["outletRating"].toString(),
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.black,
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const Icon(
-                                      Icons.star,
-                                      size: 10,
-                                      color: buttonColor,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                "Grand Total    ₹ 540",
-                                style: GoogleFonts.poppins(
-                                  color: const Color(0xFF767272),
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              );
-            } else {
-              return const Center(
-                child: Text("No Data"),
-              );
-            }
-          },
-        ),
+                          );
+                        },
+                      );
+                    } else {
+                      return const Center(
+                        child: Text("No Data"),
+                      );
+                    }
+                  },
+                );
+              } else {
+                return const Center(
+                  child: Text("No Data"),
+                );
+              }
+            }),
       ),
       bottomNavigationBar: BottomAppBar(
         child: SizedBox(
@@ -249,7 +169,9 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
               Container(
                 margin: const EdgeInsets.only(left: 36),
                 child: Text(
-                  "Thorat Laundry",
+                  (_selectedIndex != -1)
+                      ? _selectedVendor!.outletName
+                      : "Select a Vendor",
                   textAlign: TextAlign.start,
                   style: GoogleFonts.poppins(
                     color: Colors.black,
@@ -263,7 +185,9 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                       child: Container(
                         height: 46,
                         margin: const EdgeInsets.only(
@@ -294,7 +218,13 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _dataController.placeOrder(
+                          userUid: _userModel!.userUid,
+                          vendorUid: _selectedVendor!.vendorUid,
+                          context: context,
+                        );
+                      },
                       child: Container(
                         height: 46,
                         margin: const EdgeInsets.only(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/views/widgets/laundery_card.dart';
-import 'checkout_page.dart';
+import 'package:homeeaze_sourcecode/views/widgets/laundery_card_2.dart';
+import '../checkout_page.dart';
 
 class ChoseMatch extends StatefulWidget {
   const ChoseMatch({super.key});
@@ -127,7 +127,8 @@ class _ChoseMatchState extends State<ChoseMatch> {
                     amount: priceThoratLaundery,
                     time: thoratLaundrySlots,
                     type: "Thorat Laundry",
-                    selection: thoratupdateTimeSlot)
+                    selection: thoratupdateTimeSlot,
+                  )
                 : SelectedCard(
                     amount: priceThoratLaundery,
                     selectedTime: selectedThoratLaundrySlot!,

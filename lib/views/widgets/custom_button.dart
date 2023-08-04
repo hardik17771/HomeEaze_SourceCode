@@ -20,14 +20,14 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Container(
-        height: 105,
+        height: 51,
         width: size.width,
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: Colors.white,
-            width: 6,
+            width: 2,
           ),
           boxShadow: const [
             BoxShadow(
@@ -42,7 +42,7 @@ class CustomButton extends StatelessWidget {
             text,
             style: GoogleFonts.poppins(
               color: Colors.white,
-              fontSize: 24,
+              fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
           ),
