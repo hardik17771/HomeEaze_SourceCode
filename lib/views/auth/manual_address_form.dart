@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -47,14 +45,16 @@ class _AddressFormWidgetState extends State<AddressFormWidget> {
       ],
     );
   }
+
   Future<List<String>> getAddressSuggestions(String pattern) async {
-    List<Location> locations = await GeocodingPlatform.instance.locationFromAddress(pattern);
+    List<Location> locations =
+        await GeocodingPlatform.instance.locationFromAddress(pattern);
     List<String> addresses = [];
 
     for (var location in locations) {
       List<Placemark> placemarks = await placemarkFromCoordinates(
-        location.latitude!,
-        location.longitude!,
+        location.latitude,
+        location.longitude,
       );
       if (placemarks.isNotEmpty) {
         String address = placemarks.first.street ?? '';
@@ -65,11 +65,9 @@ class _AddressFormWidgetState extends State<AddressFormWidget> {
     return addresses;
   }
 
-
-
-
   Future<void> selectAddress(String address) async {
-    List<Location> locations = await GeocodingPlatform.instance.locationFromAddress(address);
+    List<Location> locations =
+        await GeocodingPlatform.instance.locationFromAddress(address);
 
     if (locations.isNotEmpty) {
       Location location = locations.first;
@@ -77,5 +75,3 @@ class _AddressFormWidgetState extends State<AddressFormWidget> {
     }
   }
 }
-
-

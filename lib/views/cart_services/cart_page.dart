@@ -24,7 +24,7 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        toolbarHeight: screenHeight * 0.09,
+        toolbarHeight: 90,
         backgroundColor: buttonColor,
         title: Text(
           "Anything else to add?",

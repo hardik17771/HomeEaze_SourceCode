@@ -20,8 +20,8 @@ class UnselectedCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Container(
-        width: MediaQuery.of(context).size.width,
         height: 170,
+        width: MediaQuery.of(context).size.width,
         child: Card(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
