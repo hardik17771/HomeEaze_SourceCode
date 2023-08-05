@@ -1,5 +1,6 @@
 class VendorModel {
   final String vendorUid;
+  final String vendorEmail;
   final String vendorName;
   final String outletName;
   final String vendorMobileNumber;
@@ -15,6 +16,7 @@ class VendorModel {
   final double outletLongitude;
   VendorModel({
     required this.vendorUid,
+    required this.vendorEmail,
     required this.vendorName,
     required this.outletName,
     required this.vendorMobileNumber,
@@ -32,6 +34,7 @@ class VendorModel {
 
   VendorModel copyWith({
     String? vendorUid,
+    String? vendorEmail,
     String? vendorName,
     String? outletName,
     String? vendorMobileNumber,
@@ -48,6 +51,7 @@ class VendorModel {
   }) {
     return VendorModel(
       vendorUid: vendorUid ?? this.vendorUid,
+      vendorEmail: vendorEmail ?? this.vendorEmail,
       vendorName: vendorName ?? this.vendorName,
       outletName: outletName ?? this.outletName,
       vendorMobileNumber: vendorMobileNumber ?? this.vendorMobileNumber,
@@ -67,6 +71,7 @@ class VendorModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'vendorUid': vendorUid,
+      'vendorEmail': vendorEmail,
       'vendorName': vendorName,
       'outletName': outletName,
       'vendorMobileNumber': vendorMobileNumber,
@@ -86,6 +91,7 @@ class VendorModel {
   factory VendorModel.fromMap(Map<String, dynamic> map) {
     return VendorModel(
       vendorUid: map['vendorUid'] as String,
+      vendorEmail: map['vendorEmail'] as String,
       vendorName: map['vendorName'] as String,
       outletName: map['outletName'] as String,
       vendorMobileNumber: map['vendorMobileNumber'] as String,

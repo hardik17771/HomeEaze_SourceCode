@@ -48,7 +48,12 @@ class DataController {
       userUid: userUid,
       vendorUid: vendorUid,
       orderId: orderId,
-      orderDateTime: DateTime.now(),
+      orderReceivingTime: DateTime.now(),
+      orderPickUpTime: DateTime.now(),
+      orderDeliveryTime: DateTime.now(),
+      paymentMode: "UPI",
+      orderStatus: "Recieved",
+      orderAmount: 540,
     );
 
     try {
@@ -60,39 +65,6 @@ class DataController {
           return const OrderPlacedPage();
         }),
       );
-    } on FirebaseException catch (e) {
-      showSnackBar(
-        context: context,
-        text: e.message!,
-      );
-    }
-  }
-
-  // Currently Static Data which need to be taken by outlet form vendor App form
-  Future putVendorOutletData(BuildContext context) async {
-    final vendorData = VendorModel(
-      vendorUid: "Godan123456", // temporary
-      vendorName: "Godan",
-      outletName: "Godan Laundry",
-      vendorMobileNumber: "9898989898",
-      outletMobileNumber: "9898989898",
-      outletAddress: "Kalyani Nagar, Pune",
-      outletRating: 4.2,
-      outletProfilePicUrl: "outletPhotoPicUrl",
-      openingTime1: DateTime(8, 30),
-      closingTime1: DateTime(2, 30),
-      openingTime2: DateTime(4, 00),
-      closingTime2: DateTime(10, 00),
-      outletLatitude: 37.7749,
-      outletLongitude: -122.4194,
-    );
-
-    var vendorId = const Uuid().v1();
-    try {
-      await _firestore
-          .collection("vendors")
-          .doc(vendorId)
-          .set(vendorData.toMap());
     } on FirebaseException catch (e) {
       showSnackBar(
         context: context,

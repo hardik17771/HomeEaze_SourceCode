@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
-import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/views/auth/login_page.dart';
+import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -12,6 +12,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final _formKey = GlobalKey<FormState>();
   final AuthController authController = AuthController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
@@ -28,98 +29,96 @@ class _SignUpPageState extends State<SignUpPage> {
     required String email,
     required String password,
   }) {
-    if (email.isEmpty || password.isEmpty) {
-      showSnackBar(
-        context: context,
-        text: "Please fill all the Values",
-      );
-    } else if (password.length < 6) {
-      showSnackBar(
-        context: context,
-        text: "Password of atleast 6 characters is required",
-      );
-    } else {
-      authController.signUpUser(
-        context: context,
-        email: email,
-        password: password,
-      );
-    }
+    authController.signUpUser(
+      context: context,
+      email: email,
+      password: password,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    const buttonColor = Color(0xFF0793C5);
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: screenHeight * .10,
-              ),
-              // Image.asset(
-              //   'assets/image1.png',
-              //   height: screenHeight * 0.35,
-              // ),
-              Text(
-                "Drobease",
-                style: GoogleFonts.poppins(
-                  fontSize: 36,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(height: screenHeight * .04),
-              TextField(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  hintStyle: GoogleFonts.poppins(
-                    fontSize: 10,
-                    color: const Color(0xFFA8A7A7).withOpacity(.5),
-                  ),
-                  hintText: "   Enter your email",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.0),
+        child: Form(
+          key: _formKey,
+          child: Container(
+            width: screenWidth,
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 90),
+                Text(
+                  "Droby",
+                  style: GoogleFonts.poppins(
+                    fontSize: 36,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              TextField(
-                controller: passController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintStyle: GoogleFonts.poppins(
-                    fontSize: 10,
-                    color: const Color(0xFFA8A7A7).withOpacity(.5),
-                  ),
-                  hintText: '   Enter Password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                ),
-              ),
-              SizedBox(height: screenHeight * .015),
-              Container(
-                width: screenWidth * 0.70,
-                child: FloatingActionButton.extended(
-                  onPressed: () {
-                    signUpUser(
-                      context: context,
-                      email: emailController.text.trim(),
-                      password: passController.text.trim(),
-                    );
+                const SizedBox(height: 24),
+                TextFormField(
+                  controller: emailController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter a valid email';
+                    }
+                    return null;
                   },
-                  label: const Text('Sign Up'),
-                  backgroundColor: const Color(0xFF0793C5),
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    hintStyle: GoogleFonts.poppins(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFFA8A7A7).withOpacity(0.7),
+                    ),
+                    hintText: "   Enter your email",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: screenWidth * 0.7,
-                child: TextButton(
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: passController,
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value.length < 6) {
+                      return 'Password of atleast 6 characters is required';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintStyle: GoogleFonts.poppins(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFFA8A7A7).withOpacity(0.7),
+                    ),
+                    hintText: '   Enter Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 36),
+                CustomButton(
+                  text: "Sign Up",
+                  bgColor: buttonColor,
+                  textColor: Colors.white,
+                  onPress: () {
+                    if (_formKey.currentState!.validate()) {
+                      // Navigate to HomePage & Save Data to Firebase
+                      signUpUser(
+                        context: context,
+                        email: emailController.text.trim(),
+                        password: passController.text.trim(),
+                      );
+                    }
+                  },
+                ),
+                TextButton(
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
@@ -136,8 +135,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
