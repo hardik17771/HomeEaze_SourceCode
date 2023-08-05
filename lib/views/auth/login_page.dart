@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/views/auth/signup_page.dart';
+import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,8 +12,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String? errMessage = '';
-  bool isLogin = false;
   AuthController authController = AuthController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
@@ -38,54 +37,51 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    const buttonColor = Color(0xFF0793C5);
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
+          width: screenWidth,
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              SizedBox(
-                height: screenHeight * 0.10,
-              ),
-              // Image.asset(
-              //   'assets/image1.png',
-              //   height: screenHeight * 0.35,
-              // ),
+              const SizedBox(height: 90),
               Text(
-                "Drobease",
+                "Droby",
                 style: GoogleFonts.poppins(
                   fontSize: 36,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: screenHeight * 0.04),
+              const SizedBox(height: 24),
               TextField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintStyle: GoogleFonts.poppins(
                     fontSize: 10,
-                    color: const Color(0xFFA8A7A7).withOpacity(.5),
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFFA8A7A7).withOpacity(0.7),
                   ),
-                  hintText: " Enter your email",
+                  hintText: "   Enter your email",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
               ),
-              SizedBox(height: screenHeight * 0.02),
+              const SizedBox(height: 12),
               TextField(
                 controller: passController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintStyle: GoogleFonts.poppins(
                     fontSize: 10,
-                    color: const Color(0xFFA8A7A7).withOpacity(.5),
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFFA8A7A7).withOpacity(0.7),
                   ),
-                  hintText: 'Enter Password',
+                  hintText: '   Enter Password',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
@@ -103,37 +99,34 @@ class _LoginPageState extends State<LoginPage> {
                   child: const Text('Forgot password?'),
                 ),
               ),
-              Container(
-                width: screenWidth * 0.70,
-                child: FloatingActionButton.extended(
-                  onPressed: () {
-                    loginUser(
-                      context: context,
-                      email: emailController.text.trim(),
-                      password: passController.text.trim(),
-                    );
-                  },
-                  label: const Text('Login'),
-                  backgroundColor: const Color(0xFF0793C5),
-                ),
+              const SizedBox(height: 12),
+              CustomButton(
+                text: "Login",
+                bgColor: buttonColor,
+                textColor: Colors.white,
+                onPress: () {
+                  // Navigate to HomePage
+                  loginUser(
+                    context: context,
+                    email: emailController.text.trim(),
+                    password: passController.text.trim(),
+                  );
+                },
               ),
-              SizedBox(
-                width: screenWidth * 0.7,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        return const SignUpPage();
-                      }),
-                    );
-                  },
-                  child: Text(
-                    "SignUp Instead",
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) {
+                      return const SignUpPage();
+                    }),
+                  );
+                },
+                child: Text(
+                  "SignUp Instead",
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
                   ),
                 ),
               ),
