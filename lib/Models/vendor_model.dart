@@ -14,6 +14,8 @@ class VendorModel {
   final DateTime closingTime2;
   final double outletLatitude;
   final double outletLongitude;
+  final bool isDeliveryBoyAvailable;
+  final List<String> outletOpenDays;
   VendorModel({
     required this.vendorUid,
     required this.vendorEmail,
@@ -30,6 +32,8 @@ class VendorModel {
     required this.closingTime2,
     required this.outletLatitude,
     required this.outletLongitude,
+    required this.isDeliveryBoyAvailable,
+    required this.outletOpenDays,
   });
 
   VendorModel copyWith({
@@ -48,6 +52,8 @@ class VendorModel {
     DateTime? closingTime2,
     double? outletLatitude,
     double? outletLongitude,
+    bool? isDeliveryBoyAvailable,
+    List<String>? outletOpenDays,
   }) {
     return VendorModel(
       vendorUid: vendorUid ?? this.vendorUid,
@@ -65,6 +71,9 @@ class VendorModel {
       closingTime2: closingTime2 ?? this.closingTime2,
       outletLatitude: outletLatitude ?? this.outletLatitude,
       outletLongitude: outletLongitude ?? this.outletLongitude,
+      isDeliveryBoyAvailable:
+          isDeliveryBoyAvailable ?? this.isDeliveryBoyAvailable,
+      outletOpenDays: outletOpenDays ?? this.outletOpenDays,
     );
   }
 
@@ -85,6 +94,8 @@ class VendorModel {
       'closingTime2': closingTime2.millisecondsSinceEpoch,
       'outletLatitude': outletLatitude,
       'outletLongitude': outletLongitude,
+      'isDeliveryBoyAvailable': isDeliveryBoyAvailable,
+      'outletOpenDays': outletOpenDays,
     };
   }
 
@@ -109,6 +120,9 @@ class VendorModel {
           DateTime.fromMillisecondsSinceEpoch(map['closingTime2'] as int),
       outletLatitude: map['outletLatitude'] as double,
       outletLongitude: map['outletLongitude'] as double,
+      isDeliveryBoyAvailable: map['isDeliveryBoyAvailable'] as bool,
+      outletOpenDays:
+          List<String>.from((map['outletOpenDays'] as List<String>)),
     );
   }
 }
