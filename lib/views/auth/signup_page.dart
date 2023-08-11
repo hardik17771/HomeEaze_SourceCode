@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/views/auth/login_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
@@ -40,102 +41,109 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     const buttonColor = Color(0xFF0793C5);
     double screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Container(
-            width: screenWidth,
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                const SizedBox(height: 90),
-                Text(
-                  "Droby",
-                  style: GoogleFonts.poppins(
-                    fontSize: 36,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                TextFormField(
-                  controller: emailController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Enter a valid email';
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintStyle: GoogleFonts.poppins(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFFA8A7A7).withOpacity(0.7),
-                    ),
-                    hintText: "   Enter your email",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  controller: passController,
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty || value.length < 6) {
-                      return 'Password of atleast 6 characters is required';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintStyle: GoogleFonts.poppins(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFFA8A7A7).withOpacity(0.7),
-                    ),
-                    hintText: '   Enter Password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 36),
-                CustomButton(
-                  text: "Sign Up",
-                  bgColor: buttonColor,
-                  textColor: Colors.white,
-                  onPress: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Navigate to HomePage & Save Data to Firebase
-                      signUpUser(
-                        context: context,
-                        email: emailController.text.trim(),
-                        password: passController.text.trim(),
-                      );
-                    }
-                  },
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        return const LoginPage();
-                      }),
-                    );
-                  },
-                  child: Text(
-                    "Login Instead",
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF2F2F2),
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Container(
+              width: screenWidth,
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(height: 48),
+                  Text(
+                    "Droby",
                     style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
+                      fontSize: 40,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 64),
+                  Container(
+                    color: Colors.white,
+                    child: TextFormField(
+                      controller: emailController,
+                      validator: (value) => value!.isValidEmail()
+                          ? null
+                          : "Please enter a valid email",
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.poppins(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFFA8A7A7),
+                        ),
+                        hintText: "Enter your email",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        // contentPadding: const EdgeInsets.all(16.0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    color: Colors.white,
+                    child: TextFormField(
+                      controller: passController,
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.length < 6) {
+                          return 'Password cannot be less than 6 characters';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.poppins(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFFA8A7A7),
+                        ),
+                        hintText: 'Enter Password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        // contentPadding: const EdgeInsets.all(16.0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 36),
+                  CustomButton(
+                    text: "Sign Up",
+                    bgColor: buttonColor,
+                    textColor: Colors.white,
+                    onPress: () {
+                      if (_formKey.currentState!.validate()) {
+                        // Navigate to HomePage & Save Data to Firebase
+                        signUpUser(
+                          context: context,
+                          email: emailController.text.trim(),
+                          password: passController.text.trim(),
+                        );
+                      }
+                    },
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          return const LoginPage();
+                        }),
+                      );
+                    },
+                    child: Text(
+                      "Login Instead",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

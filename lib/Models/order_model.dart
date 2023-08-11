@@ -8,6 +8,7 @@ class OrderModel {
   final String paymentMode;
   final String orderStatus;
   final double orderAmount;
+  final int itemCount;
   OrderModel({
     required this.userUid,
     required this.vendorUid,
@@ -18,6 +19,7 @@ class OrderModel {
     required this.paymentMode,
     required this.orderStatus,
     required this.orderAmount,
+    required this.itemCount,
   });
 
   OrderModel copyWith({
@@ -30,6 +32,7 @@ class OrderModel {
     String? paymentMode,
     String? orderStatus,
     double? orderAmount,
+    int? itemCount,
   }) {
     return OrderModel(
       userUid: userUid ?? this.userUid,
@@ -41,6 +44,7 @@ class OrderModel {
       paymentMode: paymentMode ?? this.paymentMode,
       orderStatus: orderStatus ?? this.orderStatus,
       orderAmount: orderAmount ?? this.orderAmount,
+      itemCount: itemCount ?? this.itemCount,
     );
   }
 
@@ -55,6 +59,7 @@ class OrderModel {
       'paymentMode': paymentMode,
       'orderStatus': orderStatus,
       'orderAmount': orderAmount,
+      'itemCount': itemCount,
     };
   }
 
@@ -72,6 +77,7 @@ class OrderModel {
       paymentMode: map['paymentMode'] as String,
       orderStatus: map['orderStatus'] as String,
       orderAmount: map['orderAmount'] as double,
+      itemCount: map['itemCount'] as int,
     );
   }
 }

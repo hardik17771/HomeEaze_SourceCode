@@ -172,12 +172,6 @@ class _AddItemState extends State<AddItem> {
           padding: const EdgeInsets.only(left: 120, right: 120, bottom: 16),
           child: GestureDetector(
             onTap: () {
-              final cartItem = CartItem(
-                service: widget.service,
-                items: widget.service.items,
-              );
-              // Add the cart item to your cart or perform any other necessary actions
-              // For example: cart.add(cartItem);
               Navigator.pop(context, widget.service);
             },
             child: Container(

@@ -10,9 +10,13 @@ import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
 class LocationPage extends StatefulWidget {
   final User user;
+  final String username;
+  final String mobileNumber;
   const LocationPage({
     super.key,
     required this.user,
+    required this.username,
+    required this.mobileNumber,
   });
 
   @override
@@ -20,19 +24,11 @@ class LocationPage extends StatefulWidget {
 }
 
 class _LocationPageState extends State<LocationPage> {
-  String _currentAddress = "";
   Position? _currentPosition;
-  final _formKey = GlobalKey<FormState>();
+  String _currentLocality = "";
+  String _currentPincode = "";
+  bool isLocationFetched = false;
   AuthController authController = AuthController();
-  TextEditingController localityController = TextEditingController();
-  TextEditingController pincodeController = TextEditingController();
-
-  @override
-  void dispose() {
-    localityController.dispose();
-    pincodeController.dispose();
-    super.dispose();
-  }
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -73,21 +69,6 @@ class _LocationPageState extends State<LocationPage> {
     return true;
   }
 
-  Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(
-      _currentPosition!.latitude,
-      _currentPosition!.longitude,
-    ).then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        _currentAddress =
-            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-      });
-    }).catchError((e) {
-      debugPrint(e);
-    });
-  }
-
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
 
@@ -104,6 +85,23 @@ class _LocationPageState extends State<LocationPage> {
     });
   }
 
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+      _currentPosition!.latitude,
+      _currentPosition!.longitude,
+    ).then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        isLocationFetched = true;
+        _currentLocality =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}';
+        _currentPincode = '${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     const textColor = Color(0xFFA8A7A7);
@@ -113,9 +111,8 @@ class _LocationPageState extends State<LocationPage> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF2F2F2),
         body: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             width: screenWidth,
-            color: const Color(0xFFF2F2F2),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -163,120 +160,103 @@ class _LocationPageState extends State<LocationPage> {
                     },
                   ),
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 0.5,
-                        color: const Color(0xFFC4C4C4),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        'OR',
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 0.5,
-                        color: const Color(0xFFC4C4C4),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Form(
-                  key: _formKey,
-                  child: Padding(
+                const SizedBox(height: 24),
+
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Expanded(
+                //       child: Container(
+                //         height: 0.5,
+                //         color: const Color(0xFFC4C4C4),
+                //       ),
+                //     ),
+                //     Padding(
+                //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                //       child: Text(
+                //         'OR',
+                //         style: GoogleFonts.poppins(
+                //           fontWeight: FontWeight.w700,
+                //           fontSize: 16,
+                //         ),
+                //       ),
+                //     ),
+                //     Expanded(
+                //       child: Container(
+                //         height: 0.5,
+                //         color: const Color(0xFFC4C4C4),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                if (isLocationFetched)
+                  Padding(
                     padding: const EdgeInsets.only(left: 16.0, right: 16),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Enter Address Manually',
+                          'Your Locality',
                           textAlign: TextAlign.start,
                           style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         Container(
-                          color: Colors.white,
-                          child: TextFormField(
-                            controller: localityController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please a valid locality';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Locality *',
-                              labelStyle: GoogleFonts.poppins(
-                                color: textColor,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textColor,
-                                  width: 10,
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                              ),
-                              contentPadding: const EdgeInsets.all(16.0),
+                          width: screenWidth,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: textColor,
+                              width: 1,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: Text(
+                            _currentLocality,
+                            style: GoogleFonts.poppins(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Your Pincode',
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                         Container(
-                          color: Colors.white,
-                          child: TextFormField(
-                            controller: pincodeController,
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  value.length != 6) {
-                                return 'Please a valid Pincode';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Pincode *',
-                              labelStyle: GoogleFonts.poppins(
-                                color: textColor,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textColor,
-                                  width: 10,
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                              ),
-                              contentPadding: const EdgeInsets.all(16.0),
+                          width: screenWidth,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: textColor,
+                              width: 1,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: Text(
+                            _currentPincode,
+                            style: GoogleFonts.poppins(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                Text(_currentAddress),
-                // Text(_currentPosition!.longitude.toString()),
-                // Text(_currentPosition!.latitude.toString()),
               ],
             ),
           ),
@@ -285,13 +265,23 @@ class _LocationPageState extends State<LocationPage> {
           color: const Color(0xFFF2F2F2),
           child: GestureDetector(
             onTap: () {
-              // Save data to Firebase & Navigate to HomePage
-              authController.saveUserDataToFirestore(
-                user: widget.user,
-                userLongitude: _currentPosition!.longitude,
-                userLatitude: _currentPosition!.latitude,
-                context: context,
-              );
+              if (isLocationFetched) {
+                authController.saveUserDataToFirestore(
+                  user: widget.user,
+                  username: widget.username,
+                  mobileNumber: widget.mobileNumber,
+                  address: _currentLocality,
+                  pincode: _currentPincode,
+                  userLongitude: _currentPosition!.longitude,
+                  userLatitude: _currentPosition!.latitude,
+                  context: context,
+                );
+              } else {
+                showSnackBar(
+                  context: context,
+                  text: "Use your current Location",
+                );
+              }
             },
             child: Container(
               height: 40,

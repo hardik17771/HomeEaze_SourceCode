@@ -5,6 +5,8 @@ class UserModel {
   final String userMobileNumber;
   final double userLatitude;
   final double userLongitude;
+  final String userAddress;
+  final String userPincode;
   UserModel({
     required this.username,
     required this.userEmail,
@@ -12,6 +14,8 @@ class UserModel {
     required this.userMobileNumber,
     required this.userLatitude,
     required this.userLongitude,
+    required this.userAddress,
+    required this.userPincode,
   });
 
   UserModel copyWith({
@@ -21,6 +25,8 @@ class UserModel {
     String? userMobileNumber,
     double? userLatitude,
     double? userLongitude,
+    String? userAddress,
+    String? userPincode,
   }) {
     return UserModel(
       username: username ?? this.username,
@@ -29,6 +35,8 @@ class UserModel {
       userMobileNumber: userMobileNumber ?? this.userMobileNumber,
       userLatitude: userLatitude ?? this.userLatitude,
       userLongitude: userLongitude ?? this.userLongitude,
+      userAddress: userAddress ?? this.userAddress,
+      userPincode: userPincode ?? this.userPincode,
     );
   }
 
@@ -40,6 +48,8 @@ class UserModel {
       'userMobileNumber': userMobileNumber,
       'userLatitude': userLatitude,
       'userLongitude': userLongitude,
+      'userAddress': userAddress,
+      'userPincode': userPincode,
     };
   }
 
@@ -51,6 +61,8 @@ class UserModel {
       userMobileNumber: map['userMobileNumber'] as String,
       userLatitude: map['userLatitude'] as double,
       userLongitude: map['userLongitude'] as double,
+      userAddress: map['userAddress'] as String,
+      userPincode: map['userPincode'] as String,
     );
   }
 }

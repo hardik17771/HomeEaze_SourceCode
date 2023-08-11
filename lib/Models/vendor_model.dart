@@ -121,8 +121,7 @@ class VendorModel {
       outletLatitude: map['outletLatitude'] as double,
       outletLongitude: map['outletLongitude'] as double,
       isDeliveryBoyAvailable: map['isDeliveryBoyAvailable'] as bool,
-      outletOpenDays:
-          List<String>.from((map['outletOpenDays'] as List<String>)),
+      outletOpenDays: List<String>.from((map['outletOpenDays'])),
     );
   }
 }

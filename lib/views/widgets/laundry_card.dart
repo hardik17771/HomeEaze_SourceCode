@@ -9,11 +9,13 @@ class LaundaryCard extends StatelessWidget {
   final double userLatitude;
   final double userLongitude;
   final VendorModel vendor;
+  final double orderAmount;
   const LaundaryCard({
     super.key,
     required this.vendor,
     required this.userLatitude,
     required this.userLongitude,
+    required this.orderAmount,
   });
 
   @override
@@ -74,13 +76,12 @@ class LaundaryCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      // To Be Changed
                       "${Geolocator.distanceBetween(
                         userLatitude,
                         userLongitude,
                         vendor.outletLatitude,
                         vendor.outletLongitude,
-                      )} kms",
+                      ).toStringAsFixed(3)} kms",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         color: const Color(0xFF767272),
@@ -111,8 +112,8 @@ class LaundaryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               DateTimeCard(text: "In 60 mins."),
-              DateTimeCard(text: "1 PM"),
-              DateTimeCard(text: "5 PM"),
+              DateTimeCard(text: "In 2 hrs."),
+              DateTimeCard(text: "In 4 hrs."),
             ],
           ),
           const Divider(thickness: 1),
@@ -145,7 +146,7 @@ class LaundaryCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Grand Total    ₹ 540",
+                  "Grand Total    ₹ $orderAmount",
                   style: GoogleFonts.poppins(
                     color: const Color(0xFF767272),
                     fontSize: 10,
