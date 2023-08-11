@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
-import 'package:homeeaze_sourcecode/core/utils.dart';
+import 'package:homeeaze_sourcecode/core/animations.dart';
 import 'package:homeeaze_sourcecode/views/auth/first_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 
@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
         stream: AuthController().authStateChanges,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Loader();
+            return const ColorLoader();
           } else if (snapshot.hasData) {
             return const HomePage();
           } else {

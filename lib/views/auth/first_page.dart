@@ -24,7 +24,7 @@ class _FirstPageState extends State<FirstPage> {
               top: screenHeight * .25,
             ),
             child: Text(
-              "Drobease",
+              "Droby",
               style: GoogleFonts.poppins(
                 color: const Color(0xFFFFFFFF),
                 fontWeight: FontWeight.w700,

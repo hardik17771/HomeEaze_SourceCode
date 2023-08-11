@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/views/cart_services/add_item_page.dart';
-import '../../../models/cart_model.dart';
+import 'package:homeeaze_sourcecode/models/cart_model.dart';
+import 'package:homeeaze_sourcecode/views/cart/add_item_page.dart';
 
 class ServicePage extends StatefulWidget {
   const ServicePage({super.key});
@@ -14,11 +14,11 @@ class _ServicePageState extends State<ServicePage> {
   @override
   Widget build(BuildContext context) {
     const buttonColor = Color(0xFF0793C5);
-    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: const Color(0xFFF2F2F2),
         appBar: AppBar(
           centerTitle: true,
           toolbarHeight: 90,
@@ -50,6 +50,11 @@ class _ServicePageState extends State<ServicePage> {
                     );
 
                     if (updatedService != null) {
+                      // // ignore: use_build_context_synchronously
+                      // showSnackBar(
+                      //   context: context,
+                      //   text: "Items added to Cart",
+                      // );
                       setState(() {
                         service.selectedItems = updatedService.selectedItems;
                       });

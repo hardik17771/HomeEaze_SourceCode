@@ -70,7 +70,7 @@ class _AddressFormWidgetState extends State<AddressFormWidget> {
         await GeocodingPlatform.instance.locationFromAddress(address);
 
     if (locations.isNotEmpty) {
-      Location location = locations.first;
+      // Location location = locations.first;
       // Handle the retrieved location as needed
     }
   }

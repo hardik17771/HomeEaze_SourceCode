@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
-import 'package:homeeaze_sourcecode/views/auth/location_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/login_page.dart';
+import 'package:homeeaze_sourcecode/views/auth/user_info_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 
 class AuthController {
@@ -58,7 +58,7 @@ class AuthController {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) {
-          return LocationPage(user: user);
+          return UserInfoPage(user: user);
         }),
         (route) => false,
       );
@@ -72,18 +72,24 @@ class AuthController {
 
   Future<void> saveUserDataToFirestore({
     required User user,
+    required String username,
+    required String mobileNumber,
+    required String address,
+    required String pincode,
     required double userLongitude,
     required double userLatitude,
     required BuildContext context,
   }) async {
     try {
       UserModel userModel = UserModel(
-        username: "username",
+        username: username,
         userEmail: user.email!,
         userUid: user.uid,
-        userMobileNumber: "9898989898",
+        userMobileNumber: mobileNumber,
         userLatitude: userLatitude,
         userLongitude: userLongitude,
+        userAddress: address,
+        userPincode: pincode,
       );
 
       await _firestore.collection("users").doc(user.uid).set(userModel.toMap());
