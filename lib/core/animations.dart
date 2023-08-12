@@ -56,9 +56,9 @@ class ColorLoader extends StatefulWidget {
   final Icon dotIcon;
   const ColorLoader({
     super.key,
-    this.dotOneColor = Colors.redAccent,
-    this.dotTwoColor = Colors.green,
-    this.dotThreeColor = Colors.blueAccent,
+    this.dotOneColor = Colors.blueGrey,
+    this.dotTwoColor = Colors.lightBlue,
+    this.dotThreeColor = Colors.blue,
     this.duration = const Duration(milliseconds: 1000),
     this.dotType = DotType.circle,
     this.dotIcon = const Icon(Icons.blur_on),

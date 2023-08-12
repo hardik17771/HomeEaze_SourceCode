@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/core/assets.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 
 class NoVendorWidget extends StatelessWidget {
   const NoVendorWidget({super.key});
@@ -21,13 +23,14 @@ class NoVendorWidget extends StatelessWidget {
               'Seeking the best service to meet your needs!',
               textAlign: TextAlign.start,
               style: GoogleFonts.poppins(
-                color: const Color(0xFF767272),
+                color: AppColors.secondaryTextColor,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
               ),
             ),
+            const SizedBox(height: 12),
             SizedBox(
-              child: Image.asset("assets/checkOut.png"),
+              child: AppAssets.noVendorImage,
             )
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/views/auth/signup_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
@@ -39,11 +40,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    const buttonColor = Color(0xFF0793C5);
     double screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         body: Form(
           key: _formKey,
           child: SingleChildScrollView(
@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 64),
                   Container(
-                    color: Colors.white,
+                    color: AppColors.whiteColor,
                     child: TextFormField(
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xFFA8A7A7),
+                          color: AppColors.primaryTextColor,
                         ),
                         hintText: "Enter your email",
                         border: OutlineInputBorder(
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 12),
                   Container(
-                    color: Colors.white,
+                    color: AppColors.whiteColor,
                     child: TextFormField(
                       controller: passController,
                       obscureText: true,
@@ -97,10 +97,9 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       decoration: InputDecoration(
                         hintStyle: GoogleFonts.poppins(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFFA8A7A7),
-                        ),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.primaryTextColor),
                         hintText: 'Enter Password',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
@@ -115,17 +114,21 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         // Navigate to password recovery page
                       },
-                      style: TextButton.styleFrom(
-                        foregroundColor: const Color(0xFF1EA6D6),
+                      child: Text(
+                        'Forgot password?',
+                        style: GoogleFonts.poppins(
+                          color: AppColors.tertiaryTextColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                      child: const Text('Forgot password?'),
                     ),
                   ),
                   const SizedBox(height: 12),
                   CustomButton(
                     text: "Login",
-                    bgColor: buttonColor,
-                    textColor: Colors.white,
+                    bgColor: AppColors.primaryButtonColor,
+                    textColor: AppColors.whiteColor,
                     onPress: () {
                       if (_formKey.currentState!.validate()) {
                         // Navigate to HomePage
@@ -140,9 +143,11 @@ class _LoginPageState extends State<LoginPage> {
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) {
-                          return const SignUpPage();
-                        }),
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const SignUpPage();
+                          },
+                        ),
                       );
                     },
                     child: Text(
@@ -150,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                        color: AppColors.blackColor,
                       ),
                     ),
                   ),

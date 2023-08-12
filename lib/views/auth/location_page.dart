@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/core/assets.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
@@ -104,12 +105,10 @@ class _LocationPageState extends State<LocationPage> {
 
   @override
   Widget build(BuildContext context) {
-    const textColor = Color(0xFFA8A7A7);
-    const buttonColor = Color(0xFF0793C5);
     double screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         body: SingleChildScrollView(
           child: SizedBox(
             width: screenWidth,
@@ -124,7 +123,7 @@ class _LocationPageState extends State<LocationPage> {
                           alignment: Alignment.center,
                           height: 250,
                           width: 250,
-                          child: SvgPicture.asset("assets/location_star.svg"),
+                          child: AppAssets.locationStarImage,
                         ),
                       ),
                       Positioned(
@@ -134,7 +133,7 @@ class _LocationPageState extends State<LocationPage> {
                           alignment: Alignment.topCenter,
                           height: 120,
                           width: 150,
-                          child: SvgPicture.asset("assets/location_pin.svg"),
+                          child: AppAssets.locationPinImage,
                         ),
                       ),
                     ],
@@ -153,42 +152,14 @@ class _LocationPageState extends State<LocationPage> {
                   padding: const EdgeInsets.only(left: 12, right: 12),
                   child: CustomButton(
                     text: "Use my Current Location",
-                    bgColor: buttonColor,
-                    textColor: Colors.white,
+                    bgColor: AppColors.primaryButtonColor,
+                    textColor: AppColors.whiteColor,
                     onPress: () {
                       _getCurrentPosition();
                     },
                   ),
                 ),
                 const SizedBox(height: 24),
-
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Expanded(
-                //       child: Container(
-                //         height: 0.5,
-                //         color: const Color(0xFFC4C4C4),
-                //       ),
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                //       child: Text(
-                //         'OR',
-                //         style: GoogleFonts.poppins(
-                //           fontWeight: FontWeight.w700,
-                //           fontSize: 16,
-                //         ),
-                //       ),
-                //     ),
-                //     Expanded(
-                //       child: Container(
-                //         height: 0.5,
-                //         color: const Color(0xFFC4C4C4),
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 if (isLocationFetched)
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0, right: 16),
@@ -209,9 +180,9 @@ class _LocationPageState extends State<LocationPage> {
                           width: screenWidth,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.whiteColor,
                             border: Border.all(
-                              color: textColor,
+                              color: AppColors.primaryBorderColor,
                               width: 1,
                             ),
                             borderRadius:
@@ -234,13 +205,14 @@ class _LocationPageState extends State<LocationPage> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
+                        const SizedBox(height: 8),
                         Container(
                           width: screenWidth,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.whiteColor,
                             border: Border.all(
-                              color: textColor,
+                              color: AppColors.primaryBorderColor,
                               width: 1,
                             ),
                             borderRadius:
@@ -262,7 +234,7 @@ class _LocationPageState extends State<LocationPage> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          color: const Color(0xFFF2F2F2),
+          color: AppColors.primaryBackgroundColor,
           child: GestureDetector(
             onTap: () {
               if (isLocationFetched) {
@@ -287,19 +259,13 @@ class _LocationPageState extends State<LocationPage> {
               height: 40,
               width: screenWidth,
               margin: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                // borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: Colors.white,
-                  width: 2,
-                ),
+              decoration: const BoxDecoration(
+                color: AppColors.whiteColor,
               ),
               child: Center(
                 child: Text(
                   "SAVE ADDRESS",
                   style: GoogleFonts.poppins(
-                    color: Colors.black,
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                   ),

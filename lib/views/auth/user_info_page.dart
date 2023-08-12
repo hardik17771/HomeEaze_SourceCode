@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/views/auth/location_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
@@ -29,12 +30,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    const textColor = Color(0xFFA8A7A7);
-    const buttonColor = Color(0xFF0793C5);
     double screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -49,7 +48,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600,
-                      color: Colors.black,
+                      color: AppColors.blackColor,
                       fontSize: 24,
                     ),
                   ),
@@ -59,13 +58,13 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      color: AppColors.blackColor,
                       fontSize: 16,
                     ),
                   ),
                   const SizedBox(height: 16),
                   Container(
-                    color: Colors.white,
+                    color: AppColors.whiteColor,
                     child: TextFormField(
                       controller: nameController,
                       validator: (value) {
@@ -77,13 +76,13 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       decoration: InputDecoration(
                         labelText: 'Name *',
                         labelStyle: GoogleFonts.poppins(
-                          color: textColor,
+                          color: AppColors.primaryTextColor,
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
                         ),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: textColor,
+                            color: AppColors.primaryBorderColor,
                             width: 10,
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -94,7 +93,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   ),
                   const SizedBox(height: 8),
                   Container(
-                    color: Colors.white,
+                    color: AppColors.whiteColor,
                     child: TextFormField(
                       controller: mobileNumberController,
                       validator: (value) {
@@ -108,13 +107,13 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       decoration: InputDecoration(
                         labelText: 'Mobile Number *',
                         labelStyle: GoogleFonts.poppins(
-                          color: textColor,
+                          color: AppColors.primaryTextColor,
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
                         ),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: textColor,
+                            color: AppColors.primaryBorderColor,
                             width: 10,
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -126,18 +125,21 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   const SizedBox(height: 24),
                   CustomButton(
                     text: "Next",
-                    bgColor: buttonColor,
-                    textColor: Colors.white,
+                    bgColor: AppColors.primaryButtonColor,
+                    textColor: AppColors.whiteColor,
                     onPress: () {
                       if (_formKey.currentState!.validate()) {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) {
-                            return LocationPage(
-                              user: widget.user,
-                              username: nameController.text.trim(),
-                              mobileNumber: mobileNumberController.text.trim(),
-                            );
-                          }),
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return LocationPage(
+                                user: widget.user,
+                                username: nameController.text.trim(),
+                                mobileNumber:
+                                    mobileNumberController.text.trim(),
+                              );
+                            },
+                          ),
                         );
                       }
                     },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/order_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/no_orders_widget.dart';
@@ -19,15 +20,13 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
 
   @override
   Widget build(BuildContext context) {
-    const textColor = Color(0xFFA8A7A7);
-    const buttonColor = Color(0xFF0793C5);
-    final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         appBar: AppBar(
-          toolbarHeight: 72,
-          backgroundColor: buttonColor,
+          elevation: 0,
+          toolbarHeight: 90,
+          backgroundColor: AppColors.primaryButtonColor,
           title: Text(
             "My Orders",
             style: GoogleFonts.poppins(
@@ -53,20 +52,22 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                     return const NoOrdersWidget();
                   } else if (snapshot.hasData) {
                     debugPrint("has Orders");
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        OrderModel orderModel = snapshot.data![index];
-                        return ListTile(
-                          title:
-                              Text("Order Status :- ${orderModel.orderStatus}"),
-                          subtitle: Text(
-                              "Order Placing Time :- ${orderModel.orderReceivingTime}"),
-                        );
-                      },
-                    );
+                    return (snapshot.data!.isNotEmpty)
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              OrderModel orderModel = snapshot.data![index];
+                              return ListTile(
+                                title: Text(
+                                    "Order Status :- ${orderModel.orderStatus}"),
+                                subtitle: Text(
+                                    "Order Placing Time :- ${orderModel.orderReceivingTime}"),
+                              );
+                            },
+                          )
+                        : const NoOrdersWidget();
                   } else {
                     return const NoOrdersWidget();
                   }

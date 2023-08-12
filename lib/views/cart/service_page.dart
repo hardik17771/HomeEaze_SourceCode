@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/add_item_page.dart';
 
@@ -13,16 +14,16 @@ class ServicePage extends StatefulWidget {
 class _ServicePageState extends State<ServicePage> {
   @override
   Widget build(BuildContext context) {
-    const buttonColor = Color(0xFF0793C5);
     final screenWidth = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         appBar: AppBar(
+          elevation: 0,
           centerTitle: true,
           toolbarHeight: 90,
-          backgroundColor: buttonColor,
+          backgroundColor: AppColors.primaryButtonColor,
           title: Text(
             "How can we serve you today?",
             style: GoogleFonts.poppins(
@@ -44,35 +45,32 @@ class _ServicePageState extends State<ServicePage> {
                   onTap: () async {
                     final updatedService = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) {
-                        return AddItem(service: service);
-                      }),
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return AddItem(service: service);
+                        },
+                      ),
                     );
 
                     if (updatedService != null) {
-                      // // ignore: use_build_context_synchronously
-                      // showSnackBar(
-                      //   context: context,
-                      //   text: "Items added to Cart",
-                      // );
                       setState(() {
                         service.selectedItems = updatedService.selectedItems;
                       });
                     }
                   },
                   child: Container(
-                    height: 96,
+                    height: 91,
                     width: screenWidth,
                     decoration: BoxDecoration(
-                      color: buttonColor,
+                      color: AppColors.primaryButtonColor,
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(
-                        color: Colors.white,
-                        width: 6,
+                        color: AppColors.whiteColor,
+                        width: 4,
                       ),
                       boxShadow: const [
                         BoxShadow(
-                          color: Color(0xFFD0D2D5),
+                          color: AppColors.primaryBoxShadowColor,
                           offset: Offset(4.0, 4.0),
                           blurRadius: 4.0,
                         ),
@@ -82,7 +80,7 @@ class _ServicePageState extends State<ServicePage> {
                       child: Text(
                         service.name,
                         style: GoogleFonts.poppins(
-                          color: Colors.white,
+                          color: AppColors.whiteColor,
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
                         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/views/auth/login_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
@@ -39,11 +40,10 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    const buttonColor = Color(0xFF0793C5);
     double screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -62,7 +62,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(height: 64),
                   Container(
-                    color: Colors.white,
+                    color: AppColors.whiteColor,
                     child: TextFormField(
                       controller: emailController,
                       validator: (value) => value!.isValidEmail()
@@ -73,7 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xFFA8A7A7),
+                          color: AppColors.primaryTextColor,
                         ),
                         hintText: "Enter your email",
                         border: OutlineInputBorder(
@@ -85,7 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(height: 12),
                   Container(
-                    color: Colors.white,
+                    color: AppColors.whiteColor,
                     child: TextFormField(
                       controller: passController,
                       obscureText: true,
@@ -99,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
-                          color: const Color(0xFFA8A7A7),
+                          color: AppColors.primaryTextColor,
                         ),
                         hintText: 'Enter Password',
                         border: OutlineInputBorder(
@@ -112,8 +112,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(height: 36),
                   CustomButton(
                     text: "Sign Up",
-                    bgColor: buttonColor,
-                    textColor: Colors.white,
+                    bgColor: AppColors.primaryButtonColor,
+                    textColor: AppColors.whiteColor,
                     onPress: () {
                       if (_formKey.currentState!.validate()) {
                         // Navigate to HomePage & Save Data to Firebase
@@ -128,9 +128,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) {
-                          return const LoginPage();
-                        }),
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const LoginPage();
+                          },
+                        ),
                       );
                     },
                     child: Text(
@@ -138,7 +140,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                        color: AppColors.blackColor,
                       ),
                     ),
                   ),
