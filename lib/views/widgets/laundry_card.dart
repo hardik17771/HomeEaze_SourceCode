@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/core/assets.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/datetime_card.dart';
 
@@ -20,22 +21,14 @@ class LaundaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const buttonColor = Color(0xFF0793C5);
     final screenWidth = MediaQuery.of(context).size.width;
     return Container(
       height: 124,
       width: screenWidth,
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(20),
-        // boxShadow: const [
-        //   BoxShadow(
-        //     color: Color(0xFFD0D2D5),
-        //     offset: Offset(4.0, 4.0),
-        //     blurRadius: 4.0,
-        //   ),
-        // ],
       ),
       child: Column(
         children: [
@@ -58,7 +51,7 @@ class LaundaryCard extends StatelessWidget {
                     Text(
                       vendor.outletAddress,
                       style: GoogleFonts.poppins(
-                        color: const Color(0xFF767272),
+                        color: AppColors.secondaryTextColor,
                         fontSize: 7,
                         fontWeight: FontWeight.w700,
                       ),
@@ -71,8 +64,7 @@ class LaundaryCard extends StatelessWidget {
                     SizedBox(
                       width: 15,
                       height: 15,
-                      child:
-                          SvgPicture.asset("assets/icons/point_pin_icon.svg"),
+                      child: AppAssets.locationPinPointIcon,
                     ),
                     const SizedBox(width: 8),
                     Text(
@@ -84,7 +76,7 @@ class LaundaryCard extends StatelessWidget {
                       ).toStringAsFixed(3)} kms",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
-                        color: const Color(0xFF767272),
+                        color: AppColors.secondaryTextColor,
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
                       ),
@@ -125,14 +117,14 @@ class LaundaryCard extends StatelessWidget {
                 Container(
                   width: 32,
                   height: 14,
-                  color: const Color(0xFFD9D9D9),
+                  color: AppColors.primaryContainerColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         vendor.outletRating.toString(),
                         style: GoogleFonts.poppins(
-                          color: Colors.black,
+                          color: AppColors.blackColor,
                           fontSize: 9,
                           fontWeight: FontWeight.w700,
                         ),
@@ -140,7 +132,7 @@ class LaundaryCard extends StatelessWidget {
                       const Icon(
                         Icons.star,
                         size: 10,
-                        color: buttonColor,
+                        color: AppColors.primaryButtonColor,
                       )
                     ],
                   ),
@@ -148,7 +140,7 @@ class LaundaryCard extends StatelessWidget {
                 Text(
                   "Grand Total    ₹ $orderAmount",
                   style: GoogleFonts.poppins(
-                    color: const Color(0xFF767272),
+                    color: AppColors.secondaryTextColor,
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                   ),

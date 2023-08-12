@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -26,12 +27,12 @@ class CustomButton extends StatelessWidget {
           color: bgColor,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: Colors.white,
+            color: AppColors.whiteColor,
             width: 2,
           ),
           boxShadow: const [
             BoxShadow(
-              color: Color(0xFFD0D2D5),
+              color: AppColors.primaryBoxShadowColor,
               offset: Offset(4.0, 4.0),
               blurRadius: 4.0,
             ),
@@ -41,7 +42,7 @@ class CustomButton extends StatelessWidget {
           child: Text(
             text,
             style: GoogleFonts.poppins(
-              color: Colors.white,
+              color: AppColors.whiteColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),

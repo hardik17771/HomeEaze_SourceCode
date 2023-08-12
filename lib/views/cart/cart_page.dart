@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/add_item_page.dart';
@@ -22,15 +23,15 @@ class _CartPageState extends State<CartPage> {
       }
     });
 
-    const buttonColor = Color(0xFF0793C5);
     final screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         appBar: AppBar(
+          elevation: 0,
           centerTitle: true,
           toolbarHeight: 90,
-          backgroundColor: buttonColor,
+          backgroundColor: AppColors.primaryButtonColor,
           title: Text(
             "Anything else to add?",
             style: GoogleFonts.poppins(
@@ -54,9 +55,11 @@ class _CartPageState extends State<CartPage> {
                       onTap: () async {
                         final updatedService = await Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) {
-                            return AddItem(service: service);
-                          }),
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return AddItem(service: service);
+                            },
+                          ),
                         );
 
                         if (updatedService != null) {
@@ -67,18 +70,18 @@ class _CartPageState extends State<CartPage> {
                         }
                       },
                       child: Container(
-                        height: 96,
+                        height: 91,
                         width: screenWidth,
                         decoration: BoxDecoration(
-                          color: buttonColor,
+                          color: AppColors.primaryButtonColor,
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
-                            color: Colors.white,
-                            width: 6,
+                            color: AppColors.whiteColor,
+                            width: 4,
                           ),
                           boxShadow: const [
                             BoxShadow(
-                              color: Color(0xFFD0D2D5),
+                              color: AppColors.primaryBoxShadowColor,
                               offset: Offset(4.0, 4.0),
                               blurRadius: 4.0,
                             ),
@@ -88,7 +91,7 @@ class _CartPageState extends State<CartPage> {
                           child: Text(
                             service.name,
                             style: GoogleFonts.poppins(
-                              color: Colors.white,
+                              color: AppColors.whiteColor,
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
                             ),
@@ -104,11 +107,11 @@ class _CartPageState extends State<CartPage> {
                         width: 64,
                         padding: const EdgeInsets.only(left: 3, right: 3),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.whiteColor,
                           borderRadius: BorderRadius.circular(5),
                           boxShadow: const [
                             BoxShadow(
-                              color: Colors.grey,
+                              color: AppColors.primaryBoxShadowColor,
                               offset: Offset(0.0, 1.0),
                               blurRadius: 6.0,
                             ),
@@ -141,11 +144,11 @@ class _CartPageState extends State<CartPage> {
                   children: [
                     const Icon(
                       Icons.shopping_bag_outlined,
-                      size: 20,
+                      size: 18,
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      "$_itemCount ITEMS ADDED",
+                      " $_itemCount ITEMS ADDED",
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -162,9 +165,11 @@ class _CartPageState extends State<CartPage> {
                     if (_itemCount != 0) {
                       final updatedServices = await Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) {
-                          return MyBasketPage(cartServices: services);
-                        }),
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return MyBasketPage(cartServices: services);
+                          },
+                        ),
                       );
                       if (updatedServices != null) {
                         setState(() {
@@ -182,15 +187,15 @@ class _CartPageState extends State<CartPage> {
                     height: 36,
                     width: 100,
                     decoration: BoxDecoration(
-                      color: buttonColor,
+                      color: AppColors.primaryButtonColor,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: Colors.white,
+                        color: AppColors.whiteColor,
                         width: 1,
                       ),
                       boxShadow: const [
                         BoxShadow(
-                          color: Color(0xFFD0D2D5),
+                          color: AppColors.primaryBoxShadowColor,
                           offset: Offset(4.0, 4.0),
                           blurRadius: 4.0,
                         ),
@@ -200,7 +205,7 @@ class _CartPageState extends State<CartPage> {
                       child: Text(
                         "NEXT",
                         style: GoogleFonts.poppins(
-                          color: Colors.white,
+                          color: AppColors.whiteColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),

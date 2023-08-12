@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations.dart';
+import 'package:homeeaze_sourcecode/core/assets.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
@@ -32,16 +33,15 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    const textColor = Color(0xFFA8A7A7);
-    const buttonColor = Color(0xFF0793C5);
     final size = MediaQuery.of(context).size;
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         appBar: AppBar(
+          elevation: 0,
           toolbarHeight: 72,
-          backgroundColor: buttonColor,
+          backgroundColor: AppColors.primaryButtonColor,
           title: Text(
             "PAYMENT",
             style: GoogleFonts.poppins(
@@ -59,7 +59,9 @@ class _PaymentPageState extends State<PaymentPage> {
                 width: size.width,
                 margin: const EdgeInsets.only(top: 20),
                 padding: const EdgeInsets.only(left: 8, top: 8, bottom: 8),
-                decoration: const BoxDecoration(color: Color(0xFFD9D9D9)),
+                decoration: const BoxDecoration(
+                  color: AppColors.primaryContainerColor,
+                ),
                 child: Text(
                   "PAYMENT OPTIONS",
                   textAlign: TextAlign.start,
@@ -95,7 +97,9 @@ class _PaymentPageState extends State<PaymentPage> {
                 width: size.width,
                 margin: const EdgeInsets.only(top: 12, bottom: 12),
                 padding: const EdgeInsets.only(left: 8, top: 8, bottom: 8),
-                decoration: const BoxDecoration(color: Color(0xFFD9D9D9)),
+                decoration: const BoxDecoration(
+                  color: AppColors.primaryContainerColor,
+                ),
                 child: Text(
                   "PRICE DETAILS (${widget.itemCount} ITEMS)",
                   textAlign: TextAlign.start,
@@ -216,9 +220,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           margin: const EdgeInsets.all(8),
                           width: 18,
                           height: 16,
-                          child: SvgPicture.asset(
-                            "assets/icons/delivery_boy_icon.svg",
-                          ),
+                          child: AppAssets.deliveryBoyIcon,
                         ),
                         Text(
                           "Pickup at Home",
@@ -248,7 +250,6 @@ class _PaymentPageState extends State<PaymentPage> {
                           userModel!.userAddress,
                           textAlign: TextAlign.start,
                           style: GoogleFonts.poppins(
-                            color: Colors.black,
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -263,7 +264,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 const Divider(thickness: 1),
                 Container(
-                  color: const Color(0xFFF2F2F2),
+                  color: AppColors.primaryBackgroundColor,
                   child: Row(
                     children: [
                       Expanded(
@@ -276,11 +277,11 @@ class _PaymentPageState extends State<PaymentPage> {
                             margin: const EdgeInsets.only(
                                 left: 8, right: 8, bottom: 12),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFA8A7A7),
+                              color: AppColors.secondaryButtonColor,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: const [
                                 BoxShadow(
-                                  color: Color(0xFFD0D2D5),
+                                  color: AppColors.primaryBoxShadowColor,
                                   offset: Offset(4.0, 4.0),
                                   blurRadius: 4.0,
                                 ),
@@ -290,7 +291,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               child: Text(
                                 "Cancel",
                                 style: GoogleFonts.poppins(
-                                  color: Colors.white,
+                                  color: AppColors.whiteColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -318,11 +319,11 @@ class _PaymentPageState extends State<PaymentPage> {
                             margin: const EdgeInsets.only(
                                 left: 8, right: 8, bottom: 12),
                             decoration: BoxDecoration(
-                              color: buttonColor,
+                              color: AppColors.primaryButtonColor,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: const [
                                 BoxShadow(
-                                  color: Color(0xFFD0D2D5),
+                                  color: AppColors.primaryBoxShadowColor,
                                   offset: Offset(4.0, 4.0),
                                   blurRadius: 4.0,
                                 ),
@@ -332,7 +333,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               child: Text(
                                 "Proceed   >",
                                 style: GoogleFonts.poppins(
-                                  color: Colors.white,
+                                  color: AppColors.whiteColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),

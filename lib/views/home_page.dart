@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/cart_page.dart';
 import 'package:homeeaze_sourcecode/views/cart/service_page.dart';
@@ -37,7 +38,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    const buttonColor = Color(0xFF0793C5);
     var _itemCount = 0;
     setState(() {
       for (int i = 0; i < services.length; i++) {
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: pages[_pageIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         selectedItemColor: Colors.grey.shade900,
         unselectedItemColor: Colors.grey.shade600,
         unselectedFontSize: 1,
@@ -73,12 +73,12 @@ class _HomePageState extends State<HomePage> {
                       _itemCount.toString(),
                       style: GoogleFonts.poppins(
                         fontSize: 10,
-                        color: Colors.white,
+                        color: AppColors.whiteColor,
                       ),
                     ),
                     position: badges.BadgePosition.topEnd(top: -12, end: -12),
                     badgeStyle: const badges.BadgeStyle(
-                      badgeColor: buttonColor,
+                      badgeColor: AppColors.primaryButtonColor,
                       padding: EdgeInsets.all(5),
                     ),
                     child: const Icon(Icons.shopping_cart, size: 24),

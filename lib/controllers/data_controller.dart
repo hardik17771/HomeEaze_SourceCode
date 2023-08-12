@@ -106,7 +106,14 @@ class DataController {
     try {
       await _firestore.collection("orders").doc(orderId).set(order.toMap());
 
-      // cartServices to db
+      // cartServices to db in "orderServices"
+
+      // set all services to 0 quantity
+      for (int i = 0; i < services.length; i++) {
+        for (int j = 0; j < services[i].items.length; j++) {
+          services[i].items[j].quantity = 0;
+        }
+      }
 
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(

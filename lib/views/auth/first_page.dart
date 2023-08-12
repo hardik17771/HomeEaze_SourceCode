@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/views/auth/signup_page.dart';
 
 class FirstPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _FirstPageState extends State<FirstPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: const Color(0xFF0793C5),
+      backgroundColor: AppColors.secondaryBackgroundColor,
       body: Column(
         children: [
           Container(
@@ -26,7 +27,7 @@ class _FirstPageState extends State<FirstPage> {
             child: Text(
               "Droby",
               style: GoogleFonts.poppins(
-                color: const Color(0xFFFFFFFF),
+                color: AppColors.whiteColor,
                 fontWeight: FontWeight.w700,
                 fontSize: 65,
               ),
@@ -41,9 +42,11 @@ class _FirstPageState extends State<FirstPage> {
             child: FloatingActionButton(
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) {
-                    return const SignUpPage();
-                  }),
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const SignUpPage();
+                    },
+                  ),
                   (route) => false,
                 );
               },
@@ -54,7 +57,7 @@ class _FirstPageState extends State<FirstPage> {
               child: Text(
                 "Get Started",
                 style: GoogleFonts.poppins(
-                  color: const Color(0xFF056D92),
+                  color: AppColors.tertiaryTextColor,
                   fontWeight: FontWeight.w700,
                   fontStyle: FontStyle.italic,
                   fontSize: 17,

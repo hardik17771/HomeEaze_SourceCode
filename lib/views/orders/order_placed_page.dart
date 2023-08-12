@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/views/orders/my_orders_page.dart';
 
 class OrderPlacedPage extends StatefulWidget {
@@ -29,13 +29,13 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
         children: [
           Container(
             alignment: Alignment.center,
-            child: SvgPicture.asset("assets/order_placed_bg.svg"),
+            child: AppAssets.orderPlacedBgImage,
           ),
           Center(
             child: SizedBox(
               width: 400,
               height: 400,
-              child: Image.asset("assets/tick_mark.png"),
+              child: AppAssets.orderPlacedTickMarkImage,
             ),
           ),
         ],

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations.dart';
+import 'package:homeeaze_sourcecode/core/assets.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
@@ -44,15 +45,14 @@ class _CheckOutPageState extends State<CheckOutPage> {
       }
     });
 
-    const textColor = Color(0xFFA8A7A7);
-    const buttonColor = Color(0xFF0793C5);
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         appBar: AppBar(
+          elevation: 0,
           toolbarHeight: 72,
-          backgroundColor: buttonColor,
+          backgroundColor: AppColors.primaryButtonColor,
           title: Text(
             widget.vendorModel.outletName,
             style: GoogleFonts.poppins(
@@ -71,7 +71,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 margin: const EdgeInsets.only(top: 20, bottom: 20),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.whiteColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -94,7 +94,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
               Container(
                 width: size.width,
                 padding: const EdgeInsets.only(top: 8, bottom: 8),
-                decoration: const BoxDecoration(color: Color(0xFFD9D9D9)),
+                decoration: const BoxDecoration(
+                  color: AppColors.primaryContainerColor,
+                ),
                 child: Text(
                   "ITEM(S) ADDED",
                   textAlign: TextAlign.center,
@@ -109,7 +111,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
+                  color: AppColors.whiteColor,
                 ),
                 child: Column(
                   children: [
@@ -148,9 +150,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                               bottom: 16),
                                           width: 22,
                                           height: 22,
-                                          child: SvgPicture.asset(
-                                            "assets/icons/tshirt_icon.svg",
-                                          ),
+                                          child: AppAssets.tShirtIcon,
                                         ),
                                         Column(
                                           crossAxisAlignment:
@@ -160,7 +160,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                               currentService.name,
                                               textAlign: TextAlign.start,
                                               style: GoogleFonts.poppins(
-                                                color: Colors.black,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -169,7 +168,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                               currentItem.name,
                                               textAlign: TextAlign.start,
                                               style: GoogleFonts.poppins(
-                                                color: const Color(0xFF767272),
+                                                color: AppColors
+                                                    .secondaryTextColor,
                                                 fontSize: 10,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -193,10 +193,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                               children: [
                                                 GestureDetector(
                                                   child: const Icon(
-                                                    Icons.remove,
-                                                    size: 15,
-                                                    color: buttonColor,
-                                                  ),
+                                                      Icons.remove,
+                                                      size: 15,
+                                                      color: AppColors
+                                                          .primaryButtonColor),
                                                   onTap: () {
                                                     setState(() {
                                                       if (currentItem.quantity >
@@ -221,7 +221,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                     currentItem.quantity
                                                         .toString(),
                                                     style: GoogleFonts.poppins(
-                                                      color: buttonColor,
+                                                      color: AppColors
+                                                          .primaryButtonColor,
                                                       fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.w700,
@@ -232,7 +233,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                   child: const Icon(
                                                     Icons.add,
                                                     size: 15,
-                                                    color: buttonColor,
+                                                    color: AppColors
+                                                        .primaryButtonColor,
                                                   ),
                                                   onTap: () {
                                                     setState(() {
@@ -278,7 +280,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 padding: const EdgeInsets.only(
                     top: 8, left: 16, right: 40, bottom: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.whiteColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -288,7 +290,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       children: [
                         const Icon(
                           Icons.add_circle_outlined,
-                          color: Color(0xFFD9D9D9),
+                          color: AppColors.primaryContainerColor,
                           size: 24,
                         ),
                         const SizedBox(width: 10),
@@ -304,7 +306,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     IconButton(
                       icon: const Icon(Icons.arrow_forward_ios),
                       iconSize: 20,
-                      color: Colors.black,
+                      color: AppColors.blackColor,
                       onPressed: () {
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(builder: (context) {
@@ -321,7 +323,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 width: size.width,
                 padding: const EdgeInsets.only(top: 8, bottom: 8),
                 decoration: const BoxDecoration(
-                  color: Color(0xFFD9D9D9),
+                  color: AppColors.primaryContainerColor,
                 ),
                 child: Text(
                   "BILL SUMMARY",
@@ -334,11 +336,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
               ),
               Container(
                 width: size.width,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.only(
+                    left: 16, right: 40, top: 16, bottom: 16),
                 margin: const EdgeInsets.only(top: 16, bottom: 16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
+                  color: AppColors.whiteColor,
                 ),
                 child: Column(
                   children: [
@@ -348,7 +351,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         Text(
                           "Subtotal",
                           style: GoogleFonts.poppins(
-                            color: const Color(0xFF767272),
+                            color: AppColors.secondaryTextColor,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                           ),
@@ -356,7 +359,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         Text(
                           _subTotalAmount.toString(),
                           style: GoogleFonts.poppins(
-                            color: const Color(0xFF767272),
+                            color: AppColors.secondaryTextColor,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                           ),
@@ -373,9 +376,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               margin: const EdgeInsets.only(left: 5, right: 5),
                               width: 16,
                               height: 16,
-                              child: SvgPicture.asset(
-                                "assets/icons/delivery_boy_icon.svg",
-                              ),
+                              child: AppAssets.deliveryBoyIcon,
                             ),
                             Text(
                               "Delivery Fee",
@@ -404,9 +405,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               margin: const EdgeInsets.only(left: 3),
                               width: 20,
                               height: 20,
-                              child: SvgPicture.asset(
-                                "assets/icons/convenience_fee_icon.svg",
-                              ),
+                              child: AppAssets.convenienceFeeIcon,
                             ),
                             Text(
                               " Convenience Fee",
@@ -435,7 +434,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         Text(
                           "Grand Total",
                           style: GoogleFonts.poppins(
-                            color: const Color(0xFF767272),
+                            color: AppColors.secondaryTextColor,
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -443,7 +442,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         Text(
                           "₹ ${_subTotalAmount + 60}",
                           style: GoogleFonts.poppins(
-                            color: const Color(0xFF767272),
+                            color: AppColors.secondaryTextColor,
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -473,14 +472,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           margin: const EdgeInsets.all(8),
                           width: 18,
                           height: 16,
-                          child: SvgPicture.asset(
-                            "assets/icons/delivery_boy_icon.svg",
-                          ),
+                          child: AppAssets.deliveryBoyIcon,
                         ),
                         Text(
                           "Pickup at Home",
                           style: GoogleFonts.poppins(
-                            color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
@@ -504,7 +500,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           userModel!.userAddress,
                           textAlign: TextAlign.start,
                           style: GoogleFonts.poppins(
-                            color: Colors.black,
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -519,7 +514,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 ),
                 const Divider(thickness: 1),
                 Container(
-                  color: const Color(0xFFF2F2F2),
+                  color: AppColors.primaryBackgroundColor,
                   child: Row(
                     children: [
                       Expanded(
@@ -532,11 +527,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             margin: const EdgeInsets.only(
                                 left: 8, right: 8, bottom: 12),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFA8A7A7),
+                              color: AppColors.secondaryButtonColor,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: const [
                                 BoxShadow(
-                                  color: Color(0xFFD0D2D5),
+                                  color: AppColors.primaryBoxShadowColor,
                                   offset: Offset(4.0, 4.0),
                                   blurRadius: 4.0,
                                 ),
@@ -546,7 +541,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               child: Text(
                                 "Cancel",
                                 style: GoogleFonts.poppins(
-                                  color: Colors.white,
+                                  color: AppColors.whiteColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -584,11 +579,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             margin: const EdgeInsets.only(
                                 left: 8, right: 8, bottom: 12),
                             decoration: BoxDecoration(
-                              color: buttonColor,
+                              color: AppColors.primaryButtonColor,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: const [
                                 BoxShadow(
-                                  color: Color(0xFFD0D2D5),
+                                  color: AppColors.primaryBoxShadowColor,
                                   offset: Offset(4.0, 4.0),
                                   blurRadius: 4.0,
                                 ),
@@ -598,7 +593,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               child: Text(
                                 "Proceed   >",
                                 style: GoogleFonts.poppins(
-                                  color: Colors.white,
+                                  color: AppColors.whiteColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),

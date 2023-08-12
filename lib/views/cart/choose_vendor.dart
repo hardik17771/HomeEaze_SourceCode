@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations.dart';
+import 'package:homeeaze_sourcecode/core/assets.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
@@ -33,14 +34,14 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
 
   @override
   Widget build(BuildContext context) {
-    const buttonColor = Color(0xFF0793C5);
     final screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
+        backgroundColor: AppColors.primaryBackgroundColor,
         appBar: AppBar(
+          elevation: 0,
           toolbarHeight: 72,
-          backgroundColor: buttonColor,
+          backgroundColor: AppColors.primaryButtonColor,
           title: Text(
             "Choose your perfect match!",
             style: GoogleFonts.poppins(
@@ -72,72 +73,78 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                       return const NoVendorWidget();
                     } else if (snapshot.hasData) {
                       // debugPrint("hasVendorData");
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          VendorModel vendor = snapshot.data![index];
-                          return FutureBuilder(
-                            future: _dataController.fetchOutletServiceMenu(
-                                vendorUid: vendor.vendorUid),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: ColorLoader(),
-                                );
-                              } else if (snapshot.hasData) {
-                                // debugPrint("hasOutletServiceMenu");
-                                List<Map<String, dynamic>> outletServiceMenu =
-                                    snapshot.data;
-                                double orderAmount =
-                                    _dataController.getTotalOrderAmount(
-                                  cartServices: widget.cartServices,
-                                  outletServiceMenu: outletServiceMenu,
-                                );
-                                return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedIndex = index;
-                                      _selectedVendorModel = vendor;
-                                      _selectedOutletServiceMenu =
-                                          outletServiceMenu;
-                                    });
+                      return (snapshot.data!.isEmpty)
+                          ? const NoVendorWidget()
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                VendorModel vendor = snapshot.data![index];
+                                return FutureBuilder(
+                                  future:
+                                      _dataController.fetchOutletServiceMenu(
+                                          vendorUid: vendor.vendorUid),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: ColorLoader(),
+                                      );
+                                    } else if (snapshot.hasData) {
+                                      // debugPrint("hasOutletServiceMenu");
+                                      List<Map<String, dynamic>>
+                                          outletServiceMenu = snapshot.data;
+                                      double orderAmount =
+                                          _dataController.getTotalOrderAmount(
+                                        cartServices: widget.cartServices,
+                                        outletServiceMenu: outletServiceMenu,
+                                      );
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedIndex = index;
+                                            _selectedVendorModel = vendor;
+                                            _selectedOutletServiceMenu =
+                                                outletServiceMenu;
+                                          });
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: (_selectedIndex == index)
+                                                  ? AppColors.primaryButtonColor
+                                                  : AppColors
+                                                      .primaryBorderColor,
+                                              width: (_selectedIndex == index)
+                                                  ? 2
+                                                  : 1,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Center(
+                                            child: LaundaryCard(
+                                              vendor: vendor,
+                                              orderAmount: orderAmount,
+                                              userLatitude:
+                                                  userModel.userLatitude,
+                                              userLongitude:
+                                                  userModel.userLongitude,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return const NoVendorWidget();
+                                    }
                                   },
-                                  child: Container(
-                                    height: 134,
-                                    margin: const EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: (_selectedIndex == index)
-                                            ? buttonColor
-                                            : const Color(0xFFC4C4C4),
-                                        width:
-                                            (_selectedIndex == index) ? 2 : 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    width: screenWidth,
-                                    child: Center(
-                                      child: LaundaryCard(
-                                        vendor: vendor,
-                                        orderAmount: orderAmount,
-                                        userLatitude: userModel.userLatitude,
-                                        userLongitude: userModel.userLongitude,
-                                      ),
-                                    ),
-                                  ),
                                 );
-                              } else {
-                                return const NoVendorWidget();
-                              }
-                            },
-                          );
-                        },
-                      );
+                              },
+                            );
                     } else {
                       return const NoVendorWidget();
                     }
@@ -163,17 +170,13 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                     Row(
                       children: [
                         Container(
-                          margin: const EdgeInsets.all(8),
-                          width: 18,
-                          height: 16,
-                          child: SvgPicture.asset(
-                            "assets/icons/delivery_boy_icon.svg",
-                          ),
-                        ),
+                            margin: const EdgeInsets.all(8),
+                            width: 18,
+                            height: 16,
+                            child: AppAssets.deliveryBoyIcon),
                         Text(
                           "Pickup in 60 mins.",
                           style: GoogleFonts.poppins(
-                            color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
@@ -190,7 +193,6 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                         : "Select a Vendor",
                     textAlign: TextAlign.start,
                     style: GoogleFonts.poppins(
-                      color: Colors.black,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                     ),
@@ -198,7 +200,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                 ),
                 const Divider(thickness: 1),
                 Container(
-                  color: const Color(0xFFF2F2F2),
+                  color: AppColors.primaryBackgroundColor,
                   child: Row(
                     children: [
                       Expanded(
@@ -211,11 +213,11 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                             margin: const EdgeInsets.only(
                                 left: 8, right: 8, bottom: 12),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFA8A7A7),
+                              color: AppColors.secondaryButtonColor,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: const [
                                 BoxShadow(
-                                  color: Color(0xFFD0D2D5),
+                                  color: AppColors.primaryBoxShadowColor,
                                   offset: Offset(4.0, 4.0),
                                   blurRadius: 4.0,
                                 ),
@@ -225,7 +227,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                               child: Text(
                                 "Cancel",
                                 style: GoogleFonts.poppins(
-                                  color: Colors.white,
+                                  color: AppColors.whiteColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -262,11 +264,11 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                             margin: const EdgeInsets.only(
                                 left: 8, right: 8, bottom: 12),
                             decoration: BoxDecoration(
-                              color: buttonColor,
+                              color: AppColors.primaryButtonColor,
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: const [
                                 BoxShadow(
-                                  color: Color(0xFFD0D2D5),
+                                  color: AppColors.primaryBoxShadowColor,
                                   offset: Offset(4.0, 4.0),
                                   blurRadius: 4.0,
                                 ),
@@ -276,7 +278,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                               child: Text(
                                 "Next    >",
                                 style: GoogleFonts.poppins(
-                                  color: Colors.white,
+                                  color: AppColors.whiteColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),
