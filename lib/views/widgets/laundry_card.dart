@@ -23,7 +23,6 @@ class LaundaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      height: 124,
       width: screenWidth,
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
@@ -110,7 +109,7 @@ class LaundaryCard extends StatelessWidget {
           ),
           const Divider(thickness: 1),
           Container(
-            margin: const EdgeInsets.only(left: 8, right: 8),
+            margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -40,12 +40,12 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
         backgroundColor: AppColors.primaryBackgroundColor,
         appBar: AppBar(
           elevation: 0,
-          toolbarHeight: 72,
+          toolbarHeight: 90,
           backgroundColor: AppColors.primaryButtonColor,
           title: Text(
             "Choose your perfect match!",
             style: GoogleFonts.poppins(
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
           ),

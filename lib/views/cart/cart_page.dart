@@ -14,10 +14,18 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  int _itemCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _itemCount = 0;
+  }
+
   @override
   Widget build(BuildContext context) {
-    int _itemCount = 0;
     setState(() {
+      _itemCount = 0;
       for (int i = 0; i < services.length; i++) {
         _itemCount += services[i].selectedItems.length;
       }
@@ -35,7 +43,7 @@ class _CartPageState extends State<CartPage> {
           title: Text(
             "Anything else to add?",
             style: GoogleFonts.poppins(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -121,7 +129,8 @@ class _CartPageState extends State<CartPage> {
                           child: Text(
                             "${service.selectedItems.length} Items",
                             style: GoogleFonts.poppins(
-                              fontSize: 14,
+                              color: AppColors.blackColor,
+                              fontSize: 10,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

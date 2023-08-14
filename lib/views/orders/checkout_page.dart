@@ -51,12 +51,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
         backgroundColor: AppColors.primaryBackgroundColor,
         appBar: AppBar(
           elevation: 0,
-          toolbarHeight: 72,
+          toolbarHeight: 90,
           backgroundColor: AppColors.primaryButtonColor,
           title: Text(
             widget.vendorModel.outletName,
             style: GoogleFonts.poppins(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -310,7 +310,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       onPressed: () {
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(builder: (context) {
-                            return const HomePage();
+                            return const HomePage(currIndex: 0);
                           }),
                           (route) => false,
                         );
@@ -560,6 +560,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   builder: (context) {
                                     return PaymentPage(
                                       cartServices: widget.cartServices,
+                                      outletServiceMenu:
+                                          widget.outletServiceMenu,
                                       vendorModel: widget.vendorModel,
                                       totalAmount: _subTotalAmount,
                                       itemCount: _itemCount,
