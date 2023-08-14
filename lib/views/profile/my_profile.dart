@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
+import 'package:homeeaze_sourcecode/core/utils.dart';
+import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 
@@ -74,7 +76,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
                             ],
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              showCustomBottomSheet(
+                                  context: context,
+                                  title: "Profile Details",
+                                  text: "Email :- ${userModel.userEmail}\n"
+                                      "Mobile Number :- ${userModel.userMobileNumber}");
+                            },
                             child: const Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 20,
@@ -101,24 +109,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              showModalBottomSheet(
+                              showCustomBottomSheet(
                                 context: context,
-                                builder: (context) {
-                                  return Container(
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.primaryBackgroundColor,
-                                        borderRadius:
-                                            BorderRadius.circular(22)),
-                                    child: Text(
-                                      "Help Center Data",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  );
-                                },
+                                title: "Customer Care No.",
+                                text: "+919999999999",
                               );
                             },
                             child: const Icon(
@@ -148,24 +142,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              showModalBottomSheet(
+                              showCustomBottomSheet(
                                 context: context,
-                                builder: (context) {
-                                  return Container(
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.primaryBackgroundColor,
-                                        borderRadius:
-                                            BorderRadius.circular(22)),
-                                    child: Text(
-                                      userModel.userAddress,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  );
-                                },
+                                title: "My Address",
+                                text:
+                                    "${userModel.userAddress},  ${userModel.userPincode}",
                               );
                             },
                             child: const Icon(
@@ -197,7 +178,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return const HomePage(currIndex: 3);
+                                    return const HomePage(currIndex: 2);
                                   },
                                 ),
                               );
@@ -254,24 +235,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              showModalBottomSheet(
+                              showCustomBottomSheet(
                                 context: context,
-                                builder: (context) {
-                                  return Container(
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primaryBackgroundColor,
-                                      borderRadius: BorderRadius.circular(22),
-                                    ),
-                                    child: Text(
-                                      "About Droby",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  );
-                                },
+                                title: "Droby - Laundry App",
+                                text: "",
                               );
                             },
                             child: const Icon(
