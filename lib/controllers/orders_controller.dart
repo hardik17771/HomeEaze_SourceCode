@@ -61,6 +61,9 @@ class OrdersController {
           services[i].items[j].quantity = 0;
         }
       }
+      for (int i = 0; i < services.length; i++) {
+        services[i].selectedItems = [];
+      }
 
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(

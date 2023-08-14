@@ -24,8 +24,8 @@ class _HomePageState extends State<HomePage> {
   List<Widget> pages = [
     const ServicePage(),
     const CartPage(),
-    const MyProfilePage(),
     const MyOrdersPage(),
+    const MyProfilePage(),
   ];
 
   @override
@@ -84,11 +84,11 @@ class _HomePageState extends State<HomePage> {
             label: "",
           ),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.person_2_outlined, size: 28),
+            icon: Icon(Icons.update, size: 28),
             label: "",
           ),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.update, size: 28),
+            icon: Icon(Icons.person_2_outlined, size: 28),
             label: "",
           ),
         ],

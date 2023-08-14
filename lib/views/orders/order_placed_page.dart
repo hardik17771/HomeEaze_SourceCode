@@ -18,7 +18,7 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
       () => Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) {
-            return const HomePage(currIndex: 3); // Order Placed Page
+            return const HomePage(currIndex: 2); // Order Placed Page
           },
         ),
         (route) => false,

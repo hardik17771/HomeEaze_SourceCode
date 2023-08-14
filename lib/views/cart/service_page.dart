@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
+import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/add_item_page.dart';
 
@@ -53,6 +54,13 @@ class _ServicePageState extends State<ServicePage> {
                     );
 
                     if (updatedService != null) {
+                      // ignore: use_build_context_synchronously
+                      showAlertDialogBox(
+                        context: context,
+                        title: "Cart Updated",
+                        message:
+                            "Cart Items have been updated click on cart icon to Proceed",
+                      );
                       setState(() {
                         service.selectedItems = updatedService.selectedItems;
                       });

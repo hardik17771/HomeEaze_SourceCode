@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/core/colors.dart';
 
 void showSnackBar({required BuildContext context, required String text}) {
   Flushbar(
@@ -12,18 +13,104 @@ void showSnackBar({required BuildContext context, required String text}) {
             style: GoogleFonts.poppins(
               fontSize: 14.0,
               fontWeight: FontWeight.w400,
-              color: Colors.black,
+              color: AppColors.blackColor,
             ),
           ),
           icon: const Icon(
             Icons.info_outline,
             size: 24.0,
-            color: Colors.red,
+            color: AppColors.redColor,
           ),
           duration: const Duration(seconds: 4),
           margin: const EdgeInsets.all(5),
           borderRadius: BorderRadius.circular(10))
       .show(context);
+}
+
+void showAlertDialogBox(
+    {required BuildContext context,
+    required String title,
+    required String message}) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(
+          title,
+          style: GoogleFonts.poppins(
+            fontSize: 16.0,
+            fontWeight: FontWeight.w600,
+            color: AppColors.blackColor,
+          ),
+        ),
+        content: Text(
+          message,
+          style: GoogleFonts.poppins(
+            fontSize: 14.0,
+            fontWeight: FontWeight.w500,
+            color: AppColors.secondaryTextColor,
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: Text(
+              "Continue",
+              style: GoogleFonts.poppins(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w500,
+                color: AppColors.tertiaryTextColor,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showCustomBottomSheet({
+  required BuildContext context,
+  required String title,
+  required String text,
+}) {
+  showModalBottomSheet(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15.0),
+    ),
+    clipBehavior: Clip.antiAliasWithSaveLayer,
+    backgroundColor: AppColors.primaryBackgroundColor,
+    context: context,
+    builder: (context) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        color: AppColors.primaryBackgroundColor,
+        child: Column(
+          children: [
+            Text(
+              title,
+              textAlign: TextAlign.start,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              text,
+              textAlign: TextAlign.start,
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                color: AppColors.secondaryTextColor,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
 
 class Loader extends StatelessWidget {
