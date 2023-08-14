@@ -8,6 +8,7 @@ class AppColors {
   // Background
   static const primaryBackgroundColor = Color(0xFFF2F2F2);
   static const secondaryBackgroundColor = Color(0xFF0793C5);
+  static const tertiaryBackgroundColor = Color(0xFFC4C4C4);
 
   // Button
   static const primaryButtonColor = Color(0xFF0793C5);

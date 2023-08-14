@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
-import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
+import 'package:homeeaze_sourcecode/controllers/orders_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
@@ -11,12 +11,14 @@ import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 
 class PaymentPage extends StatefulWidget {
   final List<Service> cartServices;
+  final List<Map<String, dynamic>> outletServiceMenu;
   final VendorModel vendorModel;
   final double totalAmount;
   final int itemCount;
   const PaymentPage({
     super.key,
     required this.cartServices,
+    required this.outletServiceMenu,
     required this.vendorModel,
     required this.totalAmount,
     required this.itemCount,
@@ -28,7 +30,7 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   final AuthController _authController = AuthController();
-  final DataController _dataController = DataController();
+  final OrdersController _ordersController = OrdersController();
   UserModel? _userModel;
 
   @override
@@ -40,12 +42,12 @@ class _PaymentPageState extends State<PaymentPage> {
         backgroundColor: AppColors.primaryBackgroundColor,
         appBar: AppBar(
           elevation: 0,
-          toolbarHeight: 72,
+          toolbarHeight: 90,
           backgroundColor: AppColors.primaryButtonColor,
           title: Text(
             "PAYMENT",
             style: GoogleFonts.poppins(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -304,9 +306,10 @@ class _PaymentPageState extends State<PaymentPage> {
                         child: GestureDetector(
                           onTap: () {
                             if (_userModel != null) {
-                              _dataController.placeOrder(
+                              _ordersController.placeOrder(
                                 context: context,
                                 userModel: _userModel!,
+                                outletServiceMenu: widget.outletServiceMenu,
                                 vendorModel: widget.vendorModel,
                                 cartServices: widget.cartServices,
                                 itemCount: widget.itemCount,

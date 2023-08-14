@@ -29,7 +29,7 @@ class _AddItemState extends State<AddItem> {
           title: Text(
             "Pick your items",
             style: GoogleFonts.poppins(
-              fontSize: 22,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -62,7 +62,7 @@ class _AddItemState extends State<AddItem> {
                     Text(
                       item.name,
                       style: GoogleFonts.poppins(
-                        fontSize: 24,
+                        fontSize: 22,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -183,12 +183,11 @@ class _AddItemState extends State<AddItem> {
                 Navigator.pop(context, widget.service);
               },
               child: Container(
-                height: 51,
                 width: 120,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: AppColors.primaryButtonColor,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(30),
                   border: Border.all(
                     color: AppColors.whiteColor,
                     width: 2,
@@ -199,7 +198,7 @@ class _AddItemState extends State<AddItem> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: AppColors.whiteColor,
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

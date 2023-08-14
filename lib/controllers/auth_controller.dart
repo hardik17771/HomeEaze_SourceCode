@@ -30,7 +30,7 @@ class AuthController {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) {
-          return const HomePage();
+          return const HomePage(currIndex: 0);
         }),
         (route) => false,
       );
@@ -97,7 +97,7 @@ class AuthController {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => const HomePage(),
+          builder: (context) => const HomePage(currIndex: 0),
         ),
         (route) => false,
       );

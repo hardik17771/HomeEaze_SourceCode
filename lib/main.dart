@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const ColorLoader();
           } else if (snapshot.hasData) {
-            return const HomePage();
+            return const HomePage(currIndex: 0);
           } else {
             return const FirstPage();
           }

@@ -7,34 +7,32 @@ import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/cart_page.dart';
 import 'package:homeeaze_sourcecode/views/cart/service_page.dart';
 import 'package:homeeaze_sourcecode/views/orders/my_orders_page.dart';
+import 'package:homeeaze_sourcecode/views/profile/my_profile.dart';
+import 'package:homeeaze_sourcecode/views/widgets/no_orders_widget.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final int currIndex;
+  const HomePage({super.key, required this.currIndex});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _pageIndex = 0;
+  int? _pageIndex;
 
   List<Widget> pages = [
     const ServicePage(),
     const CartPage(),
-    Center(
-      child: Builder(
-        builder: (context) {
-          return TextButton(
-            onPressed: () {
-              AuthController().signOut(context);
-            },
-            child: const Text("LogOut"),
-          );
-        },
-      ),
-    ),
+    const MyProfilePage(),
     const MyOrdersPage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageIndex = widget.currIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +44,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     return Scaffold(
-      body: pages[_pageIndex],
+      body: pages[_pageIndex!],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColors.primaryBackgroundColor,
         selectedItemColor: Colors.grey.shade900,
@@ -58,7 +56,7 @@ class _HomePageState extends State<HomePage> {
             _pageIndex = index;
           });
         },
-        currentIndex: _pageIndex,
+        currentIndex: _pageIndex!,
         type: BottomNavigationBarType.fixed,
         items: [
           const BottomNavigationBarItem(
