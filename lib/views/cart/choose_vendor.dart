@@ -29,6 +29,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
   final DataController _dataController = DataController();
 
   int _selectedIndex = -1;
+  String _pickupSlot = "None";
   VendorModel? _selectedVendorModel;
   List<Map<String, dynamic>>? _selectedOutletServiceMenu;
 
@@ -45,7 +46,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
           title: Text(
             "Choose your perfect match!",
             style: GoogleFonts.poppins(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -59,7 +60,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const NoVendorWidget();
               } else if (snapshot.hasData) {
-                // debugPrint("hasUserData");
+                debugPrint("hasUserData");
                 UserModel? userModel = snapshot.data;
                 return StreamBuilder<List<VendorModel>>(
                   stream: _dataController.fetchVendorOutletData(
@@ -72,7 +73,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const NoVendorWidget();
                     } else if (snapshot.hasData) {
-                      // debugPrint("hasVendorData");
+                      debugPrint("hasVendorData");
                       return (snapshot.data!.isEmpty)
                           ? const NoVendorWidget()
                           : ListView.builder(
@@ -94,7 +95,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                                         child: ColorLoader(),
                                       );
                                     } else if (snapshot.hasData) {
-                                      // debugPrint("hasOutletServiceMenu");
+                                      debugPrint("hasOutletServiceMenu");
                                       List<Map<String, dynamic>>
                                           outletServiceMenu = snapshot.data;
                                       double orderAmount =
@@ -128,6 +129,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                                           ),
                                           child: Center(
                                             child: LaundaryCard(
+                                              pickupSlot: _pickupSlot,
                                               vendor: vendor,
                                               orderAmount: orderAmount,
                                               userLatitude:
@@ -175,7 +177,9 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                             height: 16,
                             child: AppAssets.deliveryBoyIcon),
                         Text(
-                          "Pickup in 60 mins.",
+                          (_pickupSlot != "None")
+                              ? "Pickup $_pickupSlot"
+                              : "Pick time a Slot",
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -253,9 +257,11 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                                 ),
                               );
                             } else {
-                              showSnackBar(
+                              showAlertDialogBox(
                                 context: context,
-                                text: "Choose a laundry",
+                                title: "Choose a laundry",
+                                message:
+                                    "Pick a laundry from the available laundries to proceed",
                               );
                             }
                           },

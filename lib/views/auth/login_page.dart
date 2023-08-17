@@ -14,10 +14,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool? isLoading;
   final _formKey = GlobalKey<FormState>();
   AuthController authController = AuthController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    isLoading = true;
+  }
 
   @override
   void dispose() {
@@ -56,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     "Droby",
                     style: GoogleFonts.poppins(
-                      fontSize: 40,
+                      fontSize: 48,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -66,20 +73,20 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextFormField(
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
-                      validator: (value) => value!.isValidEmail()
-                          ? null
-                          : "Please enter a valid email",
+                      validator: (value) =>
+                          value!.isValidEmail() ? null : "Enter a valid email",
                       decoration: InputDecoration(
-                        hintStyle: GoogleFonts.poppins(
+                        errorStyle: GoogleFonts.poppins(fontSize: 10),
+                        labelStyle: GoogleFonts.poppins(
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
                           color: AppColors.primaryTextColor,
                         ),
-                        hintText: "Enter your email",
+                        labelText: "Enter your Email *",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        // contentPadding: const EdgeInsets.all(16.0),
+                        contentPadding: const EdgeInsets.all(20.0),
                       ),
                     ),
                   ),
@@ -96,15 +103,16 @@ class _LoginPageState extends State<LoginPage> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintStyle: GoogleFonts.poppins(
+                        errorStyle: GoogleFonts.poppins(fontSize: 10),
+                        labelStyle: GoogleFonts.poppins(
                             fontSize: 10,
                             fontWeight: FontWeight.w500,
                             color: AppColors.primaryTextColor),
-                        hintText: 'Enter Password',
+                        labelText: 'Enter Password *',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        // contentPadding: const EdgeInsets.all(16.0),
+                        contentPadding: const EdgeInsets.all(20.0),
                       ),
                     ),
                   ),

@@ -75,9 +75,10 @@ class OrdersController {
         (route) => false,
       );
     } on FirebaseException catch (e) {
-      showSnackBar(
+      showAlertDialogBox(
         context: context,
-        text: e.message!,
+        title: "Error placing order",
+        message: e.message!,
       );
     }
   }

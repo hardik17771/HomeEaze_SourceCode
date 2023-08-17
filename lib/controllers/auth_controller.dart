@@ -35,9 +35,10 @@ class AuthController {
         (route) => false,
       );
     } on FirebaseException catch (e) {
-      showSnackBar(
+      showAlertDialogBox(
         context: context,
-        text: e.message!,
+        title: "Authentication Error",
+        message: e.message!,
       );
     }
   }
@@ -63,9 +64,10 @@ class AuthController {
         (route) => false,
       );
     } on FirebaseException catch (e) {
-      showSnackBar(
+      showAlertDialogBox(
         context: context,
-        text: e.message!,
+        title: "Authentication Error",
+        message: e.message!,
       );
     }
   }
@@ -74,8 +76,10 @@ class AuthController {
     required User user,
     required String username,
     required String mobileNumber,
-    required String address,
-    required String pincode,
+    required String manualAddress,
+    required String manualPincode,
+    required String liveAddress,
+    required String livePincode,
     required double userLongitude,
     required double userLatitude,
     required BuildContext context,
@@ -88,8 +92,10 @@ class AuthController {
         userMobileNumber: mobileNumber,
         userLatitude: userLatitude,
         userLongitude: userLongitude,
-        userAddress: address,
-        userPincode: pincode,
+        userManualAddress: manualAddress,
+        userManualPincode: manualPincode,
+        userLiveAddress: liveAddress,
+        userLivePincode: livePincode,
       );
 
       await _firestore.collection("users").doc(user.uid).set(userModel.toMap());
@@ -102,19 +108,22 @@ class AuthController {
         (route) => false,
       );
     } on FirebaseException catch (e) {
-      showSnackBar(
+      showAlertDialogBox(
         context: context,
-        text: e.message!,
+        title: "Authentication Error",
+        message: e.message!,
       );
     }
   }
 
   Stream<UserModel> getUserData(String uid) {
-    return _firestore.collection("users").doc(uid).snapshots().map(
-          (event) => UserModel.fromMap(
-            event.data() as Map<String, dynamic>,
-          ),
-        );
+    return _firestore
+        .collection("users")
+        .doc(uid)
+        .snapshots()
+        .map((event) => UserModel.fromMap(
+              event.data() as Map<String, dynamic>,
+            ));
   }
 
   Future<void> signOut(BuildContext context) async {
@@ -128,9 +137,10 @@ class AuthController {
         );
       });
     } on FirebaseException catch (e) {
-      showSnackBar(
+      showAlertDialogBox(
         context: context,
-        text: e.message!,
+        title: "Authentication Error",
+        message: e.message!,
       );
     }
   }

@@ -56,7 +56,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Text(
                     "Droby",
                     style: GoogleFonts.poppins(
-                      fontSize: 40,
+                      fontSize: 48,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -70,16 +70,17 @@ class _SignUpPageState extends State<SignUpPage> {
                           : "Please enter a valid email",
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        hintStyle: GoogleFonts.poppins(
+                        errorStyle: GoogleFonts.poppins(fontSize: 10),
+                        labelStyle: GoogleFonts.poppins(
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
                           color: AppColors.primaryTextColor,
                         ),
-                        hintText: "Enter your email",
+                        labelText: "Enter your email *",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        // contentPadding: const EdgeInsets.all(16.0),
+                        contentPadding: const EdgeInsets.all(20.0),
                       ),
                     ),
                   ),
@@ -96,16 +97,17 @@ class _SignUpPageState extends State<SignUpPage> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintStyle: GoogleFonts.poppins(
+                        errorStyle: GoogleFonts.poppins(fontSize: 10),
+                        labelStyle: GoogleFonts.poppins(
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
                           color: AppColors.primaryTextColor,
                         ),
-                        hintText: 'Enter Password',
+                        labelText: 'Enter Password *',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        // contentPadding: const EdgeInsets.all(16.0),
+                        contentPadding: const EdgeInsets.all(20.0),
                       ),
                     ),
                   ),

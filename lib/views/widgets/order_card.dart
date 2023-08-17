@@ -59,7 +59,7 @@ class _OrderCardState extends State<OrderCard> {
                     ),
                   ),
                   Text(
-                    widget.vendorModel.outletAddress,
+                    widget.vendorModel.manualAddress,
                     style: GoogleFonts.poppins(
                       color: AppColors.secondaryTextColor,
                       fontSize: 9,

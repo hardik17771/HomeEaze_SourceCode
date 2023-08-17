@@ -497,7 +497,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       return Container(
                         margin: const EdgeInsets.only(left: 36),
                         child: Text(
-                          userModel!.userAddress,
+                          userModel!.userManualAddress,
                           textAlign: TextAlign.start,
                           style: GoogleFonts.poppins(
                             fontSize: 12,
@@ -570,9 +570,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 ),
                               );
                             } else {
-                              showSnackBar(
+                              showAlertDialogBox(
                                 context: context,
-                                text: "Select some items",
+                                title: "Cart is Empty",
+                                message:
+                                    "Choose some item from cart to continue",
                               );
                             }
                           },

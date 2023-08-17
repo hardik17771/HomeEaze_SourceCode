@@ -6,19 +6,26 @@ import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/datetime_card.dart';
 
-class LaundaryCard extends StatelessWidget {
+class LaundaryCard extends StatefulWidget {
+  String pickupSlot;
   final double userLatitude;
   final double userLongitude;
   final VendorModel vendor;
   final double orderAmount;
-  const LaundaryCard({
+  LaundaryCard({
     super.key,
+    required this.pickupSlot,
     required this.vendor,
     required this.userLatitude,
     required this.userLongitude,
     required this.orderAmount,
   });
 
+  @override
+  State<LaundaryCard> createState() => _LaundaryCardState();
+}
+
+class _LaundaryCardState extends State<LaundaryCard> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -41,14 +48,14 @@ class LaundaryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      vendor.outletName,
+                      widget.vendor.outletName,
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
-                      vendor.outletAddress,
+                      widget.vendor.manualAddress,
                       style: GoogleFonts.poppins(
                         color: AppColors.secondaryTextColor,
                         fontSize: 7,
@@ -68,10 +75,10 @@ class LaundaryCard extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       "${Geolocator.distanceBetween(
-                        userLatitude,
-                        userLongitude,
-                        vendor.outletLatitude,
-                        vendor.outletLongitude,
+                        widget.userLatitude,
+                        widget.userLongitude,
+                        widget.vendor.outletLatitude,
+                        widget.vendor.outletLongitude,
                       ).toStringAsFixed(3)} kms",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
@@ -99,12 +106,33 @@ class LaundaryCard extends StatelessWidget {
               ),
             ),
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              DateTimeCard(text: "In 60 mins."),
-              DateTimeCard(text: "In 2 hrs."),
-              DateTimeCard(text: "In 4 hrs."),
+              GestureDetector(
+                child: const DateTimeCard(text: "In 60 mins."),
+                onTap: () {
+                  setState(() {
+                    widget.pickupSlot = "In 60 mins.";
+                  });
+                },
+              ),
+              GestureDetector(
+                child: const DateTimeCard(text: "In 2 hrs."),
+                onTap: () {
+                  setState(() {
+                    widget.pickupSlot = "In 2 hrs.";
+                  });
+                },
+              ),
+              GestureDetector(
+                child: const DateTimeCard(text: "In 4 hrs."),
+                onTap: () {
+                  setState(() {
+                    widget.pickupSlot = "In 4 hrs.";
+                  });
+                },
+              ),
             ],
           ),
           const Divider(thickness: 1),
@@ -121,7 +149,7 @@ class LaundaryCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        vendor.outletRating.toString(),
+                        widget.vendor.outletRating.toString(),
                         style: GoogleFonts.poppins(
                           color: AppColors.blackColor,
                           fontSize: 9,
@@ -137,7 +165,7 @@ class LaundaryCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Grand Total    ₹ $orderAmount",
+                  "Grand Total    ₹ ${widget.orderAmount}",
                   style: GoogleFonts.poppins(
                     color: AppColors.secondaryTextColor,
                     fontSize: 10,

@@ -4,7 +4,6 @@ import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
-import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 
@@ -29,264 +28,261 @@ class _MyProfilePageState extends State<MyProfilePage> {
           title: Text(
             "My Account",
             style: GoogleFonts.poppins(
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         body: StreamBuilder<UserModel>(
-            stream:
-                _authController.getUserData(_authController.currentUser!.uid),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const ColorLoader();
-              } else if (snapshot.hasData) {
-                debugPrint("has User");
-                UserModel userModel = snapshot.data!;
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(height: 24),
-                    Container(
-                      color: AppColors.whiteColor,
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 32, top: 16, bottom: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              const CircleAvatar(
-                                radius: 25,
-                                backgroundColor:
-                                    AppColors.tertiaryBackgroundColor,
-                                child: Icon(
-                                  Icons.person_2_outlined,
-                                  color: AppColors.blackColor,
-                                ),
+          stream: _authController.getUserData(_authController.currentUser!.uid),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const ColorLoader();
+            } else if (snapshot.hasData) {
+              debugPrint("has User");
+              UserModel userModel = snapshot.data!;
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 24),
+                  Container(
+                    color: AppColors.whiteColor,
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 32, top: 16, bottom: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const CircleAvatar(
+                              radius: 25,
+                              backgroundColor:
+                                  AppColors.tertiaryBackgroundColor,
+                              child: Icon(
+                                Icons.person_2_outlined,
+                                color: AppColors.blackColor,
                               ),
-                              const SizedBox(width: 16),
-                              Text(
-                                userModel.username,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            ),
+                            const SizedBox(width: 16),
+                            Text(
+                              userModel.username,
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
                               ),
-                            ],
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              showCustomBottomSheet(
-                                  context: context,
-                                  title: "Profile Details",
-                                  text: "Email :- ${userModel.userEmail}\n"
-                                      "Mobile Number :- ${userModel.userMobileNumber}");
-                            },
-                            child: const Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              size: 20,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    Container(
-                      color: AppColors.whiteColor,
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 32, top: 16, bottom: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Help Center",
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              showCustomBottomSheet(
-                                context: context,
-                                title: "Customer Care No.",
-                                text: "+919999999999",
-                              );
-                            },
-                            child: const Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              size: 20,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-                    Container(
-                      color: AppColors.whiteColor,
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 32, top: 16, bottom: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Address Book",
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              showCustomBottomSheet(
-                                context: context,
-                                title: "My Address",
-                                text:
-                                    "${userModel.userAddress},  ${userModel.userPincode}",
-                              );
-                            },
-                            child: const Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              size: 20,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      color: AppColors.whiteColor,
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 32, top: 16, bottom: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "My Orders",
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return const HomePage(currIndex: 2);
-                                  },
-                                ),
-                              );
-                            },
-                            child: const Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              size: 20,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      color: AppColors.whiteColor,
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 32, top: 16, bottom: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Payments",
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: const Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              size: 20,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      color: AppColors.whiteColor,
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 32, top: 16, bottom: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "About Droby",
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              showCustomBottomSheet(
-                                context: context,
-                                title: "Droby - Laundry App",
-                                text: "",
-                              );
-                            },
-                            child: const Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              size: 20,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    GestureDetector(
-                      onTap: () async {
-                        await _authController.signOut(context);
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(16),
-                        decoration: const BoxDecoration(
-                          color: AppColors.whiteColor,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primaryBoxShadowColor,
-                              offset: Offset(4.0, 4.0),
-                              blurRadius: 4.0,
                             ),
                           ],
                         ),
-                        child: Text(
-                          "Logout",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                            color: AppColors.tertiaryTextColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                        GestureDetector(
+                          onTap: () {
+                            showCustomBottomSheet(
+                                context: context,
+                                title: "Profile Details",
+                                text: "Email :- ${userModel.userEmail}\n"
+                                    "Mobile Number :- ${userModel.userMobileNumber}");
+                          },
+                          child: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 20,
+                            color: AppColors.blackColor,
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Container(
+                    color: AppColors.whiteColor,
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 32, top: 16, bottom: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Help Center",
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            showCustomBottomSheet(
+                              context: context,
+                              title: "Customer Care No.",
+                              text: "+919999999999",
+                            );
+                          },
+                          child: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 20,
+                            color: AppColors.blackColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    color: AppColors.whiteColor,
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 32, top: 16, bottom: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Address Book",
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            showCustomBottomSheet(
+                              context: context,
+                              title: "My Address",
+                              text:
+                                  "${userModel.userManualAddress},  ${userModel.userManualPincode}",
+                            );
+                          },
+                          child: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 20,
+                            color: AppColors.blackColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    color: AppColors.whiteColor,
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 32, top: 16, bottom: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "My Orders",
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const HomePage(currIndex: 2);
+                                },
+                              ),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 20,
+                            color: AppColors.blackColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    color: AppColors.whiteColor,
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 32, top: 16, bottom: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Payments",
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 20,
+                            color: AppColors.blackColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    color: AppColors.whiteColor,
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 32, top: 16, bottom: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "About Droby",
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            showCustomBottomSheet(
+                              context: context,
+                              title: "Droby - Laundry App",
+                              text: "",
+                            );
+                          },
+                          child: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 20,
+                            color: AppColors.blackColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  GestureDetector(
+                    onTap: () async {
+                      await _authController.signOut(context);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(16),
+                      decoration: const BoxDecoration(
+                        color: AppColors.whiteColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primaryBoxShadowColor,
+                            offset: Offset(4.0, 4.0),
+                            blurRadius: 4.0,
+                          ),
+                        ],
                       ),
-                    ), // LogOut
-                    const SizedBox(height: 24),
-                    const Divider(thickness: 1.5),
-                  ],
-                );
-              } else {
-                return const Text("No User");
-              }
-            }),
+                      child: Text(
+                        "Logout",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: AppColors.tertiaryTextColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ), // LogOut
+                ],
+              );
+            } else {
+              return const Text("No User");
+            }
+          },
+        ),
       ),
     );
   }

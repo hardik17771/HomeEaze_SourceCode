@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
+import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/choose_vendor.dart';
 
@@ -17,8 +18,16 @@ class MyBasketPage extends StatefulWidget {
 }
 
 class _MyBasketPageState extends State<MyBasketPage> {
+  int _itemCount = 0;
+
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      _itemCount = 0;
+      for (int i = 0; i < services.length; i++) {
+        _itemCount += services[i].selectedItems.length;
+      }
+    });
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.primaryBackgroundColor,
@@ -29,7 +38,7 @@ class _MyBasketPageState extends State<MyBasketPage> {
           title: Text(
             "My Basket",
             style: GoogleFonts.poppins(
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -204,15 +213,23 @@ class _MyBasketPageState extends State<MyBasketPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ChooseVendorPage(
-                              cartServices: widget.cartServices,
-                            );
-                          },
-                        ),
-                      );
+                      if (_itemCount != 0) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ChooseVendorPage(
+                                cartServices: widget.cartServices,
+                              );
+                            },
+                          ),
+                        );
+                      } else {
+                        showAlertDialogBox(
+                          context: context,
+                          title: "Cart is Empty",
+                          message: "Select some items to Procced",
+                        );
+                      }
                     },
                     child: Container(
                       height: 46,
