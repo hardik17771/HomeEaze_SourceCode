@@ -34,9 +34,10 @@ class DataController {
             vendors.add(currentVendor);
           }
         } catch (e) {
-          showSnackBar(
+          showAlertDialogBox(
             context: context,
-            text: e.toString(),
+            title: "Location Error",
+            message: e.toString(),
           );
         }
       }
@@ -49,7 +50,7 @@ class DataController {
     required String vendorUid,
   }) async {
     QuerySnapshot collectionSnapshot = await _firestore
-        .collection("outletDetails")
+        .collection("outletServices")
         .doc(vendorUid)
         .collection("services")
         .get();

@@ -3,30 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 
-void showSnackBar({required BuildContext context, required String text}) {
-  Flushbar(
-          backgroundColor: Colors.grey,
-          flushbarStyle: FlushbarStyle.FLOATING,
-          flushbarPosition: FlushbarPosition.TOP,
-          messageText: Text(
-            text,
-            style: GoogleFonts.poppins(
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
-              color: AppColors.blackColor,
-            ),
-          ),
-          icon: const Icon(
-            Icons.info_outline,
-            size: 24.0,
-            color: AppColors.redColor,
-          ),
-          duration: const Duration(seconds: 4),
-          margin: const EdgeInsets.all(5),
-          borderRadius: BorderRadius.circular(10))
-      .show(context);
-}
-
 void showAlertDialogBox(
     {required BuildContext context,
     required String title,
@@ -112,6 +88,30 @@ void showCustomBottomSheet({
     },
   );
 }
+
+// void showSnackBar({required BuildContext context, required String text}) {
+//   Flushbar(
+//           backgroundColor: Colors.grey,
+//           flushbarStyle: FlushbarStyle.FLOATING,
+//           flushbarPosition: FlushbarPosition.TOP,
+//           messageText: Text(
+//             text,
+//             style: GoogleFonts.poppins(
+//               fontSize: 14.0,
+//               fontWeight: FontWeight.w400,
+//               color: AppColors.blackColor,
+//             ),
+//           ),
+//           icon: const Icon(
+//             Icons.info_outline,
+//             size: 24.0,
+//             color: AppColors.redColor,
+//           ),
+//           duration: const Duration(seconds: 4),
+//           margin: const EdgeInsets.all(5),
+//           borderRadius: BorderRadius.circular(10))
+//       .show(context);
+// }
 
 class Loader extends StatelessWidget {
   const Loader({super.key});

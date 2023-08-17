@@ -5,7 +5,10 @@ class VendorModel {
   final String outletName;
   final String vendorMobileNumber;
   final String outletMobileNumber;
-  final String outletAddress;
+  final String manualAddress;
+  final String manualPincode;
+  final String liveAddress;
+  final String livePincode;
   final double outletRating;
   final String outletProfilePicUrl;
   final DateTime openingTime1;
@@ -23,7 +26,10 @@ class VendorModel {
     required this.outletName,
     required this.vendorMobileNumber,
     required this.outletMobileNumber,
-    required this.outletAddress,
+    required this.manualAddress,
+    required this.manualPincode,
+    required this.liveAddress,
+    required this.livePincode,
     required this.outletRating,
     required this.outletProfilePicUrl,
     required this.openingTime1,
@@ -43,7 +49,10 @@ class VendorModel {
     String? outletName,
     String? vendorMobileNumber,
     String? outletMobileNumber,
-    String? outletAddress,
+    String? manualAddress,
+    String? manualPincode,
+    String? liveAddress,
+    String? livePincode,
     double? outletRating,
     String? outletProfilePicUrl,
     DateTime? openingTime1,
@@ -62,7 +71,10 @@ class VendorModel {
       outletName: outletName ?? this.outletName,
       vendorMobileNumber: vendorMobileNumber ?? this.vendorMobileNumber,
       outletMobileNumber: outletMobileNumber ?? this.outletMobileNumber,
-      outletAddress: outletAddress ?? this.outletAddress,
+      manualAddress: manualAddress ?? this.manualAddress,
+      manualPincode: manualPincode ?? this.manualPincode,
+      liveAddress: liveAddress ?? this.liveAddress,
+      livePincode: livePincode ?? this.livePincode,
       outletRating: outletRating ?? this.outletRating,
       outletProfilePicUrl: outletProfilePicUrl ?? this.outletProfilePicUrl,
       openingTime1: openingTime1 ?? this.openingTime1,
@@ -85,7 +97,10 @@ class VendorModel {
       'outletName': outletName,
       'vendorMobileNumber': vendorMobileNumber,
       'outletMobileNumber': outletMobileNumber,
-      'outletAddress': outletAddress,
+      'manualAddress': manualAddress,
+      'manualPincode': manualPincode,
+      'liveAddress': liveAddress,
+      'livePincode': livePincode,
       'outletRating': outletRating,
       'outletProfilePicUrl': outletProfilePicUrl,
       'openingTime1': openingTime1.millisecondsSinceEpoch,
@@ -107,7 +122,10 @@ class VendorModel {
       outletName: map['outletName'] as String,
       vendorMobileNumber: map['vendorMobileNumber'] as String,
       outletMobileNumber: map['outletMobileNumber'] as String,
-      outletAddress: map['outletAddress'] as String,
+      manualAddress: map['manualAddress'] as String,
+      manualPincode: map['manualPincode'] as String,
+      liveAddress: map['liveAddress'] as String,
+      livePincode: map['livePincode'] as String,
       outletRating: map['outletRating'] as double,
       outletProfilePicUrl: map['outletProfilePicUrl'] as String,
       openingTime1:
@@ -121,7 +139,7 @@ class VendorModel {
       outletLatitude: map['outletLatitude'] as double,
       outletLongitude: map['outletLongitude'] as double,
       isDeliveryBoyAvailable: map['isDeliveryBoyAvailable'] as bool,
-      outletOpenDays: List<String>.from((map['outletOpenDays'])),
+      outletOpenDays: List<String>.from(map['outletOpenDays']),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/core/animations.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
@@ -26,10 +27,17 @@ class LocationPage extends StatefulWidget {
 
 class _LocationPageState extends State<LocationPage> {
   Position? _currentPosition;
-  String _currentLocality = "";
-  String _currentPincode = "";
-  bool isLocationFetched = false;
+  String _liveAddress = "";
+  String _livePincode = "";
+  bool? _isLocationLoading;
+  bool? _isDataLoading;
+  final _formKey = GlobalKey<FormState>();
   AuthController authController = AuthController();
+  final TextEditingController manualHouseNoController = TextEditingController();
+  final TextEditingController manualLocalityController =
+      TextEditingController();
+  final TextEditingController nearByAddressController = TextEditingController();
+  final TextEditingController manualPincodeController = TextEditingController();
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -38,9 +46,10 @@ class _LocationPageState extends State<LocationPage> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // ignore: use_build_context_synchronously
-      showSnackBar(
+      showAlertDialogBox(
         context: context,
-        text: "Location services are disabled. Please enable the services",
+        title: "Location Error",
+        message: "Location services are disabled. Please enable the services",
       );
       return false;
     }
@@ -50,9 +59,10 @@ class _LocationPageState extends State<LocationPage> {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         // ignore: use_build_context_synchronously
-        showSnackBar(
+        showAlertDialogBox(
           context: context,
-          text: "Location permissions are denied",
+          title: "Location Error",
+          message: "Location permissions are denied",
         );
         return false;
       }
@@ -60,9 +70,10 @@ class _LocationPageState extends State<LocationPage> {
 
     if (permission == LocationPermission.deniedForever) {
       // ignore: use_build_context_synchronously
-      showSnackBar(
+      showAlertDialogBox(
         context: context,
-        text:
+        title: "Location Error",
+        message:
             "Location permissions are permanently denied, we cannot request permissions.",
       );
       return false;
@@ -74,7 +85,7 @@ class _LocationPageState extends State<LocationPage> {
     final hasPermission = await _handleLocationPermission();
 
     if (!hasPermission) return;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       setState(() {
         _currentPosition = position;
@@ -82,7 +93,11 @@ class _LocationPageState extends State<LocationPage> {
       });
     }).catchError((e) {
       debugPrint(e);
-      showSnackBar(context: context, text: e.toString());
+      showAlertDialogBox(
+        context: context,
+        title: "Location Error",
+        message: e.toString(),
+      );
     });
   }
 
@@ -93,14 +108,35 @@ class _LocationPageState extends State<LocationPage> {
     ).then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
       setState(() {
-        isLocationFetched = true;
-        _currentLocality =
+        _liveAddress =
             '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}';
-        _currentPincode = '${place.postalCode}';
+        _livePincode = '${place.postalCode}';
+        _isLocationLoading = false;
       });
     }).catchError((e) {
       debugPrint(e);
+      showAlertDialogBox(
+        context: context,
+        title: "Location Error",
+        message: e.toString(),
+      );
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _isLocationLoading = false;
+    _isDataLoading = false;
+  }
+
+  @override
+  void dispose() {
+    manualHouseNoController.dispose();
+    manualLocalityController.dispose();
+    nearByAddressController.dispose();
+    manualPincodeController.dispose();
+    super.dispose();
   }
 
   @override
@@ -110,34 +146,31 @@ class _LocationPageState extends State<LocationPage> {
       child: Scaffold(
         backgroundColor: AppColors.primaryBackgroundColor,
         body: SingleChildScrollView(
-          child: SizedBox(
-            width: screenWidth,
+          child: Form(
+            key: _formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Center(
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 250,
-                          width: 250,
-                          child: AppAssets.locationStarImage,
-                        ),
+                Stack(
+                  children: [
+                    Center(
+                      child: SizedBox(
+                        height: 250,
+                        width: 250,
+                        child: AppAssets.locationStarImage,
                       ),
-                      Positioned(
-                        left: 120,
-                        top: 70,
-                        child: Container(
-                          alignment: Alignment.topCenter,
-                          height: 120,
-                          width: 150,
-                          child: AppAssets.locationPinImage,
-                        ),
+                    ),
+                    Positioned(
+                      left: screenWidth / 2 - 75,
+                      top: 75,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 120,
+                        width: 150,
+                        child: AppAssets.locationPinImage,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 Text(
                   'Want to see services near you?',
@@ -147,132 +180,226 @@ class _LocationPageState extends State<LocationPage> {
                     fontSize: 16,
                   ),
                 ),
-                const SizedBox(height: 16),
                 Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: CustomButton(
-                    text: "Use my Current Location",
-                    bgColor: AppColors.primaryButtonColor,
-                    textColor: AppColors.whiteColor,
-                    onPress: () {
-                      _getCurrentPosition();
-                    },
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16),
+                      (_isLocationLoading == true)
+                          ? const ColorLoader()
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 12, right: 12),
+                              child: CustomButton(
+                                text: (_currentPosition != null)
+                                    ? 'Current Address Applied'
+                                    : 'Use My Current Address',
+                                bgColor: AppColors.primaryButtonColor,
+                                textColor: Colors.white,
+                                onPress: () {
+                                  setState(() {
+                                    _isLocationLoading = true;
+                                  });
+                                  _getCurrentPosition();
+                                },
+                              ),
+                            ),
+                      const SizedBox(height: 24),
+                      Text(
+                        'Enter address details',
+                        textAlign: TextAlign.start,
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        color: AppColors.whiteColor,
+                        child: TextFormField(
+                          controller: manualHouseNoController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Enter field value';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            errorStyle: GoogleFonts.poppins(fontSize: 10),
+                            labelText: 'Flat / House no / Floor / Building *',
+                            labelStyle: GoogleFonts.poppins(
+                              color: AppColors.primaryTextColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.primaryBorderColor,
+                                width: 10,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                            ),
+                            contentPadding: const EdgeInsets.all(16.0),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        color: AppColors.whiteColor,
+                        child: TextFormField(
+                          controller: manualLocalityController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Enter your locality';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            errorStyle: GoogleFonts.poppins(fontSize: 10),
+                            labelText: 'Enter your Locality *',
+                            labelStyle: GoogleFonts.poppins(
+                              color: AppColors.primaryTextColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.primaryBorderColor,
+                                width: 10,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                            ),
+                            contentPadding: const EdgeInsets.all(16.0),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        color: AppColors.whiteColor,
+                        child: TextFormField(
+                          controller: nearByAddressController,
+                          decoration: InputDecoration(
+                            labelText: 'NearBy Address (optional)',
+                            labelStyle: GoogleFonts.poppins(
+                              color: AppColors.primaryTextColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.primaryBorderColor,
+                                width: 10,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                            ),
+                            contentPadding: const EdgeInsets.all(16.0),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        color: AppColors.whiteColor,
+                        child: TextFormField(
+                          controller: manualPincodeController,
+                          validator: (value) {
+                            if (value == null || value.length != 6) {
+                              return 'Enter your pincode';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            errorStyle: GoogleFonts.poppins(fontSize: 10),
+                            labelText: 'Enter your Pincode *',
+                            labelStyle: GoogleFonts.poppins(
+                              color: AppColors.primaryTextColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.primaryBorderColor,
+                                width: 10,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                            ),
+                            contentPadding: const EdgeInsets.all(16.0),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 24),
-                if (isLocationFetched)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0, right: 16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Your Locality',
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          width: screenWidth,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: AppColors.whiteColor,
-                            border: Border.all(
-                              color: AppColors.primaryBorderColor,
-                              width: 1,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
-                          ),
-                          child: Text(
-                            _currentLocality,
-                            style: GoogleFonts.poppins(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Your Pincode',
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          width: screenWidth,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: AppColors.whiteColor,
-                            border: Border.all(
-                              color: AppColors.primaryBorderColor,
-                              width: 1,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
-                          ),
-                          child: Text(
-                            _currentPincode,
-                            style: GoogleFonts.poppins(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
               ],
             ),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
           color: AppColors.primaryBackgroundColor,
-          child: GestureDetector(
-            onTap: () {
-              if (isLocationFetched) {
-                authController.saveUserDataToFirestore(
-                  user: widget.user,
-                  username: widget.username,
-                  mobileNumber: widget.mobileNumber,
-                  address: _currentLocality,
-                  pincode: _currentPincode,
-                  userLongitude: _currentPosition!.longitude,
-                  userLatitude: _currentPosition!.latitude,
-                  context: context,
-                );
-              } else {
-                showSnackBar(
-                  context: context,
-                  text: "Use your current Location",
-                );
-              }
-            },
-            child: Container(
-              height: 40,
-              width: screenWidth,
-              margin: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
-              decoration: const BoxDecoration(
-                color: AppColors.whiteColor,
-              ),
-              child: Center(
-                child: Text(
-                  "SAVE ADDRESS",
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
+          child: (_isDataLoading == true)
+              ? SizedBox(
+                  height: 100,
+                  width: screenWidth,
+                  child: const ColorLoader(),
+                )
+              : GestureDetector(
+                  onTap: () {
+                    if (_formKey.currentState!.validate() &&
+                        _isLocationLoading == false &&
+                        _currentPosition != null &&
+                        _liveAddress != "" &&
+                        _livePincode != "") {
+                      setState(() {
+                        _isDataLoading = true;
+                      });
+
+                      authController.saveUserDataToFirestore(
+                        user: widget.user,
+                        username: widget.username,
+                        mobileNumber: widget.mobileNumber,
+                        manualAddress:
+                            '${manualHouseNoController.text.trim()}, ${manualLocalityController.text.trim()}, ${nearByAddressController.text.trim()}',
+                        manualPincode: manualPincodeController.text.trim(),
+                        liveAddress: _liveAddress,
+                        livePincode: _livePincode,
+                        userLongitude: _currentPosition!.longitude,
+                        userLatitude: _currentPosition!.latitude,
+                        context: context,
+                      );
+                    } else {
+                      showAlertDialogBox(
+                        context: context,
+                        title: "Use your current Location",
+                        message:
+                            "Please use your current Location by clicking on button",
+                      );
+                    }
+                  },
+                  child: Container(
+                    height: 40,
+                    width: screenWidth,
+                    margin:
+                        const EdgeInsets.only(left: 8, right: 8, bottom: 16),
+                    decoration: const BoxDecoration(
+                      color: AppColors.whiteColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "SAVE ADDRESS",
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
         ),
       ),
     );

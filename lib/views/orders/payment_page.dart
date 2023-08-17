@@ -29,14 +29,20 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+  bool? isLoading;
   final AuthController _authController = AuthController();
   final OrdersController _ordersController = OrdersController();
   UserModel? _userModel;
 
   @override
+  void initState() {
+    super.initState();
+    isLoading = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.primaryBackgroundColor,
@@ -206,151 +212,163 @@ class _PaymentPageState extends State<PaymentPage> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          child: SizedBox(
-            width: size.width,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.all(8),
-                          width: 18,
-                          height: 16,
-                          child: AppAssets.deliveryBoyIcon,
-                        ),
-                        Text(
-                          "Pickup at Home",
-                          style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                StreamBuilder<UserModel>(
-                  stream: _authController
-                      .getUserData(_authController.currentUser!.uid),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<UserModel> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const ColorLoader();
-                    } else if (snapshot.hasData) {
-                      UserModel? userModel = snapshot.data;
-                      _userModel = userModel;
-                      return Container(
-                        margin: const EdgeInsets.only(left: 36),
-                        child: Text(
-                          userModel!.userAddress,
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return const Center(
-                        child: ColorLoader(),
-                      );
-                    }
-                  },
-                ),
-                const Divider(thickness: 1),
-                Container(
-                  color: AppColors.primaryBackgroundColor,
-                  child: Row(
+          child: (isLoading == true)
+              ? SizedBox(
+                  width: size.width,
+                  height: 120,
+                  child: const ColorLoader(),
+                )
+              : SizedBox(
+                  width: size.width,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Container(
-                            height: 46,
-                            margin: const EdgeInsets.only(
-                                left: 8, right: 8, bottom: 12),
-                            decoration: BoxDecoration(
-                              color: AppColors.secondaryButtonColor,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: AppColors.primaryBoxShadowColor,
-                                  offset: Offset(4.0, 4.0),
-                                  blurRadius: 4.0,
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Cancel",
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(8),
+                                width: 18,
+                                height: 16,
+                                child: AppAssets.deliveryBoyIcon,
+                              ),
+                              Text(
+                                "Pickup at Home",
                                 style: GoogleFonts.poppins(
-                                  color: AppColors.whiteColor,
+                                  color: Colors.black,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ),
+                        ],
                       ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            if (_userModel != null) {
-                              _ordersController.placeOrder(
-                                context: context,
-                                userModel: _userModel!,
-                                outletServiceMenu: widget.outletServiceMenu,
-                                vendorModel: widget.vendorModel,
-                                cartServices: widget.cartServices,
-                                itemCount: widget.itemCount,
-                                orderAmount: widget.totalAmount + 60,
-                              );
-                            }
-                          },
-                          child: Container(
-                            height: 46,
-                            margin: const EdgeInsets.only(
-                                left: 8, right: 8, bottom: 12),
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryButtonColor,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: AppColors.primaryBoxShadowColor,
-                                  offset: Offset(4.0, 4.0),
-                                  blurRadius: 4.0,
-                                ),
-                              ],
-                            ),
-                            child: Center(
+                      StreamBuilder<UserModel>(
+                        stream: _authController
+                            .getUserData(_authController.currentUser!.uid),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<UserModel> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const ColorLoader();
+                          } else if (snapshot.hasData) {
+                            UserModel? userModel = snapshot.data;
+                            _userModel = userModel;
+                            return Container(
+                              margin: const EdgeInsets.only(left: 36),
                               child: Text(
-                                "Proceed   >",
+                                userModel!.userManualAddress,
+                                textAlign: TextAlign.start,
                                 style: GoogleFonts.poppins(
-                                  color: AppColors.whiteColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return const Center(
+                              child: ColorLoader(),
+                            );
+                          }
+                        },
+                      ),
+                      const Divider(thickness: 1),
+                      Container(
+                        color: AppColors.primaryBackgroundColor,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Container(
+                                  height: 46,
+                                  margin: const EdgeInsets.only(
+                                      left: 8, right: 8, bottom: 12),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.secondaryButtonColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: AppColors.primaryBoxShadowColor,
+                                        offset: Offset(4.0, 4.0),
+                                        blurRadius: 4.0,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Cancel",
+                                      style: GoogleFonts.poppins(
+                                        color: AppColors.whiteColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (_userModel != null) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+
+                                    _ordersController.placeOrder(
+                                      context: context,
+                                      userModel: _userModel!,
+                                      outletServiceMenu:
+                                          widget.outletServiceMenu,
+                                      vendorModel: widget.vendorModel,
+                                      cartServices: widget.cartServices,
+                                      itemCount: widget.itemCount,
+                                      orderAmount: widget.totalAmount + 60,
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  height: 46,
+                                  margin: const EdgeInsets.only(
+                                      left: 8, right: 8, bottom: 12),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primaryButtonColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: AppColors.primaryBoxShadowColor,
+                                        offset: Offset(4.0, 4.0),
+                                        blurRadius: 4.0,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Proceed   >",
+                                      style: GoogleFonts.poppins(
+                                        color: AppColors.whiteColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
         ),
       ),
     );

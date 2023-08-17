@@ -29,7 +29,7 @@ class _AddItemState extends State<AddItem> {
           title: Text(
             "Pick your items",
             style: GoogleFonts.poppins(
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.w500,
             ),
           ),

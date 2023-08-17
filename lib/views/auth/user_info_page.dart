@@ -39,7 +39,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             key: _formKey,
             child: Container(
               width: screenWidth,
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 48),
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 48),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -52,7 +52,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       fontSize: 24,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 24),
                   Text(
                     'Enter the details below to create an account',
                     textAlign: TextAlign.center,
@@ -69,11 +69,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       controller: nameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please a your name';
+                          return 'Enter your name';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
+                        errorStyle: GoogleFonts.poppins(fontSize: 10),
                         labelText: 'Name *',
                         labelStyle: GoogleFonts.poppins(
                           color: AppColors.primaryTextColor,
@@ -100,11 +101,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         if (value == null ||
                             value.isEmpty ||
                             value.length != 10) {
-                          return 'Please enter a valid Mobile Number';
+                          return 'Enter a valid Mobile Number';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
+                        errorStyle: GoogleFonts.poppins(fontSize: 10),
                         labelText: 'Mobile Number *',
                         labelStyle: GoogleFonts.poppins(
                           color: AppColors.primaryTextColor,

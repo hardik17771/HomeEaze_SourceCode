@@ -5,8 +5,10 @@ class UserModel {
   final String userMobileNumber;
   final double userLatitude;
   final double userLongitude;
-  final String userAddress;
-  final String userPincode;
+  final String userManualAddress;
+  final String userManualPincode;
+  final String userLiveAddress;
+  final String userLivePincode;
   UserModel({
     required this.username,
     required this.userEmail,
@@ -14,8 +16,10 @@ class UserModel {
     required this.userMobileNumber,
     required this.userLatitude,
     required this.userLongitude,
-    required this.userAddress,
-    required this.userPincode,
+    required this.userManualAddress,
+    required this.userManualPincode,
+    required this.userLiveAddress,
+    required this.userLivePincode,
   });
 
   UserModel copyWith({
@@ -25,8 +29,10 @@ class UserModel {
     String? userMobileNumber,
     double? userLatitude,
     double? userLongitude,
-    String? userAddress,
-    String? userPincode,
+    String? userManualAddress,
+    String? userManualPincode,
+    String? userLiveAddress,
+    String? userLivePincode,
   }) {
     return UserModel(
       username: username ?? this.username,
@@ -35,8 +41,10 @@ class UserModel {
       userMobileNumber: userMobileNumber ?? this.userMobileNumber,
       userLatitude: userLatitude ?? this.userLatitude,
       userLongitude: userLongitude ?? this.userLongitude,
-      userAddress: userAddress ?? this.userAddress,
-      userPincode: userPincode ?? this.userPincode,
+      userManualAddress: userManualAddress ?? this.userManualAddress,
+      userManualPincode: userManualPincode ?? this.userManualPincode,
+      userLiveAddress: userLiveAddress ?? this.userLiveAddress,
+      userLivePincode: userLivePincode ?? this.userLivePincode,
     );
   }
 
@@ -48,8 +56,10 @@ class UserModel {
       'userMobileNumber': userMobileNumber,
       'userLatitude': userLatitude,
       'userLongitude': userLongitude,
-      'userAddress': userAddress,
-      'userPincode': userPincode,
+      'userManualAddress': userManualAddress,
+      'userManualPincode': userManualPincode,
+      'userLiveAddress': userLiveAddress,
+      'userLivePincode': userLivePincode,
     };
   }
 
@@ -61,8 +71,10 @@ class UserModel {
       userMobileNumber: map['userMobileNumber'] as String,
       userLatitude: map['userLatitude'] as double,
       userLongitude: map['userLongitude'] as double,
-      userAddress: map['userAddress'] as String,
-      userPincode: map['userPincode'] as String,
+      userManualAddress: map['userManualAddress'] as String,
+      userManualPincode: map['userManualPincode'] as String,
+      userLiveAddress: map['userLiveAddress'] as String,
+      userLivePincode: map['userLivePincode'] as String,
     );
   }
 }

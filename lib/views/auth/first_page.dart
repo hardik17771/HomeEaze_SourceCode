@@ -22,7 +22,7 @@ class _FirstPageState extends State<FirstPage> {
           Container(
             alignment: Alignment.center,
             margin: EdgeInsets.only(
-              top: screenHeight * .25,
+              top: screenHeight * .30,
             ),
             child: Text(
               "Droby",
@@ -35,12 +35,12 @@ class _FirstPageState extends State<FirstPage> {
           ),
           Container(
             margin: EdgeInsets.only(
-              top: screenHeight * .36,
+              top: screenHeight * .30,
+              left: 32,
+              right: 32,
             ),
-            width: screenWidth * .80,
-            height: screenHeight * .10,
-            child: FloatingActionButton(
-              onPressed: () {
+            child: GestureDetector(
+              onTap: () {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) {
@@ -50,17 +50,22 @@ class _FirstPageState extends State<FirstPage> {
                   (route) => false,
                 );
               },
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text(
-                "Get Started",
-                style: GoogleFonts.poppins(
-                  color: AppColors.tertiaryTextColor,
-                  fontWeight: FontWeight.w700,
-                  fontStyle: FontStyle.italic,
-                  fontSize: 17,
+              child: Container(
+                width: screenWidth,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.whiteColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  "Get Started",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    color: AppColors.tertiaryTextColor,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 17,
+                  ),
                 ),
               ),
             ),

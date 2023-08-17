@@ -15,13 +15,6 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   int _itemCount = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _itemCount = 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -43,7 +36,7 @@ class _CartPageState extends State<CartPage> {
           title: Text(
             "Anything else to add?",
             style: GoogleFonts.poppins(
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -117,13 +110,6 @@ class _CartPageState extends State<CartPage> {
                         decoration: BoxDecoration(
                           color: AppColors.whiteColor,
                           borderRadius: BorderRadius.circular(5),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: AppColors.primaryBoxShadowColor,
-                              offset: Offset(0.0, 1.0),
-                              blurRadius: 6.0,
-                            ),
-                          ],
                         ),
                         child: Center(
                           child: Text(
@@ -186,9 +172,10 @@ class _CartPageState extends State<CartPage> {
                         });
                       }
                     } else {
-                      showSnackBar(
+                      showAlertDialogBox(
                         context: context,
-                        text: "Select items to continue",
+                        title: "Cart is Empty",
+                        message: "Select some items to Procced",
                       );
                     }
                   },
