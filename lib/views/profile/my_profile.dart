@@ -45,206 +45,208 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 24),
-                  Container(
-                    color: AppColors.whiteColor,
-                    padding: const EdgeInsets.only(
-                        left: 16, right: 32, top: 16, bottom: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const CircleAvatar(
-                              radius: 25,
-                              backgroundColor:
-                                  AppColors.tertiaryBackgroundColor,
-                              child: Icon(
-                                Icons.person_2_outlined,
-                                color: AppColors.blackColor,
+                  GestureDetector(
+                    onTap: () {
+                      showCustomBottomSheet(
+                        context: context,
+                        title: "Profile Details",
+                        text: "Email :- ${userModel.userEmail}\n"
+                            "Mobile Number :- ${userModel.userMobileNumber}",
+                      );
+                    },
+                    child: Container(
+                      color: AppColors.whiteColor,
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 32, top: 16, bottom: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const CircleAvatar(
+                                radius: 25,
+                                backgroundColor:
+                                    AppColors.tertiaryBackgroundColor,
+                                child: Icon(
+                                  Icons.person_2_outlined,
+                                  color: AppColors.blackColor,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 16),
-                            Text(
-                              userModel.username,
-                              style: GoogleFonts.poppins(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                              const SizedBox(width: 16),
+                              Text(
+                                userModel.username,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            showCustomBottomSheet(
-                                context: context,
-                                title: "Profile Details",
-                                text: "Email :- ${userModel.userEmail}\n"
-                                    "Mobile Number :- ${userModel.userMobileNumber}");
-                          },
-                          child: const Icon(
+                            ],
+                          ),
+                          const Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 20,
                             color: AppColors.blackColor,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),
-                  Container(
-                    color: AppColors.whiteColor,
-                    padding: const EdgeInsets.only(
-                        left: 16, right: 32, top: 16, bottom: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Help Center",
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                  GestureDetector(
+                    onTap: () {
+                      showCustomBottomSheet(
+                        context: context,
+                        title: "Customer Care No.",
+                        text: "+91-9079083981",
+                      );
+                    },
+                    child: Container(
+                      color: AppColors.whiteColor,
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 32, top: 16, bottom: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Help Center",
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            showCustomBottomSheet(
-                              context: context,
-                              title: "Customer Care No.",
-                              text: "+919999999999",
-                            );
-                          },
-                          child: const Icon(
+                          const Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 20,
                             color: AppColors.blackColor,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Container(
-                    color: AppColors.whiteColor,
-                    padding: const EdgeInsets.only(
-                        left: 16, right: 32, top: 16, bottom: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Address Book",
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                  GestureDetector(
+                    onTap: () {
+                      showCustomBottomSheet(
+                        context: context,
+                        title: "My Address",
+                        text:
+                            "${userModel.userManualAddress},  ${userModel.userManualPincode}",
+                      );
+                    },
+                    child: Container(
+                      color: AppColors.whiteColor,
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 32, top: 16, bottom: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Address Book",
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            showCustomBottomSheet(
-                              context: context,
-                              title: "My Address",
-                              text:
-                                  "${userModel.userManualAddress},  ${userModel.userManualPincode}",
-                            );
-                          },
-                          child: const Icon(
+                          const Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 20,
                             color: AppColors.blackColor,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Container(
-                    color: AppColors.whiteColor,
-                    padding: const EdgeInsets.only(
-                        left: 16, right: 32, top: 16, bottom: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "My Orders",
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const HomePage(currIndex: 2);
-                                },
-                              ),
-                            );
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const HomePage(currIndex: 2);
                           },
-                          child: const Icon(
+                        ),
+                      );
+                    },
+                    child: Container(
+                      color: AppColors.whiteColor,
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 32, top: 16, bottom: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "My Orders",
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 20,
                             color: AppColors.blackColor,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Container(
-                    color: AppColors.whiteColor,
-                    padding: const EdgeInsets.only(
-                        left: 16, right: 32, top: 16, bottom: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Payments",
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      color: AppColors.whiteColor,
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 32, top: 16, bottom: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Payments",
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: const Icon(
+                          const Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 20,
                             color: AppColors.blackColor,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Container(
-                    color: AppColors.whiteColor,
-                    padding: const EdgeInsets.only(
-                        left: 16, right: 32, top: 16, bottom: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "About Droby",
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                  GestureDetector(
+                    onTap: () {
+                      showCustomBottomSheet(
+                        context: context,
+                        title: "Droby - A Laundry App",
+                        text:
+                            "We are committed to build a hassle-free online laundry experience so that you can focus on the things that matter.Choose your service, schedule your pickup, and we'll handle the rest.",
+                      );
+                    },
+                    child: Container(
+                      color: AppColors.whiteColor,
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 32, top: 16, bottom: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "About Droby",
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            showCustomBottomSheet(
-                              context: context,
-                              title: "Droby - Laundry App",
-                              text: "",
-                            );
-                          },
-                          child: const Icon(
+                          const Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 20,
                             color: AppColors.blackColor,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),

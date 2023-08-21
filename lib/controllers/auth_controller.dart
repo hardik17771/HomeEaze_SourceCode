@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
+import 'package:homeeaze_sourcecode/views/auth/first_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/login_page.dart';
-import 'package:homeeaze_sourcecode/views/auth/user_info_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 
 class AuthController {
@@ -43,7 +43,37 @@ class AuthController {
     }
   }
 
-  Future<void> signUpUser({
+  Future<void> resetUserPassword({
+    required BuildContext context,
+    required String email,
+  }) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+
+      // ignore: use_build_context_synchronously
+      showSnackBar(
+        context: context,
+        text: "Password Reset Link sent on email",
+      );
+
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: ((context) {
+            return const LoginPage();
+          }),
+        ),
+      );
+    } on FirebaseException catch (e) {
+      showAlertDialogBox(
+        context: context,
+        title: "Authentication Error",
+        message: e.message!,
+      );
+    }
+  }
+
+  Future<User?> signUpUser({
     required String email,
     required String password,
     required BuildContext context,
@@ -56,13 +86,7 @@ class AuthController {
       );
 
       User user = userCredential.user!;
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) {
-          return UserInfoPage(user: user);
-        }),
-        (route) => false,
-      );
+      return user;
     } on FirebaseException catch (e) {
       showAlertDialogBox(
         context: context,
@@ -70,6 +94,7 @@ class AuthController {
         message: e.message!,
       );
     }
+    return null;
   }
 
   Future<void> saveUserDataToFirestore({
@@ -131,7 +156,7 @@ class AuthController {
       return await _firebaseAuth.signOut().then((value) {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) {
-            return const LoginPage();
+            return const FirstPage();
           }),
           (route) => false,
         );

@@ -87,6 +87,7 @@ class OrdersController {
     return _firestore
         .collection("orders")
         .where('userUid', isEqualTo: userUid)
+        .orderBy('orderReceivingTime', descending: true)
         .snapshots()
         .map((event) =>
             event.docs.map((e) => OrderModel.fromMap(e.data())).toList());

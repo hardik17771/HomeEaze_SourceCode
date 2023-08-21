@@ -38,14 +38,17 @@ dependencies:
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
   cloud_firestore: ^4.5.1
-  geolocator: ^9.0.2
+  firebase_dynamic_links: ^5.3.5
+  geolocator: ^10.0.0
   geocoding: ^2.1.0
   flutter_svg: ^2.0.5
   flutter_typeahead: ^4.6.1
   uuid: ^3.0.7
-  another_flushbar: ^1.12.30
   badges: ^3.1.1
   intl: ^0.18.1
+  another_flushbar: ^1.12.30
+  connectivity_plus: ^4.0.2
+  
 
 dev_dependencies:
   flutter_test:
