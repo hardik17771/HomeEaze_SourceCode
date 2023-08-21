@@ -8,7 +8,6 @@ import 'package:homeeaze_sourcecode/views/cart/cart_page.dart';
 import 'package:homeeaze_sourcecode/views/cart/service_page.dart';
 import 'package:homeeaze_sourcecode/views/orders/my_orders_page.dart';
 import 'package:homeeaze_sourcecode/views/profile/my_profile.dart';
-import 'package:homeeaze_sourcecode/views/widgets/no_orders_widget.dart';
 
 class HomePage extends StatefulWidget {
   final int currIndex;

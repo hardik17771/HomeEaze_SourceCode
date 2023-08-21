@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/core/animations.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
+import 'package:homeeaze_sourcecode/views/auth/email_verifly_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/login_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
@@ -14,28 +17,23 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  bool? _isLoading;
   final _formKey = GlobalKey<FormState>();
   final AuthController authController = AuthController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
 
   @override
-  void dispose() {
-    super.dispose();
-    emailController.dispose();
-    passController.dispose();
+  void initState() {
+    _isLoading = false;
+    super.initState();
   }
 
-  void signUpUser({
-    required BuildContext context,
-    required String email,
-    required String password,
-  }) {
-    authController.signUpUser(
-      context: context,
-      email: email,
-      password: password,
-    );
+  @override
+  void dispose() {
+    emailController.dispose();
+    passController.dispose();
+    super.dispose();
   }
 
   @override
@@ -112,40 +110,64 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   const SizedBox(height: 36),
-                  CustomButton(
-                    text: "Sign Up",
-                    bgColor: AppColors.primaryButtonColor,
-                    textColor: AppColors.whiteColor,
-                    onPress: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Navigate to HomePage & Save Data to Firebase
-                        signUpUser(
-                          context: context,
-                          email: emailController.text.trim(),
-                          password: passController.text.trim(),
-                        );
-                      }
-                    },
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const LoginPage();
-                          },
+                  (_isLoading == true)
+                      ? const ColorLoader()
+                      : Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CustomButton(
+                              text: "Sign Up",
+                              bgColor: AppColors.primaryButtonColor,
+                              textColor: AppColors.whiteColor,
+                              onPress: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+
+                                  User? user = await authController.signUpUser(
+                                    context: context,
+                                    email: emailController.text.trim(),
+                                    password: passController.text.trim(),
+                                  );
+
+                                  if (user != null) {
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(builder: (context) {
+                                        return const EmailVerificationPage();
+                                      }),
+                                      (route) => false,
+                                    );
+                                  }
+
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                }
+                              },
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const LoginPage();
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Login Instead",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.blackColor,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                    child: Text(
-                      "Login Instead",
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.blackColor,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
