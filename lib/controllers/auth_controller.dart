@@ -35,7 +35,7 @@ class AuthController {
         (route) => false,
       );
     } on FirebaseException catch (e) {
-      showAlertDialogBox(
+      showCustomDialog(
         context: context,
         title: "Authentication Error",
         message: e.message!,
@@ -50,11 +50,7 @@ class AuthController {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
 
-      // ignore: use_build_context_synchronously
-      showSnackBar(
-        context: context,
-        text: "Password Reset Link sent on email",
-      );
+      showCustomToast(text: "Password Reset Link sent on entered email");
 
       // ignore: use_build_context_synchronously
       Navigator.of(context).push(
@@ -65,7 +61,7 @@ class AuthController {
         ),
       );
     } on FirebaseException catch (e) {
-      showAlertDialogBox(
+      showCustomDialog(
         context: context,
         title: "Authentication Error",
         message: e.message!,
@@ -88,7 +84,7 @@ class AuthController {
       User user = userCredential.user!;
       return user;
     } on FirebaseException catch (e) {
-      showAlertDialogBox(
+      showCustomDialog(
         context: context,
         title: "Authentication Error",
         message: e.message!,
@@ -133,7 +129,7 @@ class AuthController {
         (route) => false,
       );
     } on FirebaseException catch (e) {
-      showAlertDialogBox(
+      showCustomDialog(
         context: context,
         title: "Authentication Error",
         message: e.message!,
@@ -162,7 +158,7 @@ class AuthController {
         );
       });
     } on FirebaseException catch (e) {
-      showAlertDialogBox(
+      showCustomDialog(
         context: context,
         title: "Authentication Error",
         message: e.message!,

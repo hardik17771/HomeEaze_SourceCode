@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
-import 'package:homeeaze_sourcecode/core/animations.dart';
+import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
+import 'package:homeeaze_sourcecode/views/profile/address_book_page.dart';
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({super.key});
@@ -126,11 +127,15 @@ class _MyProfilePageState extends State<MyProfilePage> {
                   const SizedBox(height: 8),
                   GestureDetector(
                     onTap: () {
-                      showCustomBottomSheet(
-                        context: context,
-                        title: "My Address",
-                        text:
-                            "${userModel.userManualAddress},  ${userModel.userManualPincode}",
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return AddressBookPage(
+                              locality: userModel.userManualAddress,
+                              pincode: userModel.userManualPincode,
+                            );
+                          },
+                        ),
                       );
                     },
                     child: Container(

@@ -24,8 +24,8 @@ class NoVendorWidget extends StatelessWidget {
               textAlign: TextAlign.start,
               style: GoogleFonts.poppins(
                 color: AppColors.secondaryTextColor,
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 12),
