@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/core/animations.dart';
+import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/views/auth/user_info_page.dart';
@@ -40,7 +40,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     try {
       FirebaseAuth.instance.currentUser!.sendEmailVerification();
     } on FirebaseException catch (e) {
-      showAlertDialogBox(
+      showCustomDialog(
         context: context,
         title: "Authentication Error",
         message: e.message!,

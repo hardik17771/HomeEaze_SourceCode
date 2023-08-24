@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/orders_controller.dart';
-import 'package:homeeaze_sourcecode/core/animations.dart';
+import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
@@ -53,7 +53,7 @@ class _PaymentPageState extends State<PaymentPage> {
           title: Text(
             "PAYMENT",
             style: GoogleFonts.poppins(
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -90,7 +90,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                     const SizedBox(width: 16),
                     Text(
-                      "Cash on Delivery",
+                      "Pay on Delivery",
                       textAlign: TextAlign.start,
                       style: GoogleFonts.poppins(
                         fontSize: 16,

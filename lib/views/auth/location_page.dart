@@ -4,7 +4,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
-import 'package:homeeaze_sourcecode/core/animations.dart';
+import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
@@ -46,11 +46,12 @@ class _LocationPageState extends State<LocationPage> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // ignore: use_build_context_synchronously
-      showAlertDialogBox(
+      showCustomDialog(
         context: context,
         title: "Location Error",
         message: "Location services are disabled. Please enable the services",
       );
+      _isLocationLoading = false;
       return false;
     }
 
@@ -59,23 +60,25 @@ class _LocationPageState extends State<LocationPage> {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         // ignore: use_build_context_synchronously
-        showAlertDialogBox(
+        showCustomDialog(
           context: context,
           title: "Location Error",
           message: "Location permissions are denied",
         );
+        _isLocationLoading = false;
         return false;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       // ignore: use_build_context_synchronously
-      showAlertDialogBox(
+      showCustomDialog(
         context: context,
         title: "Location Error",
         message:
             "Location permissions are permanently denied, we cannot request permissions.",
       );
+      _isLocationLoading = false;
       return false;
     }
     return true;
@@ -93,7 +96,8 @@ class _LocationPageState extends State<LocationPage> {
       });
     }).catchError((e) {
       debugPrint(e);
-      showAlertDialogBox(
+      _isLocationLoading = false;
+      showCustomDialog(
         context: context,
         title: "Location Error",
         message: e.toString(),
@@ -115,7 +119,8 @@ class _LocationPageState extends State<LocationPage> {
       });
     }).catchError((e) {
       debugPrint(e);
-      showAlertDialogBox(
+      _isLocationLoading = false;
+      showCustomDialog(
         context: context,
         title: "Location Error",
         message: e.toString(),
@@ -206,7 +211,7 @@ class _LocationPageState extends State<LocationPage> {
                                 },
                               ),
                             ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 16),
                       Text(
                         'Enter address details',
                         textAlign: TextAlign.start,
@@ -349,7 +354,7 @@ class _LocationPageState extends State<LocationPage> {
                   child: const ColorLoader(),
                 )
               : GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     if (_formKey.currentState!.validate() &&
                         _isLocationLoading == false &&
                         _currentPosition != null &&
@@ -359,7 +364,7 @@ class _LocationPageState extends State<LocationPage> {
                         _isDataLoading = true;
                       });
 
-                      authController.saveUserDataToFirestore(
+                      await authController.saveUserDataToFirestore(
                         user: widget.user,
                         username: widget.username,
                         mobileNumber: widget.mobileNumber,
@@ -372,8 +377,15 @@ class _LocationPageState extends State<LocationPage> {
                         userLatitude: _currentPosition!.latitude,
                         context: context,
                       );
-                    } else {
-                      showAlertDialogBox(
+
+                      setState(() {
+                        _isDataLoading = false;
+                      });
+                    } else if (_isLocationLoading == true ||
+                        _currentPosition == null ||
+                        _liveAddress == "" ||
+                        _livePincode == "") {
+                      showCustomDialog(
                         context: context,
                         title: "Use your current Location",
                         message:

@@ -71,7 +71,7 @@ class _CartPageState extends State<CartPage> {
                         }
                       },
                       child: Container(
-                        height: 91,
+                        height: 90,
                         width: screenWidth,
                         decoration: BoxDecoration(
                           color: AppColors.primaryButtonColor,
@@ -172,7 +172,7 @@ class _CartPageState extends State<CartPage> {
                         });
                       }
                     } else {
-                      showAlertDialogBox(
+                      showCustomDialog(
                         context: context,
                         title: "Cart is Empty",
                         message: "Select some items to Procced",

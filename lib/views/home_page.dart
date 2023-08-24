@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/cart_page.dart';
@@ -37,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var _itemCount = 0;
     setState(() {
+      _itemCount = 0;
       for (int i = 0; i < services.length; i++) {
         _itemCount += services[i].selectedItems.length;
       }
@@ -48,8 +48,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: AppColors.primaryBackgroundColor,
         selectedItemColor: Colors.grey.shade900,
         unselectedItemColor: Colors.grey.shade600,
-        unselectedFontSize: 1,
-        selectedFontSize: 1,
+        unselectedFontSize: 0,
+        selectedFontSize: 0,
         onTap: (index) {
           setState(() {
             _pageIndex = index;
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
         items: [
           const BottomNavigationBarItem(
             icon: Icon(Icons.home, size: 28),
-            label: "",
+            label: "Home",
           ),
           BottomNavigationBarItem(
             icon: _itemCount == 0
@@ -80,15 +80,15 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: const Icon(Icons.shopping_cart, size: 24),
                   ),
-            label: "",
+            label: "Cart",
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.update, size: 28),
-            label: "",
+            label: "Orders",
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.person_2_outlined, size: 28),
-            label: "",
+            label: "Profile",
           ),
         ],
       ),

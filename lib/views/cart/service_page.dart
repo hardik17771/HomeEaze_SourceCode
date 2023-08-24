@@ -54,13 +54,10 @@ class _ServicePageState extends State<ServicePage> {
                     );
 
                     if (updatedService != null) {
-                      // ignore: use_build_context_synchronously
-                      showAlertDialogBox(
-                        context: context,
-                        title: "Cart Updated",
-                        message:
-                            "Cart Items have been updated click on cart icon to Proceed",
-                      );
+                      showCustomToast(
+                          text:
+                              "Cart Items have been updated click on cart icon to Proceed");
+
                       setState(() {
                         service.selectedItems = updatedService.selectedItems;
                       });

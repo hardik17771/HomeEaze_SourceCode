@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
-import 'package:homeeaze_sourcecode/views/widgets/datetime_card.dart';
 
 class LaundaryCard extends StatefulWidget {
   String pickupSlot;
@@ -26,6 +25,13 @@ class LaundaryCard extends StatefulWidget {
 }
 
 class _LaundaryCardState extends State<LaundaryCard> {
+  int selectedPickUpIndex = -1;
+  List<String> pickUpOptions = [
+    "In 12 hours",
+    "In 24 hours",
+    "In 48 hours",
+  ];
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -110,28 +116,88 @@ class _LaundaryCardState extends State<LaundaryCard> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
-                child: const DateTimeCard(text: "In 60 mins."),
                 onTap: () {
                   setState(() {
-                    widget.pickupSlot = "In 60 mins.";
+                    widget.pickupSlot = pickUpOptions[0];
+                    selectedPickUpIndex = 0;
                   });
                 },
+                child: Container(
+                  height: 25,
+                  width: 85,
+                  decoration: BoxDecoration(
+                    color: (selectedPickUpIndex != 0)
+                        ? AppColors.primaryButtonColor
+                        : AppColors.secondaryButtonColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      pickUpOptions[0],
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
               ),
               GestureDetector(
-                child: const DateTimeCard(text: "In 2 hrs."),
                 onTap: () {
                   setState(() {
-                    widget.pickupSlot = "In 2 hrs.";
+                    widget.pickupSlot = pickUpOptions[1];
+                    selectedPickUpIndex = 1;
                   });
                 },
+                child: Container(
+                  height: 25,
+                  width: 85,
+                  decoration: BoxDecoration(
+                    color: (selectedPickUpIndex != 1)
+                        ? AppColors.primaryButtonColor
+                        : AppColors.secondaryButtonColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      pickUpOptions[1],
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
               ),
               GestureDetector(
-                child: const DateTimeCard(text: "In 4 hrs."),
                 onTap: () {
                   setState(() {
-                    widget.pickupSlot = "In 4 hrs.";
+                    widget.pickupSlot = pickUpOptions[2];
+                    selectedPickUpIndex = 2;
                   });
                 },
+                child: Container(
+                  height: 25,
+                  width: 85,
+                  decoration: BoxDecoration(
+                    color: (selectedPickUpIndex != 2)
+                        ? AppColors.primaryButtonColor
+                        : AppColors.secondaryButtonColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      pickUpOptions[2],
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

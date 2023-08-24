@@ -34,7 +34,7 @@ class DataController {
             vendors.add(currentVendor);
           }
         } catch (e) {
-          showAlertDialogBox(
+          showCustomDialog(
             context: context,
             title: "Location Error",
             message: e.toString(),

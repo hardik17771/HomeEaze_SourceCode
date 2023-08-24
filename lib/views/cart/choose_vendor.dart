@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
-import 'package:homeeaze_sourcecode/core/animations.dart';
+import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
@@ -46,7 +46,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
           title: Text(
             "Choose your perfect match!",
             style: GoogleFonts.poppins(
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -95,6 +95,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                                         child: ColorLoader(),
                                       );
                                     } else if (snapshot.hasData) {
+                                      debugPrint(_pickupSlot);
                                       debugPrint("hasOutletServiceMenu");
                                       List<Map<String, dynamic>>
                                           outletServiceMenu = snapshot.data;
@@ -257,7 +258,7 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                                 ),
                               );
                             } else {
-                              showAlertDialogBox(
+                              showCustomDialog(
                                 context: context,
                                 title: "Choose a laundry",
                                 message:

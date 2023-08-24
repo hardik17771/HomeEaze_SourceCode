@@ -1,12 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
-
-enum DotType {
-  square,
-  circle,
-  diamond,
-  icon,
-}
+import 'package:flutter/material.dart';
+import 'package:homeeaze_sourcecode/core/enums.dart';
 
 class Dot extends StatelessWidget {
   final double? radius;

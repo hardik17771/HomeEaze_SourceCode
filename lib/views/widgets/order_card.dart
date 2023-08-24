@@ -27,7 +27,7 @@ class _OrderCardState extends State<OrderCard> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      margin: const EdgeInsets.only(left: 4, right: 4, top: 12),
+      margin: const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 4),
       padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,

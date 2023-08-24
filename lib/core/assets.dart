@@ -15,6 +15,8 @@ class AppAssets {
       SvgPicture.asset("assets/icons/convenience_fee_icon.svg");
   static final locationPinPointIcon =
       SvgPicture.asset("assets/icons/point_pin_icon.svg");
+  static final addressBookHomeIcon =
+      SvgPicture.asset("assets/icons/home_duotone.svg");
 
   static final noVendorImage = Image.asset("assets/checkOut.png");
   static final noOrdersImage = Image.asset("assets/checkOut.png");

@@ -29,7 +29,7 @@ class OrdersController {
       orderReceivingTime: DateTime.now(),
       orderPickUpTime: DateTime.now(),
       orderDeliveryTime: DateTime.now(),
-      paymentMode: "Cash On Delivery",
+      paymentMode: "Pay On Delivery",
       orderStatus: "Waiting",
       orderAmount: orderAmount,
       itemCount: itemCount,
@@ -38,7 +38,7 @@ class OrdersController {
     try {
       await _firestore.collection("orders").doc(orderId).set(order.toMap());
 
-      // [cartServices, outletServiceMenu] to db in "orderServices"
+      // orderServices -> orderId -> services -> serviceName-> Map<ItemName, [ItemQuantity, ItemPrice]>
       for (int i = 0; i < cartServices.length; i++) {
         Map<String, dynamic> itemQuantityPrice = {};
         for (int j = 0; j < cartServices[i].selectedItems.length; j++) {
@@ -75,7 +75,7 @@ class OrdersController {
         (route) => false,
       );
     } on FirebaseException catch (e) {
-      showAlertDialogBox(
+      showCustomDialog(
         context: context,
         title: "Error placing order",
         message: e.message!,

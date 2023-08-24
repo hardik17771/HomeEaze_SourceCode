@@ -224,7 +224,7 @@ class _MyBasketPageState extends State<MyBasketPage> {
                           ),
                         );
                       } else {
-                        showAlertDialogBox(
+                        showCustomDialog(
                           context: context,
                           title: "Cart is Empty",
                           message: "Select some items to Procced",

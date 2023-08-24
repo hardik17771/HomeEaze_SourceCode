@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
-import 'package:homeeaze_sourcecode/core/animations.dart';
+import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
@@ -56,7 +56,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
           title: Text(
             widget.vendorModel.outletName,
             style: GoogleFonts.poppins(
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -570,7 +570,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 ),
                               );
                             } else {
-                              showAlertDialogBox(
+                              showCustomDialog(
                                 context: context,
                                 title: "Cart is Empty",
                                 message:
