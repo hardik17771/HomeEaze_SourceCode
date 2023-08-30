@@ -221,120 +221,112 @@ class _LocationPageState extends State<LocationPage> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Container(
-                        color: AppColors.whiteColor,
-                        child: TextFormField(
-                          controller: manualHouseNoController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Enter field value';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            errorStyle: GoogleFonts.poppins(fontSize: 10),
-                            labelText: 'Flat / House no / Floor / Building *',
-                            labelStyle: GoogleFonts.poppins(
-                              color: AppColors.primaryTextColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.primaryBorderColor,
-                                width: 10,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                            ),
-                            contentPadding: const EdgeInsets.all(16.0),
+                      TextFormField(
+                        controller: manualHouseNoController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter field value';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: AppColors.whiteColor,
+                          errorStyle: GoogleFonts.poppins(fontSize: 10),
+                          labelText: 'Flat / House no / Floor / Building *',
+                          labelStyle: GoogleFonts.poppins(
+                            color: AppColors.primaryTextColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
                           ),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppColors.primaryBorderColor,
+                              width: 10,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          contentPadding: const EdgeInsets.all(16.0),
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Container(
-                        color: AppColors.whiteColor,
-                        child: TextFormField(
-                          controller: manualLocalityController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Enter your locality';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            errorStyle: GoogleFonts.poppins(fontSize: 10),
-                            labelText: 'Enter your Locality *',
-                            labelStyle: GoogleFonts.poppins(
-                              color: AppColors.primaryTextColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.primaryBorderColor,
-                                width: 10,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                            ),
-                            contentPadding: const EdgeInsets.all(16.0),
+                      TextFormField(
+                        controller: manualLocalityController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter your locality';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: AppColors.whiteColor,
+                          errorStyle: GoogleFonts.poppins(fontSize: 10),
+                          labelText: 'Enter your Locality *',
+                          labelStyle: GoogleFonts.poppins(
+                            color: AppColors.primaryTextColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
                           ),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppColors.primaryBorderColor,
+                              width: 10,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          contentPadding: const EdgeInsets.all(16.0),
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Container(
-                        color: AppColors.whiteColor,
-                        child: TextFormField(
-                          controller: nearByAddressController,
-                          decoration: InputDecoration(
-                            labelText: 'NearBy Address (optional)',
-                            labelStyle: GoogleFonts.poppins(
-                              color: AppColors.primaryTextColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.primaryBorderColor,
-                                width: 10,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                            ),
-                            contentPadding: const EdgeInsets.all(16.0),
+                      TextFormField(
+                        controller: nearByAddressController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: AppColors.whiteColor,
+                          labelText: 'NearBy Address (optional)',
+                          labelStyle: GoogleFonts.poppins(
+                            color: AppColors.primaryTextColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
                           ),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppColors.primaryBorderColor,
+                              width: 10,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          contentPadding: const EdgeInsets.all(16.0),
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Container(
-                        color: AppColors.whiteColor,
-                        child: TextFormField(
-                          controller: manualPincodeController,
-                          validator: (value) {
-                            if (value == null || value.length != 6) {
-                              return 'Enter your pincode';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            errorStyle: GoogleFonts.poppins(fontSize: 10),
-                            labelText: 'Enter your Pincode *',
-                            labelStyle: GoogleFonts.poppins(
-                              color: AppColors.primaryTextColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.primaryBorderColor,
-                                width: 10,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                            ),
-                            contentPadding: const EdgeInsets.all(16.0),
+                      TextFormField(
+                        controller: manualPincodeController,
+                        validator: (value) {
+                          if (value == null || value.length != 6) {
+                            return 'Enter your pincode';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: AppColors.whiteColor,
+                          errorStyle: GoogleFonts.poppins(fontSize: 10),
+                          labelText: 'Enter your Pincode *',
+                          labelStyle: GoogleFonts.poppins(
+                            color: AppColors.primaryTextColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
                           ),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppColors.primaryBorderColor,
+                              width: 10,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          contentPadding: const EdgeInsets.all(16.0),
                         ),
                       ),
                       const SizedBox(height: 8),

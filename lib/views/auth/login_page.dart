@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? _isLoading;
+  bool? _isPasswordHidden;
   final _formKey = GlobalKey<FormState>();
   AuthController authController = AuthController();
   final TextEditingController emailController = TextEditingController();
@@ -25,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     _isLoading = false;
+    _isPasswordHidden = false;
     super.initState();
   }
 
@@ -70,52 +72,62 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 64),
-                  Container(
-                    color: AppColors.whiteColor,
-                    child: TextFormField(
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) =>
-                          value!.isValidEmail() ? null : "Enter a valid email",
-                      decoration: InputDecoration(
-                        errorStyle: GoogleFonts.poppins(fontSize: 10),
-                        labelStyle: GoogleFonts.poppins(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.primaryTextColor,
-                        ),
-                        labelText: "Enter your Email *",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        contentPadding: const EdgeInsets.all(20.0),
+                  TextFormField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) =>
+                        value!.isValidEmail() ? null : "Enter a valid email",
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.whiteColor,
+                      errorStyle: GoogleFonts.poppins(fontSize: 10),
+                      labelStyle: GoogleFonts.poppins(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.primaryTextColor,
                       ),
+                      labelText: "Enter your Email *",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      contentPadding: const EdgeInsets.all(20.0),
                     ),
                   ),
                   const SizedBox(height: 12),
-                  Container(
-                    color: AppColors.whiteColor,
-                    child: TextFormField(
-                      controller: passController,
-                      obscureText: true,
-                      validator: (value) {
-                        if (value == null || value.length < 6) {
-                          return 'Password cannot be less than 6 characters';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        errorStyle: GoogleFonts.poppins(fontSize: 10),
-                        labelStyle: GoogleFonts.poppins(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.primaryTextColor),
-                        labelText: 'Enter Password *',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        contentPadding: const EdgeInsets.all(20.0),
+                  TextFormField(
+                    controller: passController,
+                    obscureText: _isPasswordHidden!,
+                    validator: (value) {
+                      if (value == null || value.length < 6) {
+                        return 'Password cannot be less than 6 characters';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.whiteColor,
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          setState(() {
+                            _isPasswordHidden = !_isPasswordHidden!;
+                          });
+                        },
+                        child: _isPasswordHidden!
+                            ? const Icon(Icons.visibility_rounded,
+                                color: AppColors.primaryTextColor)
+                            : const Icon(Icons.visibility_off_rounded,
+                                color: AppColors.primaryTextColor),
                       ),
+                      errorStyle: GoogleFonts.poppins(fontSize: 10),
+                      labelStyle: GoogleFonts.poppins(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.primaryTextColor),
+                      labelText: 'Enter your Password *',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      contentPadding: const EdgeInsets.all(20.0),
                     ),
                   ),
                   Container(

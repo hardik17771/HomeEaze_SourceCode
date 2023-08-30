@@ -19,6 +19,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
   final AuthController _authController = AuthController();
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.primaryBackgroundColor,
@@ -57,6 +59,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     },
                     child: Container(
                       color: AppColors.whiteColor,
+                      width: size.width,
                       padding: const EdgeInsets.only(
                           left: 16, right: 32, top: 16, bottom: 16),
                       child: Row(
@@ -103,6 +106,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     },
                     child: Container(
                       color: AppColors.whiteColor,
+                      width: size.width,
                       padding: const EdgeInsets.only(
                           left: 16, right: 32, top: 16, bottom: 16),
                       child: Row(
@@ -140,6 +144,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     },
                     child: Container(
                       color: AppColors.whiteColor,
+                      width: size.width,
                       padding: const EdgeInsets.only(
                           left: 16, right: 32, top: 16, bottom: 16),
                       child: Row(
@@ -174,6 +179,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     },
                     child: Container(
                       color: AppColors.whiteColor,
+                      width: size.width,
                       padding: const EdgeInsets.only(
                           left: 16, right: 32, top: 16, bottom: 16),
                       child: Row(
@@ -200,6 +206,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     onTap: () {},
                     child: Container(
                       color: AppColors.whiteColor,
+                      width: size.width,
                       padding: const EdgeInsets.only(
                           left: 16, right: 32, top: 16, bottom: 16),
                       child: Row(
@@ -233,6 +240,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     },
                     child: Container(
                       color: AppColors.whiteColor,
+                      width: size.width,
                       padding: const EdgeInsets.only(
                           left: 16, right: 32, top: 16, bottom: 16),
                       child: Row(
@@ -260,7 +268,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                       await _authController.signOut(context);
                     },
                     child: Container(
-                      width: MediaQuery.of(context).size.width,
+                      width: size.width,
                       padding: const EdgeInsets.all(16),
                       decoration: const BoxDecoration(
                         color: AppColors.whiteColor,

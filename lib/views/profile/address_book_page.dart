@@ -4,9 +4,9 @@ import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 
 class AddressBookPage extends StatelessWidget {
-  String locality;
-  String pincode;
-  AddressBookPage({
+  final String locality;
+  final String pincode;
+  const AddressBookPage({
     Key? key,
     required this.locality,
     required this.pincode,
@@ -85,6 +85,7 @@ class AddressBookPage extends StatelessWidget {
               ),
             ),
             Container(
+              width: size.width,
               color: AppColors.whiteColor,
               padding: const EdgeInsets.only(left: 16, bottom: 8),
               child: Row(

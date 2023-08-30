@@ -7,7 +7,7 @@ import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/order_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/no_orders_widget.dart';
-import 'package:homeeaze_sourcecode/views/widgets/order_card.dart';
+import 'package:homeeaze_sourcecode/views/orders/widgets/order_card.dart';
 
 class MyOrdersPage extends StatefulWidget {
   const MyOrdersPage({super.key});
