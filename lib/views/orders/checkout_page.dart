@@ -11,6 +11,7 @@ import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 import 'package:homeeaze_sourcecode/views/orders/payment_page.dart';
+import 'package:homeeaze_sourcecode/views/widgets/bottom_bar_button.dart';
 
 class CheckOutPage extends StatefulWidget {
   final VendorModel vendorModel;
@@ -28,14 +29,17 @@ class CheckOutPage extends StatefulWidget {
 }
 
 class _CheckOutPageState extends State<CheckOutPage> {
+  double _subTotalAmount = 0;
+  int _itemCount = 0;
   final AuthController _authController = AuthController();
   final DataController _dataController = DataController();
 
   @override
   Widget build(BuildContext context) {
-    double _subTotalAmount = 0;
-    int _itemCount = 0;
     setState(() {
+      _subTotalAmount = 0;
+      _itemCount = 0;
+
       _subTotalAmount = _dataController.getTotalOrderAmount(
         cartServices: widget.cartServices,
         outletServiceMenu: widget.outletServiceMenu,
@@ -68,6 +72,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
+                width: size.width,
                 margin: const EdgeInsets.only(top: 20, bottom: 20),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -148,9 +153,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                               right: 16,
                                               top: 16,
                                               bottom: 16),
-                                          width: 22,
-                                          height: 22,
-                                          child: AppAssets.tShirtIcon,
+                                          width: 24,
+                                          height: 24,
+                                          child: currentService.image,
                                         ),
                                         Column(
                                           crossAxisAlignment:
@@ -191,10 +196,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                GestureDetector(
+                                                InkWell(
                                                   child: const Icon(
                                                       Icons.remove,
-                                                      size: 15,
+                                                      size: 16,
                                                       color: AppColors
                                                           .primaryButtonColor),
                                                   onTap: () {
@@ -223,16 +228,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                     style: GoogleFonts.poppins(
                                                       color: AppColors
                                                           .primaryButtonColor,
-                                                      fontSize: 15,
+                                                      fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                     ),
                                                   ),
                                                 ),
-                                                GestureDetector(
+                                                InkWell(
                                                   child: const Icon(
                                                     Icons.add,
-                                                    size: 15,
+                                                    size: 16,
                                                     color: AppColors
                                                         .primaryButtonColor,
                                                   ),
@@ -275,48 +280,51 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 16, bottom: 16),
-                padding: const EdgeInsets.only(
-                    top: 8, left: 16, right: 40, bottom: 8),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.add_circle_outlined,
-                          color: AppColors.primaryContainerColor,
-                          size: 24,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          "Add More Items",
-                          style: GoogleFonts.poppins(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) {
+                      return const HomePage(currIndex: 0);
+                    }),
+                    (route) => false,
+                  );
+                },
+                child: Container(
+                  width: size.width,
+                  margin: const EdgeInsets.only(top: 16, bottom: 16),
+                  padding: const EdgeInsets.only(
+                      top: 16, left: 16, right: 40, bottom: 16),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.add_circle_outlined,
+                            color: AppColors.primaryContainerColor,
+                            size: 24,
                           ),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.arrow_forward_ios),
-                      iconSize: 20,
-                      color: AppColors.blackColor,
-                      onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) {
-                            return const HomePage(currIndex: 0);
-                          }),
-                          (route) => false,
-                        );
-                      },
-                    )
-                  ],
+                          const SizedBox(width: 10),
+                          Text(
+                            "Add More Items",
+                            style: GoogleFonts.poppins(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 20,
+                        color: AppColors.blackColor,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Container(
@@ -513,101 +521,56 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   },
                 ),
                 const Divider(thickness: 1),
-                Container(
-                  color: AppColors.primaryBackgroundColor,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Container(
-                            height: 46,
-                            margin: const EdgeInsets.only(
-                                left: 8, right: 8, bottom: 12),
-                            decoration: BoxDecoration(
-                              color: AppColors.secondaryButtonColor,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: AppColors.primaryBoxShadowColor,
-                                  offset: Offset(4.0, 4.0),
-                                  blurRadius: 4.0,
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Cancel",
-                                style: GoogleFonts.poppins(
-                                  color: AppColors.whiteColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const BottomBarButton(
+                          text: "Cancel",
+                          textColor: AppColors.whiteColor,
+                          bgColor: AppColors.secondaryButtonColor,
+                          borderRadius: 10,
                         ),
                       ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            // Payment Page
-                            if (_itemCount != 0) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return PaymentPage(
-                                      cartServices: widget.cartServices,
-                                      outletServiceMenu:
-                                          widget.outletServiceMenu,
-                                      vendorModel: widget.vendorModel,
-                                      totalAmount: _subTotalAmount,
-                                      itemCount: _itemCount,
-                                    );
-                                  },
-                                ),
-                              );
-                            } else {
-                              showCustomDialog(
-                                context: context,
-                                title: "Cart is Empty",
-                                message:
-                                    "Choose some item from cart to continue",
-                              );
-                            }
-                          },
-                          child: Container(
-                            height: 46,
-                            margin: const EdgeInsets.only(
-                                left: 8, right: 8, bottom: 12),
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryButtonColor,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: AppColors.primaryBoxShadowColor,
-                                  offset: Offset(4.0, 4.0),
-                                  blurRadius: 4.0,
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Proceed   >",
-                                style: GoogleFonts.poppins(
-                                  color: AppColors.whiteColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          // Payment Page
+                          if (_itemCount != 0) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return PaymentPage(
+                                    cartServices: widget.cartServices,
+                                    outletServiceMenu: widget.outletServiceMenu,
+                                    vendorModel: widget.vendorModel,
+                                    totalAmount: _subTotalAmount,
+                                    itemCount: _itemCount,
+                                  );
+                                },
                               ),
-                            ),
-                          ),
+                            );
+                          } else {
+                            showCustomDialog(
+                              context: context,
+                              title: "Cart is Empty",
+                              message: "Choose some item from cart to continue",
+                            );
+                          }
+                        },
+                        child: const BottomBarButton(
+                          text: "Proceed   >",
+                          textColor: AppColors.whiteColor,
+                          bgColor: AppColors.primaryButtonColor,
+                          borderRadius: 10,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),

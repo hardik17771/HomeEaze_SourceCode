@@ -23,11 +23,10 @@ class _AddItemState extends State<AddItem> {
         backgroundColor: AppColors.primaryBackgroundColor,
         appBar: AppBar(
           elevation: 0,
-          centerTitle: true,
           backgroundColor: AppColors.primaryButtonColor,
           toolbarHeight: 90,
           title: Text(
-            "Pick your items",
+            widget.service.name,
             style: GoogleFonts.poppins(
               fontSize: 20,
               fontWeight: FontWeight.w500,
@@ -67,7 +66,7 @@ class _AddItemState extends State<AddItem> {
                       ),
                     ),
                     (item.quantity == 0)
-                        ? GestureDetector(
+                        ? InkWell(
                             onTap: () {
                               setState(() {
                                 item.quantity++;
@@ -79,7 +78,7 @@ class _AddItemState extends State<AddItem> {
                             },
                             child: Container(
                               height: 36,
-                              width: 90,
+                              width: 100,
                               decoration: BoxDecoration(
                                 color: AppColors.primaryButtonColor,
                                 borderRadius: BorderRadius.circular(22),
@@ -100,7 +99,7 @@ class _AddItemState extends State<AddItem> {
                                   "ADD",
                                   style: TextStyle(
                                     color: AppColors.whiteColor,
-                                    fontSize: 14,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -109,7 +108,7 @@ class _AddItemState extends State<AddItem> {
                           )
                         : Container(
                             height: 36,
-                            width: 90,
+                            width: 100,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(22),
                               border: Border.all(
@@ -118,52 +117,51 @@ class _AddItemState extends State<AddItem> {
                               ),
                             ),
                             child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                GestureDetector(
-                                  child: const Icon(
-                                    Icons.remove,
-                                    size: 16,
-                                    color: AppColors.primaryButtonColor,
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      if (item.quantity > 0) {
-                                        item.quantity--;
-                                        widget.service.selectedItems
-                                            .remove(item);
-                                      }
-                                    });
-                                  },
-                                ),
-                                Container(
-                                  margin:
-                                      const EdgeInsets.only(left: 5, right: 5),
-                                  child: Text(
-                                    item.quantity.toString(),
-                                    style: GoogleFonts.poppins(
-                                      color: AppColors.tertiaryTextColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
+                                Expanded(
+                                  child: InkWell(
+                                    child: const Icon(
+                                      Icons.remove,
+                                      size: 24,
+                                      color: AppColors.primaryButtonColor,
                                     ),
+                                    onTap: () {
+                                      setState(() {
+                                        if (item.quantity > 0) {
+                                          item.quantity--;
+                                          widget.service.selectedItems
+                                              .remove(item);
+                                        }
+                                      });
+                                    },
                                   ),
                                 ),
-                                GestureDetector(
-                                  child: const Icon(
-                                    Icons.add,
-                                    size: 16,
-                                    color: AppColors.primaryButtonColor,
+                                Text(
+                                  item.quantity.toString(),
+                                  style: GoogleFonts.poppins(
+                                    color: AppColors.tertiaryTextColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  onTap: () {
-                                    setState(() {
-                                      item.quantity++;
-                                      if (!widget.service.selectedItems
-                                          .contains(item)) {
-                                        widget.service.selectedItems.add(item);
-                                      }
-                                    });
-                                  },
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    child: const Icon(
+                                      Icons.add,
+                                      size: 24,
+                                      color: AppColors.primaryButtonColor,
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        item.quantity++;
+                                        if (!widget.service.selectedItems
+                                            .contains(item)) {
+                                          widget.service.selectedItems
+                                              .add(item);
+                                        }
+                                      });
+                                    },
+                                  ),
                                 ),
                               ],
                             ),

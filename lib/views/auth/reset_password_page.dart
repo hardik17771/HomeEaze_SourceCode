@@ -54,26 +54,25 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     ),
                   ),
                   const SizedBox(height: 64),
-                  Container(
-                    color: AppColors.whiteColor,
-                    child: TextFormField(
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) =>
-                          value!.isValidEmail() ? null : "Enter a valid email",
-                      decoration: InputDecoration(
-                        errorStyle: GoogleFonts.poppins(fontSize: 10),
-                        labelStyle: GoogleFonts.poppins(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.primaryTextColor,
-                        ),
-                        labelText: "Enter your Email *",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        contentPadding: const EdgeInsets.all(20.0),
+                  TextFormField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) =>
+                        value!.isValidEmail() ? null : "Enter a valid email",
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.whiteColor,
+                      errorStyle: GoogleFonts.poppins(fontSize: 10),
+                      labelStyle: GoogleFonts.poppins(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.primaryTextColor,
                       ),
+                      labelText: "Enter your Email *",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      contentPadding: const EdgeInsets.all(20.0),
                     ),
                   ),
                   const SizedBox(height: 36),

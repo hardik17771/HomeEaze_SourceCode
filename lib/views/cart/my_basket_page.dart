@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/choose_vendor.dart';
+import 'package:homeeaze_sourcecode/views/widgets/bottom_bar_button.dart';
 
 class MyBasketPage extends StatefulWidget {
   final List<Service> cartServices;
@@ -80,9 +80,9 @@ class _MyBasketPageState extends State<MyBasketPage> {
                             children: [
                               Container(
                                 margin: const EdgeInsets.all(16),
-                                width: 24,
-                                height: 24,
-                                child: AppAssets.tShirtIcon,
+                                width: 28,
+                                height: 28,
+                                child: currentService.image,
                               ),
                               Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -114,10 +114,10 @@ class _MyBasketPageState extends State<MyBasketPage> {
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                GestureDetector(
+                                InkWell(
                                   child: const Icon(
                                     Icons.remove,
-                                    size: 17,
+                                    size: 24,
                                     color: AppColors.primaryButtonColor,
                                   ),
                                   onTap: () {
@@ -144,10 +144,10 @@ class _MyBasketPageState extends State<MyBasketPage> {
                                     ),
                                   ),
                                 ),
-                                GestureDetector(
+                                InkWell(
                                   child: const Icon(
                                     Icons.add,
-                                    size: 17,
+                                    size: 24,
                                     color: AppColors.primaryButtonColor,
                                   ),
                                   onTap: () {
@@ -183,30 +183,11 @@ class _MyBasketPageState extends State<MyBasketPage> {
                     onTap: () {
                       Navigator.of(context).pop(widget.cartServices);
                     },
-                    child: Container(
-                      height: 46,
-                      margin: const EdgeInsets.only(right: 8),
-                      decoration: BoxDecoration(
-                        color: AppColors.secondaryButtonColor,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: AppColors.primaryBorderColor,
-                            offset: Offset(4.0, 4.0),
-                            blurRadius: 4.0,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Cancel",
-                          style: GoogleFonts.poppins(
-                            color: AppColors.whiteColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
+                    child: const BottomBarButton(
+                      text: "Cancel",
+                      textColor: AppColors.whiteColor,
+                      bgColor: AppColors.secondaryButtonColor,
+                      borderRadius: 10,
                     ),
                   ),
                 ),
@@ -231,30 +212,11 @@ class _MyBasketPageState extends State<MyBasketPage> {
                         );
                       }
                     },
-                    child: Container(
-                      height: 46,
-                      margin: const EdgeInsets.only(left: 8),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryButtonColor,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: AppColors.primaryBorderColor,
-                            offset: Offset(4.0, 4.0),
-                            blurRadius: 4.0,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Proceed   >",
-                          style: GoogleFonts.poppins(
-                            color: AppColors.whiteColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
+                    child: const BottomBarButton(
+                      text: "Proceed   >",
+                      textColor: AppColors.whiteColor,
+                      bgColor: AppColors.primaryButtonColor,
+                      borderRadius: 10,
                     ),
                   ),
                 ),

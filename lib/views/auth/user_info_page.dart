@@ -63,65 +63,63 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Container(
-                    color: AppColors.whiteColor,
-                    child: TextFormField(
-                      controller: nameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Enter your name';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        errorStyle: GoogleFonts.poppins(fontSize: 10),
-                        labelText: 'Name *',
-                        labelStyle: GoogleFonts.poppins(
-                          color: AppColors.primaryTextColor,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primaryBorderColor,
-                            width: 10,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        contentPadding: const EdgeInsets.all(16.0),
+                  TextFormField(
+                    controller: nameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter your name';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.whiteColor,
+                      errorStyle: GoogleFonts.poppins(fontSize: 10),
+                      labelText: 'Name *',
+                      labelStyle: GoogleFonts.poppins(
+                        color: AppColors.primaryTextColor,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
                       ),
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.primaryBorderColor,
+                          width: 10,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      contentPadding: const EdgeInsets.all(16.0),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Container(
-                    color: AppColors.whiteColor,
-                    child: TextFormField(
-                      controller: mobileNumberController,
-                      validator: (value) {
-                        if (value == null ||
-                            value.isEmpty ||
-                            value.length != 10) {
-                          return 'Enter a valid Mobile Number';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        errorStyle: GoogleFonts.poppins(fontSize: 10),
-                        labelText: 'Mobile Number *',
-                        labelStyle: GoogleFonts.poppins(
-                          color: AppColors.primaryTextColor,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primaryBorderColor,
-                            width: 10,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        contentPadding: const EdgeInsets.all(16.0),
+                  TextFormField(
+                    controller: mobileNumberController,
+                    validator: (value) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          value.length != 10) {
+                        return 'Enter a valid Mobile Number';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.whiteColor,
+                      errorStyle: GoogleFonts.poppins(fontSize: 10),
+                      labelText: 'Mobile Number *',
+                      labelStyle: GoogleFonts.poppins(
+                        color: AppColors.primaryTextColor,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
                       ),
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.primaryBorderColor,
+                          width: 10,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      contentPadding: const EdgeInsets.all(16.0),
                     ),
                   ),
                   const SizedBox(height: 24),
