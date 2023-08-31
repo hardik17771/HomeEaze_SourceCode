@@ -132,7 +132,7 @@ class _ServicePageState extends State<ServicePage> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 28),
+                          const SizedBox(height: 16),
                           Container(
                             margin: const EdgeInsets.only(left: 12),
                             child: Text(

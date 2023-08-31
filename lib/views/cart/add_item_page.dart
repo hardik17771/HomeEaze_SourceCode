@@ -129,8 +129,10 @@ class _AddItemState extends State<AddItem> {
                                       setState(() {
                                         if (item.quantity > 0) {
                                           item.quantity--;
-                                          widget.service.selectedItems
-                                              .remove(item);
+                                          if (item.quantity == 0) {
+                                            widget.service.selectedItems
+                                                .remove(item);
+                                          }
                                         }
                                       });
                                     },

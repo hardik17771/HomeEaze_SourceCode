@@ -24,19 +24,23 @@ class ServiceCard extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: 90, width: 90, child: serviceImage),
-          Text(
-            serviceName,
-            style: GoogleFonts.poppins(
-              color: AppColors.blackColor,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 90, width: 90, child: serviceImage),
+                Text(
+                  serviceName,
+                  style: GoogleFonts.poppins(
+                    color: AppColors.blackColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 8),
           if (itemCount != 0)
             Container(
               height: 28,

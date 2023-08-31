@@ -1,3 +1,4 @@
+import 'package:easy_upi_payment/easy_upi_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
@@ -5,9 +6,11 @@ import 'package:homeeaze_sourcecode/controllers/orders_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
+import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
+import 'package:homeeaze_sourcecode/views/orders/upi_payment_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/bottom_bar_button.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -31,9 +34,14 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   bool? isLoading;
+  UserModel? _userModel;
   final AuthController _authController = AuthController();
   final OrdersController _ordersController = OrdersController();
-  UserModel? _userModel;
+  final List<String> paymentMode = [
+    "Pay on Delivery",
+    "UPI Payment",
+  ];
+  String? _selectedPaymentMode;
 
   @override
   void initState() {
@@ -80,28 +88,38 @@ class _PaymentPageState extends State<PaymentPage> {
                   ),
                 ),
               ),
-              Container(
-                width: size.width,
-                margin: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.check_circle_outline_rounded,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      "Pay on Delivery",
-                      textAlign: TextAlign.start,
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                itemCount: paymentMode.length,
+                itemBuilder: (context, index) {
+                  return Row(
+                    children: [
+                      Radio(
+                        value: paymentMode[index],
+                        groupValue: _selectedPaymentMode,
+                        activeColor: AppColors.primaryButtonColor,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedPaymentMode = value;
+                          });
+                        },
                       ),
-                    ),
-                  ],
-                ),
+                      Text(
+                        paymentMode[index],
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const Divider(
+                        thickness: 1.5,
+                        color: AppColors.secondaryTextColor,
+                      ),
+                    ],
+                  );
+                },
               ),
-              // const Divider(thickness: 1.5),
               Container(
                 width: size.width,
                 margin: const EdgeInsets.only(top: 12, bottom: 12),
@@ -297,19 +315,66 @@ class _PaymentPageState extends State<PaymentPage> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                if (_userModel != null) {
+                                if (_userModel != null &&
+                                    _selectedPaymentMode != null) {
                                   setState(() {
                                     isLoading = true;
                                   });
 
-                                  _ordersController.placeOrder(
+                                  if (_selectedPaymentMode == paymentMode[0]) {
+                                    // Transaction Model for Pay on Delivery
+                                    TransactionDetailModel
+                                        transactionDetailModel =
+                                        TransactionDetailModel(
+                                      transactionId: "not-applied",
+                                      responseCode: "pending",
+                                      approvalRefNo: "not-applied",
+                                      transactionRefId: "not-applied",
+                                      amount:
+                                          (widget.totalAmount + 60).toString(),
+                                    );
+
+                                    _ordersController.placeOrder(
+                                      context: context,
+                                      paymentMode: "Pay on Delivery",
+                                      userModel: _userModel!,
+                                      vendorModel: widget.vendorModel,
+                                      cartServices: widget.cartServices,
+                                      outletServiceMenu:
+                                          widget.outletServiceMenu,
+                                      itemCount: widget.itemCount,
+                                      transactionDetailModel:
+                                          transactionDetailModel,
+                                    );
+                                  } else {
+                                    // Navigate to UPI Payment Page
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return UpiPaymentPage(
+                                            itemCount: widget.itemCount,
+                                            orderAmount:
+                                                widget.totalAmount + 60,
+                                            userModel: _userModel!,
+                                            vendorModel: widget.vendorModel,
+                                            cartServices: widget.cartServices,
+                                            outletServiceMenu:
+                                                widget.outletServiceMenu,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }
+
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                } else {
+                                  showCustomDialog(
                                     context: context,
-                                    userModel: _userModel!,
-                                    outletServiceMenu: widget.outletServiceMenu,
-                                    vendorModel: widget.vendorModel,
-                                    cartServices: widget.cartServices,
-                                    itemCount: widget.itemCount,
-                                    orderAmount: widget.totalAmount + 60,
+                                    title: "Payment mode not selected",
+                                    message:
+                                        "Choose a payment mode from Payment Options to procced",
                                   );
                                 }
                               },

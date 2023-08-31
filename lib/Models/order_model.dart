@@ -5,10 +5,14 @@ class OrderModel {
   final DateTime orderReceivingTime;
   final DateTime orderPickUpTime;
   final DateTime orderDeliveryTime;
-  final String paymentMode;
+  final int itemCount;
   final String orderStatus;
   final double orderAmount;
-  final int itemCount;
+  final String paymentMode;
+  final String paymentTransactionId;
+  final String paymentTransactionRefId;
+  final String paymentResponseCode;
+  final String paymentApprovalRefNo;
   OrderModel({
     required this.userUid,
     required this.vendorUid,
@@ -16,10 +20,14 @@ class OrderModel {
     required this.orderReceivingTime,
     required this.orderPickUpTime,
     required this.orderDeliveryTime,
-    required this.paymentMode,
+    required this.itemCount,
     required this.orderStatus,
     required this.orderAmount,
-    required this.itemCount,
+    required this.paymentMode,
+    required this.paymentTransactionId,
+    required this.paymentTransactionRefId,
+    required this.paymentResponseCode,
+    required this.paymentApprovalRefNo,
   });
 
   OrderModel copyWith({
@@ -29,10 +37,14 @@ class OrderModel {
     DateTime? orderReceivingTime,
     DateTime? orderPickUpTime,
     DateTime? orderDeliveryTime,
-    String? paymentMode,
+    int? itemCount,
     String? orderStatus,
     double? orderAmount,
-    int? itemCount,
+    String? paymentMode,
+    String? paymentTransactionId,
+    String? paymentTransactionRefId,
+    String? paymentResponseCode,
+    String? paymentApprovalRefNo,
   }) {
     return OrderModel(
       userUid: userUid ?? this.userUid,
@@ -41,10 +53,15 @@ class OrderModel {
       orderReceivingTime: orderReceivingTime ?? this.orderReceivingTime,
       orderPickUpTime: orderPickUpTime ?? this.orderPickUpTime,
       orderDeliveryTime: orderDeliveryTime ?? this.orderDeliveryTime,
-      paymentMode: paymentMode ?? this.paymentMode,
+      itemCount: itemCount ?? this.itemCount,
       orderStatus: orderStatus ?? this.orderStatus,
       orderAmount: orderAmount ?? this.orderAmount,
-      itemCount: itemCount ?? this.itemCount,
+      paymentMode: paymentMode ?? this.paymentMode,
+      paymentTransactionId: paymentTransactionId ?? this.paymentTransactionId,
+      paymentTransactionRefId:
+          paymentTransactionRefId ?? this.paymentTransactionRefId,
+      paymentResponseCode: paymentResponseCode ?? this.paymentResponseCode,
+      paymentApprovalRefNo: paymentApprovalRefNo ?? this.paymentApprovalRefNo,
     );
   }
 
@@ -56,10 +73,14 @@ class OrderModel {
       'orderReceivingTime': orderReceivingTime.millisecondsSinceEpoch,
       'orderPickUpTime': orderPickUpTime.millisecondsSinceEpoch,
       'orderDeliveryTime': orderDeliveryTime.millisecondsSinceEpoch,
-      'paymentMode': paymentMode,
+      'itemCount': itemCount,
       'orderStatus': orderStatus,
       'orderAmount': orderAmount,
-      'itemCount': itemCount,
+      'paymentMode': paymentMode,
+      'paymentTransactionId': paymentTransactionId,
+      'paymentTransactionRefId': paymentTransactionRefId,
+      'paymentResponseCode': paymentResponseCode,
+      'paymentApprovalRefNo': paymentApprovalRefNo,
     };
   }
 
@@ -74,10 +95,14 @@ class OrderModel {
           DateTime.fromMillisecondsSinceEpoch(map['orderPickUpTime'] as int),
       orderDeliveryTime:
           DateTime.fromMillisecondsSinceEpoch(map['orderDeliveryTime'] as int),
-      paymentMode: map['paymentMode'] as String,
+      itemCount: map['itemCount'] as int,
       orderStatus: map['orderStatus'] as String,
       orderAmount: map['orderAmount'] as double,
-      itemCount: map['itemCount'] as int,
+      paymentMode: map['paymentMode'] as String,
+      paymentTransactionId: map['paymentTransactionId'] as String,
+      paymentTransactionRefId: map['paymentTransactionRefId'] as String,
+      paymentResponseCode: map['paymentResponseCode'] as String,
+      paymentApprovalRefNo: map['paymentApprovalRefNo'] as String,
     );
   }
 }
