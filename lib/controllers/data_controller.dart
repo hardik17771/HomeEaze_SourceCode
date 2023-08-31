@@ -12,6 +12,18 @@ class DataController {
 
   User? get currentUser => _firebaseAuth.currentUser;
 
+  Stream<VendorModel> getVendorData({
+    required String vendorUid,
+  }) {
+    return _firestore
+        .collection("vendors")
+        .doc(vendorUid)
+        .snapshots()
+        .map((event) => VendorModel.fromMap(
+              event.data() as Map<String, dynamic>,
+            ));
+  }
+
   // Choose Vendor Based on Longitude & latitude
   Stream<List<VendorModel>> fetchVendorOutletData({
     required BuildContext context,
@@ -76,7 +88,7 @@ class DataController {
         orderAmount += (outletServiceMenu[i][itemName] as int) * (itemQuantity);
       }
     }
-    debugPrint(orderAmount.toString());
+    // debugPrint(orderAmount.toString());
     return orderAmount;
   }
 }

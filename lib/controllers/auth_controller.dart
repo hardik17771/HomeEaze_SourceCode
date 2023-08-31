@@ -121,6 +121,8 @@ class AuthController {
 
       await _firestore.collection("users").doc(user.uid).set(userModel.toMap());
 
+      showCustomToast(text: "Registered Successfully");
+
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(

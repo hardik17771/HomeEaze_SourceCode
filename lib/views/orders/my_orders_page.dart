@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/orders_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
@@ -18,6 +19,7 @@ class MyOrdersPage extends StatefulWidget {
 
 class _MyOrdersPageState extends State<MyOrdersPage> {
   final AuthController _authController = AuthController();
+  final DataController _dataController = DataController();
   final OrdersController _ordersController = OrdersController();
 
   @override
@@ -54,7 +56,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                       itemBuilder: (BuildContext context, int index) {
                         OrderModel orderModel = snapshot.data![index];
                         return StreamBuilder(
-                          stream: _ordersController.getVendorData(
+                          stream: _dataController.getVendorData(
                               vendorUid: orderModel.vendorUid),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {

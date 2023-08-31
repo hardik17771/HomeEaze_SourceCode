@@ -1,5 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_upi_payment/easy_upi_payment.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/order_model.dart';
@@ -11,17 +12,19 @@ import 'package:uuid/uuid.dart';
 class OrdersController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Place order
+  // place order
   Future placeOrder({
     required BuildContext context,
+    required int itemCount,
+    required String paymentMode,
     required UserModel userModel,
     required VendorModel vendorModel,
     required List<Service> cartServices,
     required List<Map<String, dynamic>> outletServiceMenu,
-    required int itemCount,
-    required double orderAmount,
+    required TransactionDetailModel transactionDetailModel,
   }) async {
     final orderId = const Uuid().v1();
+
     final OrderModel order = OrderModel(
       userUid: userModel.userUid,
       vendorUid: vendorModel.vendorUid,
@@ -29,16 +32,21 @@ class OrdersController {
       orderReceivingTime: DateTime.now(),
       orderPickUpTime: DateTime.now(),
       orderDeliveryTime: DateTime.now(),
-      paymentMode: "Pay On Delivery",
-      orderStatus: "Waiting",
-      orderAmount: orderAmount,
       itemCount: itemCount,
+      orderStatus: "Waiting",
+      orderAmount: double.parse(transactionDetailModel.amount!),
+      paymentMode: paymentMode,
+      paymentTransactionId: transactionDetailModel.transactionId!,
+      paymentTransactionRefId: transactionDetailModel.transactionRefId!,
+      paymentResponseCode: transactionDetailModel.responseCode!,
+      paymentApprovalRefNo: transactionDetailModel.approvalRefNo!,
     );
 
     try {
+      // orders -> orderId -> orderModel
       await _firestore.collection("orders").doc(orderId).set(order.toMap());
 
-      // orderServices -> orderId -> services -> serviceName-> Map<ItemName, [ItemQuantity, ItemPrice]>
+      // orderServices -> orderId -> services -> serviceName-> Map<ItemName, <Array>[ItemQuantity, ItemPrice]>
       for (int i = 0; i < cartServices.length; i++) {
         Map<String, dynamic> itemQuantityPrice = {};
         for (int j = 0; j < cartServices[i].selectedItems.length; j++) {
@@ -93,16 +101,6 @@ class OrdersController {
             event.docs.map((e) => OrderModel.fromMap(e.data())).toList());
   }
 
-  Stream<VendorModel> getVendorData({required String vendorUid}) {
-    return _firestore
-        .collection("vendors")
-        .doc(vendorUid)
-        .snapshots()
-        .map((event) => VendorModel.fromMap(
-              event.data() as Map<String, dynamic>,
-            ));
-  }
-
   Future<List<Map<String, dynamic>>> fetchOrderSummary({
     required String orderId,
   }) async {
@@ -119,5 +117,30 @@ class OrdersController {
     }).toList();
 
     return list;
+  }
+
+  Future<TransactionDetailModel?> makeUPIPayment({
+    required BuildContext context,
+    required double amount,
+  }) async {
+    try {
+      TransactionDetailModel? transactionDetailModel =
+          await EasyUpiPaymentPlatform.instance.startPayment(
+        EasyUpiPaymentModel(
+          payeeVpa: 'droby@upi', // Change UPI
+          payeeName: 'Droby', // Change NAME
+          amount: amount,
+          description: 'Droby Payment',
+        ),
+      );
+
+      return transactionDetailModel;
+    } on EasyUpiPaymentException catch (e) {
+      showCustomDialog(
+        context: context,
+        title: "Payment Error",
+        message: e.message!,
+      );
+    }
   }
 }
