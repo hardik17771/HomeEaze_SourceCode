@@ -17,6 +17,7 @@ class VendorModel {
   final DateTime closingTime2;
   final double outletLatitude;
   final double outletLongitude;
+  final String vendorDeviceToken;
   final bool isDeliveryBoyAvailable;
   final List<String> outletOpenDays;
   VendorModel({
@@ -38,6 +39,7 @@ class VendorModel {
     required this.closingTime2,
     required this.outletLatitude,
     required this.outletLongitude,
+    required this.vendorDeviceToken,
     required this.isDeliveryBoyAvailable,
     required this.outletOpenDays,
   });
@@ -61,6 +63,7 @@ class VendorModel {
     DateTime? closingTime2,
     double? outletLatitude,
     double? outletLongitude,
+    String? vendorDeviceToken,
     bool? isDeliveryBoyAvailable,
     List<String>? outletOpenDays,
   }) {
@@ -83,6 +86,7 @@ class VendorModel {
       closingTime2: closingTime2 ?? this.closingTime2,
       outletLatitude: outletLatitude ?? this.outletLatitude,
       outletLongitude: outletLongitude ?? this.outletLongitude,
+      vendorDeviceToken: vendorDeviceToken ?? this.vendorDeviceToken,
       isDeliveryBoyAvailable:
           isDeliveryBoyAvailable ?? this.isDeliveryBoyAvailable,
       outletOpenDays: outletOpenDays ?? this.outletOpenDays,
@@ -109,6 +113,7 @@ class VendorModel {
       'closingTime2': closingTime2.millisecondsSinceEpoch,
       'outletLatitude': outletLatitude,
       'outletLongitude': outletLongitude,
+      'vendorDeviceToken': vendorDeviceToken,
       'isDeliveryBoyAvailable': isDeliveryBoyAvailable,
       'outletOpenDays': outletOpenDays,
     };
@@ -138,6 +143,7 @@ class VendorModel {
           DateTime.fromMillisecondsSinceEpoch(map['closingTime2'] as int),
       outletLatitude: map['outletLatitude'] as double,
       outletLongitude: map['outletLongitude'] as double,
+      vendorDeviceToken: map['vendorDeviceToken'] as String,
       isDeliveryBoyAvailable: map['isDeliveryBoyAvailable'] as bool,
       outletOpenDays: List<String>.from(map['outletOpenDays']),
     );

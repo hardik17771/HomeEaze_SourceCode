@@ -20,7 +20,7 @@ class NoVendorWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Seeking the best service to meet your needs!',
+              'Sorry, we don\'t deliver at your location yet. We\'ll be there soon - hang tight!',
               textAlign: TextAlign.start,
               style: GoogleFonts.poppins(
                 color: AppColors.secondaryTextColor,

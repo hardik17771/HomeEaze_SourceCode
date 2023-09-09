@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:homeeaze_sourcecode/controllers/notification_controller.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/views/auth/first_page.dart';
@@ -105,6 +106,9 @@ class AuthController {
     required double userLatitude,
     required BuildContext context,
   }) async {
+    // Need to Research
+    String userDeviceToken = await NotificationController().getDeviceToken();
+
     try {
       UserModel userModel = UserModel(
         username: username,
@@ -117,6 +121,7 @@ class AuthController {
         userManualPincode: manualPincode,
         userLiveAddress: liveAddress,
         userLivePincode: livePincode,
+        userDeviceToken: userDeviceToken,
       );
 
       await _firestore.collection("users").doc(user.uid).set(userModel.toMap());
@@ -131,6 +136,7 @@ class AuthController {
         (route) => false,
       );
     } on FirebaseException catch (e) {
+      // ignore: use_build_context_synchronously
       showCustomDialog(
         context: context,
         title: "Authentication Error",

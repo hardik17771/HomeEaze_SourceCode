@@ -33,6 +33,8 @@ class UpiPaymentPage extends StatefulWidget {
 
 class _UpiPaymentPageState extends State<UpiPaymentPage> {
   bool? _isLoading;
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController upiController = TextEditingController();
   final OrdersController _orderController = OrdersController();
 
   @override
@@ -42,7 +44,14 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
   }
 
   @override
+  void dispose() {
+    upiController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.primaryBackgroundColor,
@@ -51,58 +60,98 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
           toolbarHeight: 90,
           backgroundColor: AppColors.primaryButtonColor,
           title: Text(
-            "UPI PAYMENT",
+            "UPI Payment",
             style: GoogleFonts.poppins(
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
-        body: Container(
-          margin: const EdgeInsets.all(16),
-          child: (_isLoading == true)
-              ? const ColorLoader()
-              : CustomButton(
-                  text: "Pay Now",
-                  bgColor: AppColors.primaryButtonColor,
-                  textColor: AppColors.whiteColor,
-                  onPress: () async {
-                    setState(() {
-                      _isLoading = true;
-                    });
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Container(
+              width: screenWidth,
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: upiController,
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Enter a valid upi';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.whiteColor,
+                      errorStyle: GoogleFonts.poppins(fontSize: 10),
+                      labelStyle: GoogleFonts.poppins(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.primaryTextColor,
+                      ),
+                      labelText: "Enter your upi *",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      contentPadding: const EdgeInsets.all(20.0),
+                    ),
+                  ),
+                  const SizedBox(height: 36),
+                  (_isLoading == true)
+                      ? const ColorLoader()
+                      : CustomButton(
+                          text: "Pay Now",
+                          bgColor: AppColors.primaryButtonColor,
+                          textColor: AppColors.whiteColor,
+                          onPress: () async {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() {
+                                _isLoading = true;
+                              });
 
-                    TransactionDetailModel? transactionDetailModel =
-                        await _orderController.makeUPIPayment(
-                      context: context,
-                      amount: widget.orderAmount,
-                    );
+                              TransactionDetailModel? transactionDetailModel =
+                                  await _orderController.makeUPIPayment(
+                                context: context,
+                                amount: widget.orderAmount,
+                                payeeVpa: upiController.text.trim(),
+                              );
 
-                    if (transactionDetailModel != null) {
-                      // ignore: use_build_context_synchronously
-                      await _orderController.placeOrder(
-                        context: context,
-                        paymentMode: "UPI Payment",
-                        userModel: widget.userModel,
-                        vendorModel: widget.vendorModel,
-                        cartServices: widget.cartServices,
-                        outletServiceMenu: widget.outletServiceMenu,
-                        itemCount: widget.itemCount,
-                        transactionDetailModel: transactionDetailModel,
-                      );
-                    } else {
-                      // ignore: use_build_context_synchronously
-                      showCustomDialog(
-                        context: context,
-                        title: "Payment Error",
-                        message: "Payment not completed try again",
-                      );
-                    }
+                              if (transactionDetailModel != null) {
+                                // ignore: use_build_context_synchronously
+                                await _orderController.placeOrder(
+                                  context: context,
+                                  paymentMode: "UPI Payment",
+                                  userModel: widget.userModel,
+                                  vendorModel: widget.vendorModel,
+                                  cartServices: widget.cartServices,
+                                  outletServiceMenu: widget.outletServiceMenu,
+                                  itemCount: widget.itemCount,
+                                  transactionDetailModel:
+                                      transactionDetailModel,
+                                );
+                              } else {
+                                // ignore: use_build_context_synchronously
+                                showCustomDialog(
+                                  context: context,
+                                  title: "Payment Error",
+                                  message: "Payment not completed try again",
+                                );
+                              }
 
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  },
-                ),
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            }
+                          },
+                        ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

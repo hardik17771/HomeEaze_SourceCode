@@ -27,7 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     _isLoading = false;
-    _isPasswordHidden = false;
+    _isPasswordHidden = true;
     super.initState();
   }
 

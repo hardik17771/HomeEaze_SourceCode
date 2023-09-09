@@ -6,14 +6,12 @@ import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 
 class LaundaryCard extends StatefulWidget {
-  String pickupSlot;
   final double userLatitude;
   final double userLongitude;
   final VendorModel vendor;
   final double orderAmount;
-  LaundaryCard({
+  const LaundaryCard({
     super.key,
-    required this.pickupSlot,
     required this.vendor,
     required this.userLatitude,
     required this.userLongitude,
@@ -115,86 +113,58 @@ class _LaundaryCardState extends State<LaundaryCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    widget.pickupSlot = pickUpOptions[0];
-                    selectedPickUpIndex = 0;
-                  });
-                },
-                child: Container(
-                  height: 25,
-                  width: 85,
-                  decoration: BoxDecoration(
-                    color: (selectedPickUpIndex != 0)
-                        ? AppColors.primaryButtonColor
-                        : AppColors.secondaryButtonColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      pickUpOptions[0],
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
+              Container(
+                height: 25,
+                width: 85,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryButtonColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    pickUpOptions[0],
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    widget.pickupSlot = pickUpOptions[1];
-                    selectedPickUpIndex = 1;
-                  });
-                },
-                child: Container(
-                  height: 25,
-                  width: 85,
-                  decoration: BoxDecoration(
-                    color: (selectedPickUpIndex != 1)
-                        ? AppColors.primaryButtonColor
-                        : AppColors.secondaryButtonColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      pickUpOptions[1],
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
+              Container(
+                height: 25,
+                width: 85,
+                decoration: BoxDecoration(
+                  color: (selectedPickUpIndex != 1)
+                      ? AppColors.primaryButtonColor
+                      : AppColors.secondaryButtonColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    pickUpOptions[1],
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    widget.pickupSlot = pickUpOptions[2];
-                    selectedPickUpIndex = 2;
-                  });
-                },
-                child: Container(
-                  height: 25,
-                  width: 85,
-                  decoration: BoxDecoration(
-                    color: (selectedPickUpIndex != 2)
-                        ? AppColors.primaryButtonColor
-                        : AppColors.secondaryButtonColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      pickUpOptions[2],
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
+              Container(
+                height: 25,
+                width: 85,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryButtonColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    pickUpOptions[2],
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
