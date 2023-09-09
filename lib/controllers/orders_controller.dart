@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_upi_payment/easy_upi_payment.dart';
+import 'package:homeeaze_sourcecode/controllers/notification_controller.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/order_model.dart';
@@ -11,6 +12,8 @@ import 'package:uuid/uuid.dart';
 
 class OrdersController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final NotificationController _notificationController =
+      NotificationController();
 
   // place order
   Future placeOrder({
@@ -39,7 +42,9 @@ class OrdersController {
       paymentTransactionId: transactionDetailModel.transactionId!,
       paymentTransactionRefId: transactionDetailModel.transactionRefId!,
       paymentResponseCode: transactionDetailModel.responseCode!,
-      paymentApprovalRefNo: transactionDetailModel.approvalRefNo!,
+      paymentApprovalRefNo: (transactionDetailModel.approvalRefNo == null)
+          ? transactionDetailModel.transactionId!
+          : transactionDetailModel.approvalRefNo!,
     );
 
     try {
@@ -72,6 +77,13 @@ class OrdersController {
       for (int i = 0; i < services.length; i++) {
         services[i].selectedItems = [];
       }
+
+      await _notificationController.sendOrderNotification(
+        orderModel: order,
+        orderStatus: "New Order Recieved",
+        userModel: userModel,
+        vendorModel: vendorModel,
+      );
 
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
@@ -122,12 +134,13 @@ class OrdersController {
   Future<TransactionDetailModel?> makeUPIPayment({
     required BuildContext context,
     required double amount,
+    required String payeeVpa,
   }) async {
     try {
       TransactionDetailModel? transactionDetailModel =
           await EasyUpiPaymentPlatform.instance.startPayment(
         EasyUpiPaymentModel(
-          payeeVpa: 'droby@upi', // Change UPI
+          payeeVpa: payeeVpa, // Change UPI
           payeeName: 'Droby', // Change NAME
           amount: amount,
           description: 'Droby Payment',

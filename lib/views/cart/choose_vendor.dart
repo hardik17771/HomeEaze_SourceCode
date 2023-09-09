@@ -30,7 +30,6 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
   final DataController _dataController = DataController();
 
   int _selectedIndex = -1;
-  String _pickupSlot = "None";
   VendorModel? _selectedVendorModel;
   List<Map<String, dynamic>>? _selectedOutletServiceMenu;
 
@@ -96,7 +95,6 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                                         child: ColorLoader(),
                                       );
                                     } else if (snapshot.hasData) {
-                                      debugPrint(_pickupSlot);
                                       debugPrint("hasOutletServiceMenu");
                                       List<Map<String, dynamic>>
                                           outletServiceMenu = snapshot.data;
@@ -131,7 +129,6 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                                           ),
                                           child: Center(
                                             child: LaundaryCard(
-                                              pickupSlot: _pickupSlot,
                                               vendor: vendor,
                                               orderAmount: orderAmount,
                                               userLatitude:
@@ -174,14 +171,13 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                     Row(
                       children: [
                         Container(
-                            margin: const EdgeInsets.all(8),
-                            width: 18,
-                            height: 16,
-                            child: AppAssets.deliveryBoyIcon),
+                          margin: const EdgeInsets.all(8),
+                          width: 18,
+                          height: 16,
+                          child: AppAssets.deliveryBoyIcon,
+                        ),
                         Text(
-                          (_pickupSlot != "None")
-                              ? "Pickup $_pickupSlot"
-                              : "Pick time a Slot",
+                          "Pickup a time slot",
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,

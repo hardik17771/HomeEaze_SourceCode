@@ -9,6 +9,7 @@ class UserModel {
   final String userManualPincode;
   final String userLiveAddress;
   final String userLivePincode;
+  final String userDeviceToken;
   UserModel({
     required this.username,
     required this.userEmail,
@@ -20,6 +21,7 @@ class UserModel {
     required this.userManualPincode,
     required this.userLiveAddress,
     required this.userLivePincode,
+    required this.userDeviceToken,
   });
 
   UserModel copyWith({
@@ -33,6 +35,7 @@ class UserModel {
     String? userManualPincode,
     String? userLiveAddress,
     String? userLivePincode,
+    String? userDeviceToken,
   }) {
     return UserModel(
       username: username ?? this.username,
@@ -45,6 +48,7 @@ class UserModel {
       userManualPincode: userManualPincode ?? this.userManualPincode,
       userLiveAddress: userLiveAddress ?? this.userLiveAddress,
       userLivePincode: userLivePincode ?? this.userLivePincode,
+      userDeviceToken: userDeviceToken ?? this.userDeviceToken,
     );
   }
 
@@ -60,6 +64,7 @@ class UserModel {
       'userManualPincode': userManualPincode,
       'userLiveAddress': userLiveAddress,
       'userLivePincode': userLivePincode,
+      'userDeviceToken': userDeviceToken,
     };
   }
 
@@ -75,6 +80,7 @@ class UserModel {
       userManualPincode: map['userManualPincode'] as String,
       userLiveAddress: map['userLiveAddress'] as String,
       userLivePincode: map['userLivePincode'] as String,
+      userDeviceToken: map['userDeviceToken'] as String,
     );
   }
 }

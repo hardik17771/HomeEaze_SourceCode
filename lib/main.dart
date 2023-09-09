@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/controllers/notification_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/views/auth/first_page.dart';
@@ -12,6 +14,8 @@ import 'package:homeeaze_sourcecode/views/home_page.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   runApp(
     const MaterialApp(
       title: 'Droby',
@@ -19,6 +23,11 @@ Future main() async {
       home: MyApp(),
     ),
   );
+}
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
 }
 
 class MyApp extends StatefulWidget {
@@ -29,12 +38,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late ConnectivityResult connectivityResult;
-  late StreamSubscription subscription;
   var isConnected = false;
+  late StreamSubscription subscription;
+  late ConnectivityResult connectivityResult;
+  NotificationController _notificationController = NotificationController();
 
   @override
   void initState() {
+    // Notifications
+    _notificationController.requestNotificationPermission();
+    _notificationController.isTokenRefresh();
+    _notificationController.getDeviceToken().then(
+          (value) => debugPrint("Device Token $value"),
+        );
+    _notificationController.initializeFirebaseMessaging(context);
+    _notificationController.setUpInteractMessage(context);
+
     subscription = Connectivity().onConnectivityChanged.listen((event) async {
       checkInternet();
     });
