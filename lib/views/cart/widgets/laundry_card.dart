@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
+import 'package:homeeaze_sourcecode/views/cart/widgets/pickUp_time_card.dart';
 
 class LaundaryCard extends StatefulWidget {
   final double userLatitude;
@@ -23,11 +24,10 @@ class LaundaryCard extends StatefulWidget {
 }
 
 class _LaundaryCardState extends State<LaundaryCard> {
-  int selectedPickUpIndex = -1;
   List<String> pickUpOptions = [
-    "In 12 hours",
-    "In 24 hours",
-    "In 48 hours",
+    "8-9 AM",
+    "2-3 PM",
+    "6-7 PM",
   ];
 
   @override
@@ -100,7 +100,7 @@ class _LaundaryCardState extends State<LaundaryCard> {
             alignment: Alignment.topLeft,
             margin: const EdgeInsets.only(left: 20, top: 4, bottom: 4),
             child: Text(
-              "Choose a pickup slot convenient for you:",
+              "Available pickup slots:",
               textAlign: TextAlign.start,
               style: GoogleFonts.poppins(
                 color: const Color(0xFFC4C4C4),
@@ -113,61 +113,17 @@ class _LaundaryCardState extends State<LaundaryCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                height: 25,
-                width: 85,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryButtonColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    pickUpOptions[0],
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+              PickUpTimeCard(
+                text: pickUpOptions[0],
+                bgColor: AppColors.primaryButtonColor,
               ),
-              Container(
-                height: 25,
-                width: 85,
-                decoration: BoxDecoration(
-                  color: (selectedPickUpIndex != 1)
-                      ? AppColors.primaryButtonColor
-                      : AppColors.secondaryButtonColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    pickUpOptions[1],
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+              PickUpTimeCard(
+                text: pickUpOptions[1],
+                bgColor: AppColors.primaryButtonColor,
               ),
-              Container(
-                height: 25,
-                width: 85,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryButtonColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    pickUpOptions[2],
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+              PickUpTimeCard(
+                text: pickUpOptions[2],
+                bgColor: AppColors.primaryButtonColor,
               ),
             ],
           ),

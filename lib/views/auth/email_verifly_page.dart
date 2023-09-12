@@ -71,58 +71,62 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            width: screenWidth,
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 48),
-            child: Column(
-              children: [
-                Text(
-                  'Check your Email',
+    return Scaffold(
+      backgroundColor: AppColors.primaryBackgroundColor,
+      appBar: AppBar(
+        elevation: 0,
+        toolbarHeight: 0,
+        backgroundColor: AppColors.primaryBackgroundColor,
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          width: screenWidth,
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 48),
+          child: Column(
+            children: [
+              Text(
+                'Check your Email',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.blackColor,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'We have sent you a Email on  ${FirebaseAuth.instance.currentUser!.email}',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.blackColor,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Center(child: ColorLoader()),
+              const SizedBox(height: 16),
+              Center(
+                child: Text(
+                  'Verifying email....',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w500,
-                    color: AppColors.blackColor,
-                    fontSize: 16,
+                    color: AppColors.secondaryTextColor,
+                    fontSize: 10,
                   ),
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  'We have sent you a Email on  ${FirebaseAuth.instance.currentUser!.email}',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.blackColor,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                const Center(child: ColorLoader()),
-                const SizedBox(height: 16),
-                Center(
-                  child: Text(
-                    'Verifying email....',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.secondaryTextColor,
-                      fontSize: 10,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                CustomButton(
-                  text: "Resend",
-                  bgColor: AppColors.primaryButtonColor,
-                  textColor: AppColors.whiteColor,
-                  onPress: () {
-                    sendEmail();
-                  },
-                )
-              ],
-            ),
+              ),
+              const SizedBox(height: 24),
+              CustomButton(
+                text: "Resend",
+                bgColor: AppColors.primaryButtonColor,
+                textColor: AppColors.whiteColor,
+                onPress: () {
+                  sendEmail();
+                },
+              )
+            ],
           ),
         ),
       ),

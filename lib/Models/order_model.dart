@@ -5,6 +5,7 @@ class OrderModel {
   final DateTime orderReceivingTime;
   final DateTime orderPickUpTime;
   final DateTime orderDeliveryTime;
+  final String pickUpTimeSlot;
   final int itemCount;
   final String orderStatus;
   final double orderAmount;
@@ -20,6 +21,7 @@ class OrderModel {
     required this.orderReceivingTime,
     required this.orderPickUpTime,
     required this.orderDeliveryTime,
+    required this.pickUpTimeSlot,
     required this.itemCount,
     required this.orderStatus,
     required this.orderAmount,
@@ -37,6 +39,7 @@ class OrderModel {
     DateTime? orderReceivingTime,
     DateTime? orderPickUpTime,
     DateTime? orderDeliveryTime,
+    String? pickUpTimeSlot,
     int? itemCount,
     String? orderStatus,
     double? orderAmount,
@@ -53,6 +56,7 @@ class OrderModel {
       orderReceivingTime: orderReceivingTime ?? this.orderReceivingTime,
       orderPickUpTime: orderPickUpTime ?? this.orderPickUpTime,
       orderDeliveryTime: orderDeliveryTime ?? this.orderDeliveryTime,
+      pickUpTimeSlot: pickUpTimeSlot ?? this.pickUpTimeSlot,
       itemCount: itemCount ?? this.itemCount,
       orderStatus: orderStatus ?? this.orderStatus,
       orderAmount: orderAmount ?? this.orderAmount,
@@ -73,6 +77,7 @@ class OrderModel {
       'orderReceivingTime': orderReceivingTime.millisecondsSinceEpoch,
       'orderPickUpTime': orderPickUpTime.millisecondsSinceEpoch,
       'orderDeliveryTime': orderDeliveryTime.millisecondsSinceEpoch,
+      'pickUpTimeSlot': pickUpTimeSlot,
       'itemCount': itemCount,
       'orderStatus': orderStatus,
       'orderAmount': orderAmount,
@@ -95,6 +100,7 @@ class OrderModel {
           DateTime.fromMillisecondsSinceEpoch(map['orderPickUpTime'] as int),
       orderDeliveryTime:
           DateTime.fromMillisecondsSinceEpoch(map['orderDeliveryTime'] as int),
+      pickUpTimeSlot: map['pickUpTimeSlot'] as String,
       itemCount: map['itemCount'] as int,
       orderStatus: map['orderStatus'] as String,
       orderAmount: map['orderAmount'] as double,

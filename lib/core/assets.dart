@@ -17,6 +17,8 @@ class AppAssets {
   static final addressBookHomeIcon =
       SvgPicture.asset("assets/icons/home_icon_address_book.svg");
   static final profileIcon = SvgPicture.asset("assets/icons/profile_icon.svg");
+  static final pickUpTimeAlarmIcon =
+      SvgPicture.asset("assets/icons/pickup_time_alarm_icon.svg");
 
   // Images
   static final ironingServiceImage =

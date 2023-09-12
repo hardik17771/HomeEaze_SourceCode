@@ -34,73 +34,76 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: AppColors.primaryBackgroundColor,
+      appBar: AppBar(
+        elevation: 0,
+        toolbarHeight: 0,
         backgroundColor: AppColors.primaryBackgroundColor,
-        body: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Container(
-              width: screenWidth,
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: <Widget>[
-                  const SizedBox(height: 48),
-                  Text(
-                    "Droby",
-                    style: GoogleFonts.poppins(
-                      fontSize: 48,
-                      fontWeight: FontWeight.w700,
-                    ),
+      ),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Container(
+            width: screenWidth,
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 48),
+                Text(
+                  "Droby",
+                  style: GoogleFonts.poppins(
+                    fontSize: 48,
+                    fontWeight: FontWeight.w700,
                   ),
-                  const SizedBox(height: 64),
-                  TextFormField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) =>
-                        value!.isValidEmail() ? null : "Enter a valid email",
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.whiteColor,
-                      errorStyle: GoogleFonts.poppins(fontSize: 10),
-                      labelStyle: GoogleFonts.poppins(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.primaryTextColor,
-                      ),
-                      labelText: "Enter your Email *",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      contentPadding: const EdgeInsets.all(20.0),
+                ),
+                const SizedBox(height: 64),
+                TextFormField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) =>
+                      value!.isValidEmail() ? null : "Enter a valid email",
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: AppColors.whiteColor,
+                    errorStyle: GoogleFonts.poppins(fontSize: 10),
+                    labelStyle: GoogleFonts.poppins(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.primaryTextColor,
                     ),
+                    labelText: "Enter your Email *",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    contentPadding: const EdgeInsets.all(20.0),
                   ),
-                  const SizedBox(height: 36),
-                  (_isLoading == true)
-                      ? const ColorLoader()
-                      : CustomButton(
-                          text: "Reset Password",
-                          bgColor: AppColors.primaryButtonColor,
-                          textColor: AppColors.whiteColor,
-                          onPress: () async {
-                            if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                _isLoading = true;
-                              });
+                ),
+                const SizedBox(height: 36),
+                (_isLoading == true)
+                    ? const ColorLoader()
+                    : CustomButton(
+                        text: "Reset Password",
+                        bgColor: AppColors.primaryButtonColor,
+                        textColor: AppColors.whiteColor,
+                        onPress: () async {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              _isLoading = true;
+                            });
 
-                              await authController.resetUserPassword(
-                                context: context,
-                                email: emailController.text.trim(),
-                              );
+                            await authController.resetUserPassword(
+                              context: context,
+                              email: emailController.text.trim(),
+                            );
 
-                              setState(() {
-                                _isLoading = false;
-                              });
-                            }
-                          },
-                        ),
-                ],
-              ),
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          }
+                        },
+                      ),
+              ],
             ),
           ),
         ),

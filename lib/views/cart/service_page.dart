@@ -43,200 +43,202 @@ class _ServicePageState extends State<ServicePage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.primaryBackgroundColor,
-        body: Container(
-          height: size.height,
-          width: size.width,
-          color: AppColors.primaryBackgroundColor,
-          child: Stack(
-            children: [
-              Container(
-                height: size.height / 2.5,
-                width: size.width,
-                padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: AppColors.primaryButtonColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40),
-                  ),
+    return Scaffold(
+      backgroundColor: AppColors.primaryBackgroundColor,
+      appBar: AppBar(
+        elevation: 0,
+        toolbarHeight: 0,
+        backgroundColor: AppColors.primaryButtonColor,
+      ),
+      body: Container(
+        height: size.height,
+        width: size.width,
+        color: AppColors.primaryBackgroundColor,
+        child: Stack(
+          children: [
+            Container(
+              height: size.height / 2.5,
+              width: size.width,
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: AppColors.primaryButtonColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(40),
+                  bottomRight: Radius.circular(40),
                 ),
-                child: StreamBuilder(
-                  stream: _authController
-                      .getUserData(_authController.currentUser!.uid),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const ColorLoader();
-                    } else if (snapshot.hasData) {
-                      debugPrint("has UserData");
-                      final UserModel userModel = snapshot.data!;
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    height: 28,
-                                    width: 28,
-                                    child: AppAssets.locationPinPointIconFilled,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        "Home",
-                                        style: GoogleFonts.poppins(
-                                          color: AppColors.whiteColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${userModel.userManualAddress}, ${userModel.userManualPincode}",
-                                        style: GoogleFonts.poppins(
-                                          color: AppColors.whiteColor,
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return const MyProfilePage();
-                                      },
-                                    ),
-                                  );
-                                },
-                                child: SizedBox(
+              ),
+              child: StreamBuilder(
+                stream: _authController
+                    .getUserData(_authController.currentUser!.uid),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const ColorLoader();
+                  } else if (snapshot.hasData) {
+                    debugPrint("has UserData");
+                    final UserModel userModel = snapshot.data!;
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(
                                   height: 28,
                                   width: 28,
-                                  child: AppAssets.profileIcon,
+                                  child: AppAssets.locationPinPointIconFilled,
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Container(
-                            margin: const EdgeInsets.only(left: 12),
-                            child: Text(
-                              "Welcome back!",
-                              style: GoogleFonts.poppins(
-                                color: AppColors.whiteColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
+                                const SizedBox(width: 8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "Home",
+                                      style: GoogleFonts.poppins(
+                                        color: AppColors.whiteColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${userModel.userManualAddress}, ${userModel.userManualPincode}",
+                                      style: GoogleFonts.poppins(
+                                        color: AppColors.whiteColor,
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const MyProfilePage();
+                                    },
+                                  ),
+                                );
+                              },
+                              child: SizedBox(
+                                height: 28,
+                                width: 28,
+                                child: AppAssets.profileIcon,
                               ),
                             ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 12),
-                            child: Text(
-                              userModel.username,
-                              style: GoogleFonts.poppins(
-                                color: AppColors.whiteColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                              ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                          margin: const EdgeInsets.only(left: 12),
+                          child: Text(
+                            "Welcome back!",
+                            style: GoogleFonts.poppins(
+                              color: AppColors.whiteColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
                             ),
-                          ),
-                          const SizedBox(height: 24),
-                          Container(
-                            margin: const EdgeInsets.only(left: 13),
-                            child: Text(
-                              "How can we serve you today?",
-                              style: GoogleFonts.poppins(
-                                color: AppColors.whiteColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return const Center(child: Text("No Data"));
-                    }
-                  },
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                    left: 16, right: 16, top: size.height / 3.5),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            await updateService(service: services[0]);
-                          },
-                          child: ServiceCard(
-                            itemCount: 0,
-                            serviceImage: services[0].image,
-                            serviceName: services[0].name,
                           ),
                         ),
-                        InkWell(
-                          onTap: () async {
-                            await updateService(service: services[1]);
-                          },
-                          child: ServiceCard(
-                            itemCount: 0,
-                            serviceImage: services[1].image,
-                            serviceName: services[1].name,
+                        Container(
+                          margin: const EdgeInsets.only(left: 12),
+                          child: Text(
+                            userModel.username,
+                            style: GoogleFonts.poppins(
+                              color: AppColors.whiteColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Container(
+                          margin: const EdgeInsets.only(left: 13),
+                          child: Text(
+                            "How can we serve you today?",
+                            style: GoogleFonts.poppins(
+                              color: AppColors.whiteColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ],
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            await updateService(service: services[2]);
-                          },
-                          child: ServiceCard(
-                            itemCount: 0,
-                            serviceImage: services[2].image,
-                            serviceName: services[2].name,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            await updateService(service: services[3]);
-                          },
-                          child: ServiceCard(
-                            itemCount: 0,
-                            serviceImage: services[3].image,
-                            serviceName: services[3].name,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                    );
+                  } else {
+                    return const Center(child: Text("No Data"));
+                  }
+                },
               ),
-            ],
-          ),
+            ),
+            Container(
+              margin:
+                  EdgeInsets.only(left: 16, right: 16, top: size.height / 3.5),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          await updateService(service: services[0]);
+                        },
+                        child: ServiceCard(
+                          itemCount: 0,
+                          serviceImage: services[0].image,
+                          serviceName: services[0].name,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await updateService(service: services[1]);
+                        },
+                        child: ServiceCard(
+                          itemCount: 0,
+                          serviceImage: services[1].image,
+                          serviceName: services[1].name,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          await updateService(service: services[2]);
+                        },
+                        child: ServiceCard(
+                          itemCount: 0,
+                          serviceImage: services[2].image,
+                          serviceName: services[2].name,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await updateService(service: services[3]);
+                        },
+                        child: ServiceCard(
+                          itemCount: 0,
+                          serviceImage: services[3].image,
+                          serviceName: services[3].name,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
