@@ -28,200 +28,198 @@ class _MyBasketPageState extends State<MyBasketPage> {
         _itemCount += services[i].selectedItems.length;
       }
     });
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.primaryBackgroundColor,
-        appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 90,
-          backgroundColor: AppColors.primaryButtonColor,
-          title: Text(
-            "My Basket",
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
+    return Scaffold(
+      backgroundColor: AppColors.primaryBackgroundColor,
+      appBar: AppBar(
+        elevation: 0,
+        toolbarHeight: 90,
+        backgroundColor: AppColors.primaryButtonColor,
+        title: Text(
+          "My Basket",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        body: SingleChildScrollView(
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            itemCount: widget.cartServices.length,
-            itemBuilder: (BuildContext context, int index) {
-              Service currentService = widget.cartServices[index];
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                itemCount: currentService.selectedItems.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Item currentItem = currentService.selectedItems[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8, right: 8, top: 8, bottom: 8),
-                    child: Container(
-                      height: 90,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: AppColors.primaryBoxShadowColor,
-                            offset: Offset(2.0, 2.0),
-                            blurRadius: 2.0,
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.all(16),
-                                width: 28,
-                                height: 28,
-                                child: currentService.image,
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    currentService.name,
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  Text(
-                                    currentItem.name,
-                                    style: GoogleFonts.poppins(
-                                      color: AppColors.secondaryTextColor,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(right: 24.0),
-                            child: Row(
+      ),
+      body: SingleChildScrollView(
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          itemCount: widget.cartServices.length,
+          itemBuilder: (BuildContext context, int index) {
+            Service currentService = widget.cartServices[index];
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              itemCount: currentService.selectedItems.length,
+              itemBuilder: (BuildContext context, int index) {
+                Item currentItem = currentService.selectedItems[index];
+                return Padding(
+                  padding: const EdgeInsets.only(
+                      left: 8, right: 8, top: 8, bottom: 8),
+                  child: Container(
+                    height: 90,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: AppColors.whiteColor,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppColors.primaryBoxShadowColor,
+                          offset: Offset(2.0, 2.0),
+                          blurRadius: 2.0,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.all(16),
+                              width: 28,
+                              height: 28,
+                              child: currentService.image,
+                            ),
+                            Column(
                               mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                InkWell(
-                                  child: const Icon(
-                                    Icons.remove,
-                                    size: 24,
-                                    color: AppColors.primaryButtonColor,
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      if (currentItem.quantity > 0) {
-                                        currentItem.quantity--;
-                                        if (currentItem.quantity == 0) {
-                                          currentService.selectedItems
-                                              .remove(currentItem);
-                                        }
-                                      }
-                                    });
-                                  },
-                                ),
-                                Container(
-                                  margin:
-                                      const EdgeInsets.only(left: 8, right: 8),
-                                  child: Text(
-                                    currentItem.quantity.toString(),
-                                    style: GoogleFonts.poppins(
-                                      color: AppColors.primaryButtonColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                Text(
+                                  currentService.name,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                InkWell(
-                                  child: const Icon(
-                                    Icons.add,
-                                    size: 24,
-                                    color: AppColors.primaryButtonColor,
+                                Text(
+                                  currentItem.name,
+                                  style: GoogleFonts.poppins(
+                                    color: AppColors.secondaryTextColor,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  onTap: () {
-                                    setState(() {
-                                      currentItem.quantity++;
-                                      if (!currentService.selectedItems
-                                          .contains(currentItem)) {
-                                        currentService.selectedItems
-                                            .add(currentItem);
-                                      }
-                                    });
-                                  },
                                 ),
                               ],
-                            ),
+                            )
+                          ],
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(right: 24.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                child: const Icon(
+                                  Icons.remove,
+                                  size: 24,
+                                  color: AppColors.primaryButtonColor,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    if (currentItem.quantity > 0) {
+                                      currentItem.quantity--;
+                                      if (currentItem.quantity == 0) {
+                                        currentService.selectedItems
+                                            .remove(currentItem);
+                                      }
+                                    }
+                                  });
+                                },
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(left: 8, right: 8),
+                                child: Text(
+                                  currentItem.quantity.toString(),
+                                  style: GoogleFonts.poppins(
+                                    color: AppColors.primaryButtonColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                child: const Icon(
+                                  Icons.add,
+                                  size: 24,
+                                  color: AppColors.primaryButtonColor,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    currentItem.quantity++;
+                                    if (!currentService.selectedItems
+                                        .contains(currentItem)) {
+                                      currentService.selectedItems
+                                          .add(currentItem);
+                                    }
+                                  });
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  );
-                },
-              );
-            },
-          ),
+                  ),
+                );
+              },
+            );
+          },
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop(widget.cartServices);
-                    },
-                    child: const BottomBarButton(
-                      text: "Cancel",
-                      textColor: AppColors.whiteColor,
-                      bgColor: AppColors.secondaryButtonColor,
-                      borderRadius: 10,
-                    ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop(widget.cartServices);
+                  },
+                  child: const BottomBarButton(
+                    text: "Cancel",
+                    textColor: AppColors.whiteColor,
+                    bgColor: AppColors.secondaryButtonColor,
+                    borderRadius: 10,
                   ),
                 ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      if (_itemCount != 0) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ChooseVendorPage(
-                                cartServices: widget.cartServices,
-                              );
-                            },
-                          ),
-                        );
-                      } else {
-                        showCustomDialog(
-                          context: context,
-                          title: "Cart is Empty",
-                          message: "Select some items to Procced",
-                        );
-                      }
-                    },
-                    child: const BottomBarButton(
-                      text: "Proceed   >",
-                      textColor: AppColors.whiteColor,
-                      bgColor: AppColors.primaryButtonColor,
-                      borderRadius: 10,
-                    ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    if (_itemCount != 0) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ChooseVendorPage(
+                              cartServices: widget.cartServices,
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      showCustomDialog(
+                        context: context,
+                        title: "Cart is Empty",
+                        message: "Select some items to Procced",
+                      );
+                    }
+                  },
+                  child: const BottomBarButton(
+                    text: "Proceed   >",
+                    textColor: AppColors.whiteColor,
+                    bgColor: AppColors.primaryButtonColor,
+                    borderRadius: 10,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -20,6 +20,7 @@ class OrdersController {
     required BuildContext context,
     required int itemCount,
     required String paymentMode,
+    required String pickUpTimeSlot,
     required UserModel userModel,
     required VendorModel vendorModel,
     required List<Service> cartServices,
@@ -28,15 +29,17 @@ class OrdersController {
   }) async {
     final orderId = const Uuid().v1();
 
+    // pickUpTimeSLot
     final OrderModel order = OrderModel(
       userUid: userModel.userUid,
       vendorUid: vendorModel.vendorUid,
       orderId: orderId,
+      pickUpTimeSlot: pickUpTimeSlot,
       orderReceivingTime: DateTime.now(),
       orderPickUpTime: DateTime.now(),
       orderDeliveryTime: DateTime.now(),
       itemCount: itemCount,
-      orderStatus: "Waiting",
+      orderStatus: "To be picked up",
       orderAmount: double.parse(transactionDetailModel.amount!),
       paymentMode: paymentMode,
       paymentTransactionId: transactionDetailModel.transactionId!,

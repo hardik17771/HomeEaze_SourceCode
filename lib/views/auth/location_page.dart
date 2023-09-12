@@ -147,264 +147,265 @@ class _LocationPageState extends State<LocationPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: AppColors.primaryBackgroundColor,
+      appBar: AppBar(
+        elevation: 0,
+        toolbarHeight: 0,
         backgroundColor: AppColors.primaryBackgroundColor,
-        body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Stack(
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Stack(
+                children: [
+                  Center(
+                    child: SizedBox(
+                      height: 250,
+                      width: 250,
+                      child: AppAssets.locationStarImage,
+                    ),
+                  ),
+                  Positioned(
+                    left: screenWidth / 2 - 75,
+                    top: 75,
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 120,
+                      width: 150,
+                      child: AppAssets.locationPinImage,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                'Want to see services near you?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: SizedBox(
-                        height: 250,
-                        width: 250,
-                        child: AppAssets.locationStarImage,
+                    const SizedBox(height: 16),
+                    (_isLocationLoading == true)
+                        ? const ColorLoader()
+                        : Padding(
+                            padding: const EdgeInsets.only(left: 12, right: 12),
+                            child: CustomButton(
+                              text: (_currentPosition != null)
+                                  ? 'Current Address Applied'
+                                  : 'Use My Current Address',
+                              bgColor: AppColors.primaryButtonColor,
+                              textColor: Colors.white,
+                              onPress: () {
+                                setState(() {
+                                  _isLocationLoading = true;
+                                });
+                                _getCurrentPosition();
+                              },
+                            ),
+                          ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Enter address details',
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
                       ),
                     ),
-                    Positioned(
-                      left: screenWidth / 2 - 75,
-                      top: 75,
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 120,
-                        width: 150,
-                        child: AppAssets.locationPinImage,
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: manualHouseNoController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter field value';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.whiteColor,
+                        errorStyle: GoogleFonts.poppins(fontSize: 10),
+                        labelText: 'Flat / House no / Floor / Building *',
+                        labelStyle: GoogleFonts.poppins(
+                          color: AppColors.primaryTextColor,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primaryBorderColor,
+                            width: 10,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        contentPadding: const EdgeInsets.all(16.0),
                       ),
                     ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: manualLocalityController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter your locality';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.whiteColor,
+                        errorStyle: GoogleFonts.poppins(fontSize: 10),
+                        labelText: 'Enter your Locality *',
+                        labelStyle: GoogleFonts.poppins(
+                          color: AppColors.primaryTextColor,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primaryBorderColor,
+                            width: 10,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        contentPadding: const EdgeInsets.all(16.0),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: nearByAddressController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.whiteColor,
+                        labelText: 'NearBy Address (optional)',
+                        labelStyle: GoogleFonts.poppins(
+                          color: AppColors.primaryTextColor,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primaryBorderColor,
+                            width: 10,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        contentPadding: const EdgeInsets.all(16.0),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: manualPincodeController,
+                      validator: (value) {
+                        if (value == null || value.length != 6) {
+                          return 'Enter your pincode';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.whiteColor,
+                        errorStyle: GoogleFonts.poppins(fontSize: 10),
+                        labelText: 'Enter your Pincode *',
+                        labelStyle: GoogleFonts.poppins(
+                          color: AppColors.primaryTextColor,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primaryBorderColor,
+                            width: 10,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        contentPadding: const EdgeInsets.all(16.0),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
                   ],
                 ),
-                Text(
-                  'Want to see services near you?',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 16),
-                      (_isLocationLoading == true)
-                          ? const ColorLoader()
-                          : Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 12, right: 12),
-                              child: CustomButton(
-                                text: (_currentPosition != null)
-                                    ? 'Current Address Applied'
-                                    : 'Use My Current Address',
-                                bgColor: AppColors.primaryButtonColor,
-                                textColor: Colors.white,
-                                onPress: () {
-                                  setState(() {
-                                    _isLocationLoading = true;
-                                  });
-                                  _getCurrentPosition();
-                                },
-                              ),
-                            ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Enter address details',
-                        textAlign: TextAlign.start,
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: manualHouseNoController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Enter field value';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: AppColors.whiteColor,
-                          errorStyle: GoogleFonts.poppins(fontSize: 10),
-                          labelText: 'Flat / House no / Floor / Building *',
-                          labelStyle: GoogleFonts.poppins(
-                            color: AppColors.primaryTextColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.primaryBorderColor,
-                              width: 10,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                          contentPadding: const EdgeInsets.all(16.0),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: manualLocalityController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Enter your locality';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: AppColors.whiteColor,
-                          errorStyle: GoogleFonts.poppins(fontSize: 10),
-                          labelText: 'Enter your Locality *',
-                          labelStyle: GoogleFonts.poppins(
-                            color: AppColors.primaryTextColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.primaryBorderColor,
-                              width: 10,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                          contentPadding: const EdgeInsets.all(16.0),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: nearByAddressController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: AppColors.whiteColor,
-                          labelText: 'NearBy Address (optional)',
-                          labelStyle: GoogleFonts.poppins(
-                            color: AppColors.primaryTextColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.primaryBorderColor,
-                              width: 10,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                          contentPadding: const EdgeInsets.all(16.0),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: manualPincodeController,
-                        validator: (value) {
-                          if (value == null || value.length != 6) {
-                            return 'Enter your pincode';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: AppColors.whiteColor,
-                          errorStyle: GoogleFonts.poppins(fontSize: 10),
-                          labelText: 'Enter your Pincode *',
-                          labelStyle: GoogleFonts.poppins(
-                            color: AppColors.primaryTextColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.primaryBorderColor,
-                              width: 10,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                          contentPadding: const EdgeInsets.all(16.0),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: AppColors.primaryBackgroundColor,
-          child: (_isDataLoading == true)
-              ? SizedBox(
-                  height: 100,
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: AppColors.primaryBackgroundColor,
+        child: (_isDataLoading == true)
+            ? SizedBox(
+                height: 100,
+                width: screenWidth,
+                child: const ColorLoader(),
+              )
+            : GestureDetector(
+                onTap: () async {
+                  if (_formKey.currentState!.validate() &&
+                      _isLocationLoading == false &&
+                      _currentPosition != null &&
+                      _liveAddress != "" &&
+                      _livePincode != "") {
+                    setState(() {
+                      _isDataLoading = true;
+                    });
+
+                    await authController.saveUserDataToFirestore(
+                      user: widget.user,
+                      username: widget.username,
+                      mobileNumber: widget.mobileNumber,
+                      manualAddress:
+                          '${manualHouseNoController.text.trim()}, ${manualLocalityController.text.trim()}, ${nearByAddressController.text.trim()}',
+                      manualPincode: manualPincodeController.text.trim(),
+                      liveAddress: _liveAddress,
+                      livePincode: _livePincode,
+                      userLongitude: _currentPosition!.longitude,
+                      userLatitude: _currentPosition!.latitude,
+                      context: context,
+                    );
+
+                    setState(() {
+                      _isDataLoading = false;
+                    });
+                  } else if (_isLocationLoading == true ||
+                      _currentPosition == null ||
+                      _liveAddress == "" ||
+                      _livePincode == "") {
+                    showCustomDialog(
+                      context: context,
+                      title: "Use your current Location",
+                      message:
+                          "Please use your current Location by clicking on button",
+                    );
+                  }
+                },
+                child: Container(
+                  height: 40,
                   width: screenWidth,
-                  child: const ColorLoader(),
-                )
-              : GestureDetector(
-                  onTap: () async {
-                    if (_formKey.currentState!.validate() &&
-                        _isLocationLoading == false &&
-                        _currentPosition != null &&
-                        _liveAddress != "" &&
-                        _livePincode != "") {
-                      setState(() {
-                        _isDataLoading = true;
-                      });
-
-                      await authController.saveUserDataToFirestore(
-                        user: widget.user,
-                        username: widget.username,
-                        mobileNumber: widget.mobileNumber,
-                        manualAddress:
-                            '${manualHouseNoController.text.trim()}, ${manualLocalityController.text.trim()}, ${nearByAddressController.text.trim()}',
-                        manualPincode: manualPincodeController.text.trim(),
-                        liveAddress: _liveAddress,
-                        livePincode: _livePincode,
-                        userLongitude: _currentPosition!.longitude,
-                        userLatitude: _currentPosition!.latitude,
-                        context: context,
-                      );
-
-                      setState(() {
-                        _isDataLoading = false;
-                      });
-                    } else if (_isLocationLoading == true ||
-                        _currentPosition == null ||
-                        _liveAddress == "" ||
-                        _livePincode == "") {
-                      showCustomDialog(
-                        context: context,
-                        title: "Use your current Location",
-                        message:
-                            "Please use your current Location by clicking on button",
-                      );
-                    }
-                  },
-                  child: Container(
-                    height: 40,
-                    width: screenWidth,
-                    margin:
-                        const EdgeInsets.only(left: 8, right: 8, bottom: 16),
-                    decoration: const BoxDecoration(
-                      color: AppColors.whiteColor,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "SAVE ADDRESS",
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                        ),
+                  margin: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
+                  decoration: const BoxDecoration(
+                    color: AppColors.whiteColor,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "SAVE ADDRESS",
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                 ),
-        ),
+              ),
       ),
     );
   }

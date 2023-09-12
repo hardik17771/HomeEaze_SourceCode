@@ -24,83 +24,81 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.primaryBackgroundColor,
-        appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 90,
-          backgroundColor: AppColors.primaryButtonColor,
-          title: Text(
-            "My Orders",
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
+    return Scaffold(
+      backgroundColor: AppColors.primaryBackgroundColor,
+      appBar: AppBar(
+        elevation: 0,
+        toolbarHeight: 90,
+        backgroundColor: AppColors.primaryButtonColor,
+        title: Text(
+          "My Orders",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        body: StreamBuilder<List<OrderModel>>(
-          stream: _ordersController.fetchUserOrdersData(
-              userUid: _authController.currentUser!.uid),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<OrderModel>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const NoOrdersWidget();
-            } else if (snapshot.hasData) {
-              debugPrint("has Orders");
-              return (snapshot.data!.isNotEmpty)
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        OrderModel orderModel = snapshot.data![index];
-                        return StreamBuilder(
-                          stream: _dataController.getVendorData(
-                              vendorUid: orderModel.vendorUid),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const ColorLoader();
-                            } else if (snapshot.hasData) {
-                              VendorModel vendorModel = snapshot.data!;
-                              debugPrint("has VendorData");
-                              return FutureBuilder(
-                                future: _ordersController.fetchOrderSummary(
-                                    orderId: orderModel.orderId),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const ColorLoader();
-                                  } else if (snapshot.hasData) {
-                                    debugPrint("has Order Summary");
-                                    List<Map<String, dynamic>> orderServices =
-                                        snapshot.data;
-                                    return OrderCard(
-                                      orderModel: orderModel,
-                                      vendorModel: vendorModel,
-                                      orderServices: orderServices,
-                                    );
-                                  } else {
-                                    return const NoOrdersWidget();
-                                  }
-                                },
-                              );
-                            } else {
-                              return const NoOrdersWidget();
-                            }
-                          },
-                        );
-                      },
-                    )
-                  : const NoOrdersWidget();
-            } else {
-              return const NoOrdersWidget();
-            }
-          },
-        ),
+      ),
+      body: StreamBuilder<List<OrderModel>>(
+        stream: _ordersController.fetchUserOrdersData(
+            userUid: _authController.currentUser!.uid),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<OrderModel>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const NoOrdersWidget();
+          } else if (snapshot.hasData) {
+            debugPrint("has Orders");
+            return (snapshot.data!.isNotEmpty)
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      OrderModel orderModel = snapshot.data![index];
+                      return StreamBuilder(
+                        stream: _dataController.getVendorData(
+                            vendorUid: orderModel.vendorUid),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const ColorLoader();
+                          } else if (snapshot.hasData) {
+                            VendorModel vendorModel = snapshot.data!;
+                            debugPrint("has VendorData");
+                            return FutureBuilder(
+                              future: _ordersController.fetchOrderSummary(
+                                  orderId: orderModel.orderId),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const ColorLoader();
+                                } else if (snapshot.hasData) {
+                                  debugPrint("has Order Summary");
+                                  List<Map<String, dynamic>> orderServices =
+                                      snapshot.data;
+                                  return OrderCard(
+                                    orderModel: orderModel,
+                                    vendorModel: vendorModel,
+                                    orderServices: orderServices,
+                                  );
+                                } else {
+                                  return const NoOrdersWidget();
+                                }
+                              },
+                            );
+                          } else {
+                            return const NoOrdersWidget();
+                          }
+                        },
+                      );
+                    },
+                  )
+                : const NoOrdersWidget();
+          } else {
+            return const NoOrdersWidget();
+          }
+        },
       ),
     );
   }
