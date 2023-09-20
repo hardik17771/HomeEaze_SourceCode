@@ -174,7 +174,7 @@ class _MyBasketPageState extends State<MyBasketPage> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               Expanded(

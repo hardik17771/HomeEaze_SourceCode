@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_upi_payment/easy_upi_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +11,6 @@ import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
-import 'package:homeeaze_sourcecode/views/orders/upi_payment_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/bottom_bar_button.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -37,7 +37,6 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   bool? _isLoading;
   UserModel? _userModel;
-  String? _selectedPaymentMode;
   final AuthController _authController = AuthController();
   final OrdersController _ordersController = OrdersController();
   final List<String> paymentMode = [
@@ -72,6 +71,7 @@ class _PaymentPageState extends State<PaymentPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: size.width,
@@ -89,37 +89,63 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
               ),
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const ClampingScrollPhysics(),
-              itemCount: paymentMode.length,
-              itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    Radio(
-                      value: paymentMode[index],
-                      groupValue: _selectedPaymentMode,
-                      activeColor: AppColors.primaryButtonColor,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedPaymentMode = value;
-                        });
-                      },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  const Icon(Icons.check_circle_outline_rounded),
+                  const SizedBox(width: 8),
+                  Text(
+                    paymentMode[0],
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                     ),
-                    Text(
-                      paymentMode[index],
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const Divider(
-                      thickness: 1.5,
+                  ),
+                ],
+              ),
+            ),
+            const Divider(
+              thickness: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.circle_outlined,
+                    color: AppColors.secondaryTextColor,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    paymentMode[1],
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.secondaryTextColor,
                     ),
-                  ],
-                );
-              },
+                  ),
+                  const SizedBox(width: 16),
+                  AnimatedTextKit(
+                    isRepeatingAnimation: true,
+                    animatedTexts: [
+                      ScaleAnimatedText(
+                        "Coming Soon",
+                        textStyle: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: AppColors.tertiaryTextColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                    pause: const Duration(milliseconds: 500),
+                    totalRepeatCount: 100,
+                  )
+                ],
+              ),
+            ),
+            const Divider(
+              thickness: 1,
             ),
             Container(
               width: size.width,
@@ -316,56 +342,51 @@ class _PaymentPageState extends State<PaymentPage> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () async {
-                              if (_userModel != null &&
-                                  _selectedPaymentMode != null) {
+                              if (_userModel != null) {
                                 setState(() {
                                   _isLoading = true;
                                 });
 
-                                if (_selectedPaymentMode == paymentMode[0]) {
-                                  // Transaction Model for Pay on Delivery
-                                  TransactionDetailModel
-                                      transactionDetailModel =
-                                      TransactionDetailModel(
-                                    transactionId: "not-applied",
-                                    responseCode: "pending",
-                                    approvalRefNo: "not-applied",
-                                    transactionRefId: "not-applied",
-                                    amount:
-                                        (widget.totalAmount + 60).toString(),
-                                  );
+                                // Transaction Model for Pay on Delivery ---->
+                                TransactionDetailModel transactionDetailModel =
+                                    TransactionDetailModel(
+                                  transactionId: "not-applied",
+                                  responseCode: "pending",
+                                  approvalRefNo: "not-applied",
+                                  transactionRefId: "not-applied",
+                                  amount: (widget.totalAmount + 60).toString(),
+                                );
 
-                                  await _ordersController.placeOrder(
-                                    pickUpTimeSlot: widget.pickUpTimeSlot,
-                                    context: context,
-                                    paymentMode: "Pay on Delivery",
-                                    userModel: _userModel!,
-                                    vendorModel: widget.vendorModel,
-                                    cartServices: widget.cartServices,
-                                    outletServiceMenu: widget.outletServiceMenu,
-                                    itemCount: widget.itemCount,
-                                    transactionDetailModel:
-                                        transactionDetailModel,
-                                  );
-                                } else {
-                                  // Navigate to UPI Payment Page
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return UpiPaymentPage(
-                                          pickUpTimeSlot: widget.pickUpTimeSlot,
-                                          itemCount: widget.itemCount,
-                                          orderAmount: widget.totalAmount + 60,
-                                          userModel: _userModel!,
-                                          vendorModel: widget.vendorModel,
-                                          cartServices: widget.cartServices,
-                                          outletServiceMenu:
-                                              widget.outletServiceMenu,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }
+                                await _ordersController.placeOrder(
+                                  pickUpTimeSlot: widget.pickUpTimeSlot,
+                                  context: context,
+                                  paymentMode: "Pay on Delivery",
+                                  userModel: _userModel!,
+                                  vendorModel: widget.vendorModel,
+                                  cartServices: widget.cartServices,
+                                  outletServiceMenu: widget.outletServiceMenu,
+                                  itemCount: widget.itemCount,
+                                  transactionDetailModel:
+                                      transactionDetailModel,
+                                );
+
+                                // Navigate to UPI Payment Page
+                                // Navigator.of(context).push(
+                                //   MaterialPageRoute(
+                                //     builder: (context) {
+                                //       return UpiPaymentPage(
+                                //         pickUpTimeSlot: widget.pickUpTimeSlot,
+                                //         itemCount: widget.itemCount,
+                                //         orderAmount: widget.totalAmount + 60,
+                                //         userModel: _userModel!,
+                                //         vendorModel: widget.vendorModel,
+                                //         cartServices: widget.cartServices,
+                                //         outletServiceMenu:
+                                //             widget.outletServiceMenu,
+                                //       );
+                                //     },
+                                //   ),
+                                // );
 
                                 setState(() {
                                   _isLoading = false;

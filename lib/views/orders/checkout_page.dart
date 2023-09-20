@@ -13,6 +13,7 @@ import 'package:homeeaze_sourcecode/views/cart/widgets/pickup_time_card.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 import 'package:homeeaze_sourcecode/views/orders/payment_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/bottom_bar_button.dart';
+import 'package:intl/intl.dart';
 
 class CheckOutPage extends StatefulWidget {
   final VendorModel vendorModel;
@@ -34,11 +35,56 @@ class _CheckOutPageState extends State<CheckOutPage> {
   final DataController _dataController = DataController();
   int _itemCount = 0;
   double _subTotalAmount = 0;
-  String? selectedPickUpOption;
-  List<String> pickUpOptions = [
-    "8-9 AM",
-    "2-3 PM",
-    "6-7 PM",
+  int _selectedPickUpIndex = -1;
+  String? _selectedPickUpOption;
+
+  static List<DateTime> todayDateTimeOptions = [
+    DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      8,
+    ),
+    DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      14,
+    ),
+    DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      18,
+    ),
+  ];
+  static List<DateTime> tomorrowDateTimeOptions = [
+    DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day + 1,
+      8,
+    ),
+    DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day + 1,
+      14,
+    ),
+    DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day + 1,
+      18,
+    ),
+  ];
+
+  List<String> pickUpSlotDayOptions = ['Today', 'Today', 'Today'];
+  List<String> pickUpSlotTimeOptions = ["8-9 AM", "2-3 PM", "6-7 PM"];
+  List<String> pickUpSlotDateOptions = [
+    DateFormat('EEE, d-M-y').format(todayDateTimeOptions[0]),
+    DateFormat('EEE, d-M-y').format(todayDateTimeOptions[1]),
+    DateFormat('EEE, d-M-y').format(todayDateTimeOptions[2]),
   ];
 
   @override
@@ -54,6 +100,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
       for (int i = 0; i < widget.cartServices.length; i++) {
         _itemCount += widget.cartServices[i].selectedItems.length;
+      }
+
+      /// Change piclUpSlotDateOptions as per Curent Date Time
+      for (int i = 0; i < 3; i++) {
+        if (DateTime.now().isAfter(todayDateTimeOptions[i])) {
+          pickUpSlotDayOptions[i] = 'Tomorrow';
+          pickUpSlotDateOptions[i] =
+              DateFormat('EEE, d-M-y').format(tomorrowDateTimeOptions[i]);
+        }
       }
     });
 
@@ -114,40 +169,85 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        selectedPickUpOption = pickUpOptions[0];
+                        _selectedPickUpIndex = 0;
+                        _selectedPickUpOption =
+                            "${pickUpSlotTimeOptions[0]} ${pickUpSlotDateOptions[0]}";
                       });
                     },
-                    child: PickUpTimeCard(
-                      text: pickUpOptions[0],
-                      bgColor: (selectedPickUpOption != pickUpOptions[0])
-                          ? AppColors.primaryButtonColor
-                          : AppColors.secondaryButtonColor,
+                    child: Column(
+                      children: [
+                        Text(
+                          pickUpSlotDayOptions[0],
+                          style: GoogleFonts.poppins(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.secondaryTextColor,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        PickUpTimeCard(
+                          text: pickUpSlotTimeOptions[0],
+                          bgColor: (_selectedPickUpIndex != 0)
+                              ? AppColors.primaryButtonColor
+                              : AppColors.secondaryButtonColor,
+                        ),
+                      ],
                     ),
                   ),
                   InkWell(
                     onTap: () {
                       setState(() {
-                        selectedPickUpOption = pickUpOptions[1];
+                        _selectedPickUpIndex = 1;
+                        _selectedPickUpOption =
+                            "${pickUpSlotTimeOptions[1]} ${pickUpSlotDateOptions[1]}";
                       });
                     },
-                    child: PickUpTimeCard(
-                      text: pickUpOptions[1],
-                      bgColor: (selectedPickUpOption != pickUpOptions[1])
-                          ? AppColors.primaryButtonColor
-                          : AppColors.secondaryButtonColor,
+                    child: Column(
+                      children: [
+                        Text(
+                          pickUpSlotDayOptions[1],
+                          style: GoogleFonts.poppins(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.secondaryTextColor,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        PickUpTimeCard(
+                          text: pickUpSlotTimeOptions[1],
+                          bgColor: (_selectedPickUpIndex != 1)
+                              ? AppColors.primaryButtonColor
+                              : AppColors.secondaryButtonColor,
+                        ),
+                      ],
                     ),
                   ),
                   InkWell(
                     onTap: () {
                       setState(() {
-                        selectedPickUpOption = pickUpOptions[2];
+                        _selectedPickUpIndex = 2;
+                        _selectedPickUpOption =
+                            "${pickUpSlotTimeOptions[2]} ${pickUpSlotDateOptions[2]}";
                       });
                     },
-                    child: PickUpTimeCard(
-                      text: pickUpOptions[2],
-                      bgColor: (selectedPickUpOption != pickUpOptions[2])
-                          ? AppColors.primaryButtonColor
-                          : AppColors.secondaryButtonColor,
+                    child: Column(
+                      children: [
+                        Text(
+                          pickUpSlotDayOptions[2],
+                          style: GoogleFonts.poppins(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.secondaryTextColor,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        PickUpTimeCard(
+                          text: pickUpSlotTimeOptions[2],
+                          bgColor: (_selectedPickUpIndex != 2)
+                              ? AppColors.primaryButtonColor
+                              : AppColors.secondaryButtonColor,
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -595,7 +695,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     child: GestureDetector(
                       onTap: () {
                         // Payment Page
-                        if (_itemCount != 0 && selectedPickUpOption != null) {
+                        if (_itemCount != 0 && _selectedPickUpIndex != -1) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
@@ -605,7 +705,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   vendorModel: widget.vendorModel,
                                   totalAmount: _subTotalAmount,
                                   itemCount: _itemCount,
-                                  pickUpTimeSlot: selectedPickUpOption!,
+                                  pickUpTimeSlot: _selectedPickUpOption!,
                                 );
                               },
                             ),

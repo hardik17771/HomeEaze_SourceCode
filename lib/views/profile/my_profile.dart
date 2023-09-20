@@ -5,8 +5,10 @@ import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
+import 'package:homeeaze_sourcecode/views/auth/location_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 import 'package:homeeaze_sourcecode/views/profile/address_book_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({super.key});
@@ -27,6 +29,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
         elevation: 0,
         toolbarHeight: 90,
         backgroundColor: AppColors.primaryButtonColor,
+        leading: const Icon(Icons.arrow_back),
         title: Text(
           "My Account",
           style: GoogleFonts.poppins(
@@ -100,7 +103,68 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     showCustomBottomSheet(
                       context: context,
                       title: "Customer Care No.",
-                      text: "+91-9079083981",
+                      text: "+91 9079083981",
+                    );
+
+                    showModalBottomSheet(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      backgroundColor: AppColors.primaryBackgroundColor,
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                          padding: const EdgeInsets.all(16),
+                          color: AppColors.primaryBackgroundColor,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Customer Care No.",
+                                textAlign: TextAlign.start,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "+91-9079083981",
+                                    textAlign: TextAlign.start,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      color: AppColors.secondaryTextColor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  InkWell(
+                                    onTap: () async {
+                                      final callUrl =
+                                          Uri.parse('tel:=+91 9079083981');
+                                      if (await canLaunchUrl(callUrl)) {
+                                        launchUrl(callUrl);
+                                      } else {
+                                        // ignore: use_build_context_synchronously
+                                        showCustomDialog(
+                                          context: context,
+                                          title: "Could not open the dialer",
+                                          message:
+                                              "Could not open the dialer retry after few minutes",
+                                        );
+                                      }
+                                    },
+                                    child: const Icon(Icons.call, size: 20),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     );
                   },
                   child: Container(

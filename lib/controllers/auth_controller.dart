@@ -23,18 +23,29 @@ class AuthController {
     required BuildContext context,
   }) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      bool vendorExist = await checkVendorCredentials(email);
 
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) {
-          return const HomePage(currIndex: 0);
-        }),
-        (route) => false,
-      );
+      if (vendorExist == true) {
+        // ignore: use_build_context_synchronously
+        showCustomDialog(
+          context: context,
+          title: "Authentication Error",
+          message: "This email is already registered as a vendor",
+        );
+      } else {
+        await _firebaseAuth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) {
+            return const HomePage(currIndex: 0);
+          }),
+          (route) => false,
+        );
+      }
     } on FirebaseException catch (e) {
       showCustomDialog(
         context: context,
@@ -145,6 +156,7 @@ class AuthController {
     }
   }
 
+  /// for fetching userModel
   Stream<UserModel> getUserData(String uid) {
     return _firestore
         .collection("users")
@@ -153,6 +165,24 @@ class AuthController {
         .map((event) => UserModel.fromMap(
               event.data() as Map<String, dynamic>,
             ));
+  }
+
+  /// checking existence of user credentials in db
+  Future<bool> checkUserCredentials(User user) async {
+    DocumentSnapshot? userDoc =
+        await _firestore.collection("users").doc(user.uid).get();
+    return (userDoc.data() != null);
+  }
+
+  /// checking existence of vendor credentials in db
+  Future<bool> checkVendorCredentials(String vendorEmail) async {
+    QuerySnapshot? vendorDoc = await _firestore
+        .collection("vendors")
+        .where('vendorEmail', isEqualTo: vendorEmail)
+        .get();
+
+    List<DocumentSnapshot> tempList = vendorDoc.docs;
+    return (tempList.isNotEmpty);
   }
 
   Future<void> signOut(BuildContext context) async {

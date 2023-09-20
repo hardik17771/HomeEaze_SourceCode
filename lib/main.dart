@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,7 +9,9 @@ import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/notification_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
+import 'package:homeeaze_sourcecode/views/auth/email_verifly_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/first_page.dart';
+import 'package:homeeaze_sourcecode/views/auth/user_info_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 
 Future main() async {
@@ -41,7 +44,9 @@ class _MyAppState extends State<MyApp> {
   var isConnected = false;
   late StreamSubscription subscription;
   late ConnectivityResult connectivityResult;
-  NotificationController _notificationController = NotificationController();
+  final AuthController _authController = AuthController();
+  final NotificationController _notificationController =
+      NotificationController();
 
   @override
   void initState() {
@@ -117,12 +122,28 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: AuthController().authStateChanges,
+      stream: _authController.authStateChanges,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const ColorLoader();
         } else if (snapshot.hasData) {
-          return const HomePage(currIndex: 0);
+          User? currentUser = _authController.currentUser;
+          if (currentUser!.emailVerified) {
+            return FutureBuilder(
+              future: _authController.checkUserCredentials(currentUser),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData && snapshot.data == true) {
+                  return const HomePage(currIndex: 0);
+                } else if (snapshot.hasData && snapshot.data == false) {
+                  return UserInfoPage(user: currentUser);
+                } else {
+                  return const ColorLoader();
+                }
+              },
+            );
+          } else {
+            return const EmailVerificationPage();
+          }
         } else {
           return const FirstPage();
         }

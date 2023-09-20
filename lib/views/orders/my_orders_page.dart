@@ -30,6 +30,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
         elevation: 0,
         toolbarHeight: 90,
         backgroundColor: AppColors.primaryButtonColor,
+        leading: const Icon(Icons.arrow_back),
         title: Text(
           "My Orders",
           style: GoogleFonts.poppins(

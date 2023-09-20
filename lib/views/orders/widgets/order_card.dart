@@ -78,13 +78,50 @@ class _OrderCardState extends State<OrderCard> {
                     ),
                   ],
                 ),
-                Text(
-                  widget.orderModel.orderStatus,
-                  style: GoogleFonts.poppins(
-                    color: AppColors.secondaryTextColor,
-                    fontSize: 9,
-                    fontWeight: FontWeight.w600,
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Order Status : ",
+                          style: GoogleFonts.poppins(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          widget.orderModel.orderStatus,
+                          style: GoogleFonts.poppins(
+                            color: AppColors.secondaryTextColor,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Text(
+                          "Pick up slot : ",
+                          style: GoogleFonts.poppins(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          widget.orderModel.pickUpTimeSlot,
+                          style: GoogleFonts.poppins(
+                            color: AppColors.secondaryTextColor,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -130,14 +167,14 @@ class _OrderCardState extends State<OrderCard> {
                     ),
                   ],
                 ),
-                Text(
-                  "View Pricings  >",
-                  style: GoogleFonts.poppins(
-                    color: AppColors.tertiaryTextColor,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                // Text(
+                //   "View Pricings  >",
+                //   style: GoogleFonts.poppins(
+                //     color: AppColors.tertiaryTextColor,
+                //     fontSize: 10,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                // ),
               ],
             ),
             const Divider(thickness: 1.5),
