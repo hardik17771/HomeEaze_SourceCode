@@ -8,6 +8,7 @@ import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/add_item_page.dart';
+import 'package:homeeaze_sourcecode/views/cart/my_basket_page.dart';
 import 'package:homeeaze_sourcecode/views/cart/widgets/service_card.dart';
 import 'package:homeeaze_sourcecode/views/profile/my_profile.dart';
 
@@ -20,6 +21,7 @@ class ServicePage extends StatefulWidget {
 
 class _ServicePageState extends State<ServicePage> {
   final AuthController _authController = AuthController();
+  int _itemCount = 0;
 
   Future<void> updateService({required Service service}) async {
     final updatedService = await Navigator.push(
@@ -32,8 +34,7 @@ class _ServicePageState extends State<ServicePage> {
     );
 
     if (updatedService != null) {
-      showCustomToast(
-          text: "Cart Items have been updated click on cart to Proceed");
+      showCustomToast(text: "Cart Items have been updated");
       setState(() {
         service.selectedItems = updatedService.selectedItems;
       });
@@ -42,6 +43,13 @@ class _ServicePageState extends State<ServicePage> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      _itemCount = 0;
+      for (int i = 0; i < services.length; i++) {
+        _itemCount += services[i].selectedItems.length;
+      }
+    });
+
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColors.primaryBackgroundColor,
@@ -192,7 +200,7 @@ class _ServicePageState extends State<ServicePage> {
                           await updateService(service: services[0]);
                         },
                         child: ServiceCard(
-                          itemCount: 0,
+                          itemCount: services[0].selectedItems.length,
                           serviceImage: services[0].image,
                           serviceName: services[0].name,
                         ),
@@ -202,7 +210,7 @@ class _ServicePageState extends State<ServicePage> {
                           await updateService(service: services[1]);
                         },
                         child: ServiceCard(
-                          itemCount: 0,
+                          itemCount: services[1].selectedItems.length,
                           serviceImage: services[1].image,
                           serviceName: services[1].name,
                         ),
@@ -218,7 +226,7 @@ class _ServicePageState extends State<ServicePage> {
                           await updateService(service: services[2]);
                         },
                         child: ServiceCard(
-                          itemCount: 0,
+                          itemCount: services[2].selectedItems.length,
                           serviceImage: services[2].image,
                           serviceName: services[2].name,
                         ),
@@ -228,7 +236,7 @@ class _ServicePageState extends State<ServicePage> {
                           await updateService(service: services[3]);
                         },
                         child: ServiceCard(
-                          itemCount: 0,
+                          itemCount: services[3].selectedItems.length,
                           serviceImage: services[3].image,
                           serviceName: services[3].name,
                         ),
@@ -240,6 +248,95 @@ class _ServicePageState extends State<ServicePage> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: (_itemCount == 0)
+            ? const SizedBox(height: 0)
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: AppAssets.shoppingBagIcon,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          " $_itemCount ITEMS ADDED",
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        right: 12, top: 12.0, bottom: 12.0),
+                    child: GestureDetector(
+                      onTap: () async {
+                        if (_itemCount != 0) {
+                          final updatedServices = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return MyBasketPage(cartServices: services);
+                              },
+                            ),
+                          );
+
+                          if (updatedServices != null) {
+                            setState(() {
+                              services = updatedServices;
+                            });
+                          }
+                        } else {
+                          showCustomDialog(
+                            context: context,
+                            title: "Cart is Empty",
+                            message: "Select some items to Procced",
+                          );
+                        }
+                      },
+                      child: Container(
+                        height: 36,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryButtonColor,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: AppColors.whiteColor,
+                            width: 1,
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: AppColors.primaryBoxShadowColor,
+                              offset: Offset(4.0, 4.0),
+                              blurRadius: 4.0,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            "NEXT",
+                            style: GoogleFonts.poppins(
+                              color: AppColors.whiteColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
       ),
     );
   }

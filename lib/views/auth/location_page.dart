@@ -37,6 +37,7 @@ class _LocationPageState extends State<LocationPage> {
   final TextEditingController manualLocalityController =
       TextEditingController();
   final TextEditingController nearByAddressController = TextEditingController();
+  final TextEditingController manualCityController = TextEditingController();
   final TextEditingController manualPincodeController = TextEditingController();
 
   Future<bool> _handleLocationPermission() async {
@@ -140,6 +141,7 @@ class _LocationPageState extends State<LocationPage> {
     manualHouseNoController.dispose();
     manualLocalityController.dispose();
     nearByAddressController.dispose();
+    manualCityController.dispose();
     manualPincodeController.dispose();
     super.dispose();
   }
@@ -202,8 +204,8 @@ class _LocationPageState extends State<LocationPage> {
                             padding: const EdgeInsets.only(left: 12, right: 12),
                             child: CustomButton(
                               text: (_currentPosition != null)
-                                  ? 'Current Address Applied'
-                                  : 'Use My Current Address',
+                                  ? 'GPS Location Applied'
+                                  : 'Use My GPS Location',
                               bgColor: AppColors.primaryButtonColor,
                               textColor: Colors.white,
                               onPress: () {
@@ -216,7 +218,7 @@ class _LocationPageState extends State<LocationPage> {
                           ),
                     const SizedBox(height: 16),
                     Text(
-                      'Enter address details',
+                      'Enter Address Manually',
                       textAlign: TextAlign.start,
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
@@ -305,6 +307,35 @@ class _LocationPageState extends State<LocationPage> {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
+                      controller: manualCityController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter your City';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.whiteColor,
+                        errorStyle: GoogleFonts.poppins(fontSize: 10),
+                        labelText: 'Enter your City *',
+                        labelStyle: GoogleFonts.poppins(
+                          color: AppColors.primaryTextColor,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primaryBorderColor,
+                            width: 10,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        contentPadding: const EdgeInsets.all(16.0),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
                       controller: manualPincodeController,
                       validator: (value) {
                         if (value == null || value.length != 6) {
@@ -364,7 +395,7 @@ class _LocationPageState extends State<LocationPage> {
                       username: widget.username,
                       mobileNumber: widget.mobileNumber,
                       manualAddress:
-                          '${manualHouseNoController.text.trim()}, ${manualLocalityController.text.trim()}, ${nearByAddressController.text.trim()}',
+                          '${manualHouseNoController.text.trim()}, ${manualLocalityController.text.trim()}, ${nearByAddressController.text.trim()}, ${manualCityController.text.trim()}',
                       manualPincode: manualPincodeController.text.trim(),
                       liveAddress: _liveAddress,
                       livePincode: _livePincode,
@@ -382,9 +413,9 @@ class _LocationPageState extends State<LocationPage> {
                       _livePincode == "") {
                     showCustomDialog(
                       context: context,
-                      title: "Use your current Location",
+                      title: "Use your GPS Location",
                       message:
-                          "Please use your current Location by clicking on button",
+                          "Please use your GPS Location by clicking/enabling it",
                     );
                   }
                 },
@@ -392,8 +423,12 @@ class _LocationPageState extends State<LocationPage> {
                   height: 40,
                   width: screenWidth,
                   margin: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: AppColors.whiteColor,
+                    border: Border.all(
+                      width: 1,
+                      color: AppColors.blackColor,
+                    ),
                   ),
                   child: Center(
                     child: Text(

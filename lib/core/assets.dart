@@ -31,9 +31,9 @@ class AppAssets {
       Image.asset("assets/images/wash_iron_service.png");
 
   static final locationStarImage =
-      SvgPicture.asset("assets/images/location_pin.svg");
-  static final locationPinImage =
       SvgPicture.asset("assets/images/location_star.svg");
+  static final locationPinImage =
+      SvgPicture.asset("assets/images/location_pin.svg");
   static final orderPlacedCheckFillImage =
       SvgPicture.asset("assets/images/check_fill_order_placed.svg");
 
