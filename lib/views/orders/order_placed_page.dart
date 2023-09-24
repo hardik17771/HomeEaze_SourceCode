@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/bottom_bar_button.dart';
 
-class OrderPlacedPage extends StatelessWidget {
+class OrderPlacedPage extends StatefulWidget {
   const OrderPlacedPage({super.key});
+
+  @override
+  State<OrderPlacedPage> createState() => _OrderPlacedPageState();
+}
+
+class _OrderPlacedPageState extends State<OrderPlacedPage> {
+  @override
+  void initState() {
+    super.initState();
+    // FlutterRingtonePlayer.playNotification();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +29,14 @@ class OrderPlacedPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(height: size.height * 0.15),
-          SizedBox(
-            height: 120,
-            width: 120,
-            child: AppAssets.orderPlacedCheckFillImage,
+          Animate(
+            effects: [FadeEffect(delay: 1000.ms, duration: 1500.ms)],
+            child: SizedBox(
+              height: 120,
+              width: 120,
+              child: AppAssets.orderPlacedCheckFillImage,
+            ),
+            onPlay: (controller) => controller.repeat(),
           ),
           const SizedBox(height: 8),
           Text(

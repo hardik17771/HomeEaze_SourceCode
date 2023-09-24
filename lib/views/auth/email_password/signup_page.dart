@@ -5,8 +5,8 @@ import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
-import 'package:homeeaze_sourcecode/views/auth/email_verifly_page.dart';
-import 'package:homeeaze_sourcecode/views/auth/login_page.dart';
+import 'package:homeeaze_sourcecode/views/auth/email_password/email_verifly_page.dart';
+import 'package:homeeaze_sourcecode/views/auth/email_password/login_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
 class SignUpPage extends StatefulWidget {

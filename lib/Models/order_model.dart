@@ -1,3 +1,5 @@
+import 'package:homeeaze_sourcecode/models/user_address_model.dart';
+
 class OrderModel {
   final String userUid;
   final String vendorUid;
@@ -14,6 +16,7 @@ class OrderModel {
   final String paymentTransactionRefId;
   final String paymentResponseCode;
   final String paymentApprovalRefNo;
+  final UserAddressModel userAddressModel;
   OrderModel({
     required this.userUid,
     required this.vendorUid,
@@ -30,6 +33,7 @@ class OrderModel {
     required this.paymentTransactionRefId,
     required this.paymentResponseCode,
     required this.paymentApprovalRefNo,
+    required this.userAddressModel,
   });
 
   OrderModel copyWith({
@@ -48,6 +52,7 @@ class OrderModel {
     String? paymentTransactionRefId,
     String? paymentResponseCode,
     String? paymentApprovalRefNo,
+    UserAddressModel? userAddressModel,
   }) {
     return OrderModel(
       userUid: userUid ?? this.userUid,
@@ -66,6 +71,7 @@ class OrderModel {
           paymentTransactionRefId ?? this.paymentTransactionRefId,
       paymentResponseCode: paymentResponseCode ?? this.paymentResponseCode,
       paymentApprovalRefNo: paymentApprovalRefNo ?? this.paymentApprovalRefNo,
+      userAddressModel: userAddressModel ?? this.userAddressModel,
     );
   }
 
@@ -86,6 +92,7 @@ class OrderModel {
       'paymentTransactionRefId': paymentTransactionRefId,
       'paymentResponseCode': paymentResponseCode,
       'paymentApprovalRefNo': paymentApprovalRefNo,
+      'userAddressModel': userAddressModel.toMap(),
     };
   }
 
@@ -109,6 +116,8 @@ class OrderModel {
       paymentTransactionRefId: map['paymentTransactionRefId'] as String,
       paymentResponseCode: map['paymentResponseCode'] as String,
       paymentApprovalRefNo: map['paymentApprovalRefNo'] as String,
+      userAddressModel: UserAddressModel.fromMap(
+          map['userAddressModel'] as Map<String, dynamic>),
     );
   }
 }

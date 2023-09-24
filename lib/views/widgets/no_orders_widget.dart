@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import '../../core/colors.dart';
@@ -29,9 +30,13 @@ class NoOrdersWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            SizedBox(
-              child: AppAssets.noOrdersImage,
-            )
+            Animate(
+              effects: [ShimmerEffect(delay: 1000.ms, duration: 1500.ms)],
+              child: SizedBox(
+                child: AppAssets.noOrdersImage,
+              ),
+              onPlay: (controller) => controller.repeat(),
+            ),
           ],
         ),
       ),

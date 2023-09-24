@@ -9,7 +9,7 @@ import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/notification_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
-import 'package:homeeaze_sourcecode/views/auth/email_verifly_page.dart';
+import 'package:homeeaze_sourcecode/views/auth/email_password/email_verifly_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/first_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/user_info_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
@@ -147,6 +147,19 @@ class _MyAppState extends State<MyApp> {
         } else {
           return const FirstPage();
         }
+        // Phone OTP
+        // return FutureBuilder(
+        //   future: _authController.checkUserCredentials(currentUser!),
+        //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+        //     if (snapshot.hasData && snapshot.data == true) {
+        //       return const HomePage(currIndex: 0);
+        //     } else if (snapshot.hasData && snapshot.data == false) {
+        //       return UserInfoPage(user: currentUser);
+        //     } else {
+        //       return const ColorLoader();
+        //     }
+        //   },
+        // );
       },
     );
   }

@@ -3,9 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:homeeaze_sourcecode/controllers/notification_controller.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
+import 'package:homeeaze_sourcecode/models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/views/auth/first_page.dart';
-import 'package:homeeaze_sourcecode/views/auth/login_page.dart';
+import 'package:homeeaze_sourcecode/views/auth/email_password/login_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 
 class AuthController {
@@ -108,13 +109,9 @@ class AuthController {
   Future<void> saveUserDataToFirestore({
     required User user,
     required String username,
-    required String mobileNumber,
-    required String manualAddress,
-    required String manualPincode,
-    required String liveAddress,
-    required String livePincode,
-    required double userLongitude,
-    required double userLatitude,
+    required String userEmail,
+    required String userMobileNumber,
+    required UserAddressModel userAddressModel,
     required BuildContext context,
   }) async {
     // Need to Research
@@ -123,15 +120,11 @@ class AuthController {
     try {
       UserModel userModel = UserModel(
         username: username,
-        userEmail: user.email!,
         userUid: user.uid,
-        userMobileNumber: mobileNumber,
-        userLatitude: userLatitude,
-        userLongitude: userLongitude,
-        userManualAddress: manualAddress,
-        userManualPincode: manualPincode,
-        userLiveAddress: liveAddress,
-        userLivePincode: livePincode,
+        userEmail: userEmail,
+        userMobileNumber: userMobileNumber,
+        primaryAddressIndex: 0,
+        userAddressList: [userAddressModel],
         userDeviceToken: userDeviceToken,
       );
 
@@ -175,6 +168,7 @@ class AuthController {
   }
 
   /// checking existence of vendor credentials in db
+  /// for Phone OTP replace vendorEmail -> outletMobileNUmber
   Future<bool> checkVendorCredentials(String vendorEmail) async {
     QuerySnapshot? vendorDoc = await _firestore
         .collection("vendors")

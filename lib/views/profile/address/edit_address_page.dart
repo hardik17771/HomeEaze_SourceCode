@@ -1,47 +1,40 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
-import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
-class LocationPage extends StatefulWidget {
-  final User user;
-  final String username;
-  final String userEmail;
-  final String userMobileNumber;
-  const LocationPage({
+class EditAddressPage extends StatefulWidget {
+  final int selectedAddressIndex;
+  final UserAddressModel userAddressModel;
+  const EditAddressPage({
     super.key,
-    required this.user,
-    required this.username,
-    required this.userEmail,
-    required this.userMobileNumber,
+    required this.userAddressModel,
+    required this.selectedAddressIndex,
   });
 
   @override
-  State<LocationPage> createState() => _LocationPageState();
+  State<EditAddressPage> createState() => _EditAddressPageState();
 }
 
-class _LocationPageState extends State<LocationPage> {
+class _EditAddressPageState extends State<EditAddressPage> {
   Position? _currentPosition;
   String _liveAddress = "";
   String _livePincode = "";
+  late TextEditingController manualHouseNoController;
+  late TextEditingController manualLocalityController;
+  late TextEditingController nearByAddressController;
+  late TextEditingController manualCityController;
+  late TextEditingController manualPincodeController;
   bool? _isLocationLoading;
   bool? _isDataLoading;
   final _formKey = GlobalKey<FormState>();
-  AuthController authController = AuthController();
-  final TextEditingController manualHouseNoController = TextEditingController();
-  final TextEditingController manualLocalityController =
-      TextEditingController();
-  final TextEditingController nearByAddressController = TextEditingController();
-  final TextEditingController manualCityController = TextEditingController();
-  final TextEditingController manualPincodeController = TextEditingController();
+  final DataController _dataController = DataController();
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -135,6 +128,17 @@ class _LocationPageState extends State<LocationPage> {
   @override
   void initState() {
     super.initState();
+    List<String> fullAddress =
+        widget.userAddressModel.userManualAddress.split(",");
+    manualHouseNoController = TextEditingController(text: fullAddress[0]);
+    manualLocalityController = TextEditingController(text: fullAddress[1]);
+    nearByAddressController = TextEditingController(text: fullAddress[2]);
+    manualCityController = TextEditingController(text: fullAddress[3]);
+    manualPincodeController =
+        TextEditingController(text: widget.userAddressModel.userManualPincode);
+    _liveAddress = widget.userAddressModel.userLiveAddress;
+    _livePincode = widget.userAddressModel.userLivePincode;
+
     _isLocationLoading = false;
     _isDataLoading = false;
   }
@@ -156,8 +160,15 @@ class _LocationPageState extends State<LocationPage> {
       backgroundColor: AppColors.primaryBackgroundColor,
       appBar: AppBar(
         elevation: 0,
-        toolbarHeight: 0,
-        backgroundColor: AppColors.primaryBackgroundColor,
+        toolbarHeight: 90,
+        backgroundColor: AppColors.primaryButtonColor,
+        title: Text(
+          "EDIT ADDRESS",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -165,35 +176,6 @@ class _LocationPageState extends State<LocationPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Stack(
-                children: [
-                  Center(
-                    child: SizedBox(
-                      height: 250,
-                      width: 250,
-                      child: AppAssets.locationStarImage,
-                    ),
-                  ),
-                  Positioned(
-                    left: screenWidth / 2 - 75,
-                    top: 75,
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 120,
-                      width: 150,
-                      child: AppAssets.locationPinImage,
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                'Want to see services near you?',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Column(
@@ -385,10 +367,7 @@ class _LocationPageState extends State<LocationPage> {
             : GestureDetector(
                 onTap: () async {
                   if (_formKey.currentState!.validate() &&
-                      _isLocationLoading == false &&
-                      _currentPosition != null &&
-                      _liveAddress != "" &&
-                      _livePincode != "") {
+                      _isLocationLoading == false) {
                     setState(() {
                       _isDataLoading = true;
                     });
@@ -399,32 +378,23 @@ class _LocationPageState extends State<LocationPage> {
                       userManualPincode: manualPincodeController.text.trim(),
                       userLiveAddress: _liveAddress,
                       userLivePincode: _livePincode,
-                      userLongitude: _currentPosition!.longitude,
-                      userLatitude: _currentPosition!.latitude,
+                      userLongitude: (_currentPosition != null)
+                          ? _currentPosition!.longitude
+                          : widget.userAddressModel.userLatitude,
+                      userLatitude: (_currentPosition != null)
+                          ? _currentPosition!.longitude
+                          : widget.userAddressModel.userLongitude,
                     );
 
-                    await authController.saveUserDataToFirestore(
-                      user: widget.user,
-                      username: widget.username,
-                      userEmail: widget.userEmail,
-                      userMobileNumber: widget.userMobileNumber,
-                      userAddressModel: userAddressModel,
+                    await _dataController.editUserAddress(
+                      selectedAddressIndex: widget.selectedAddressIndex,
+                      updatedUserAddressModel: userAddressModel,
                       context: context,
                     );
 
                     setState(() {
                       _isDataLoading = false;
                     });
-                  } else if (_isLocationLoading == true ||
-                      _currentPosition == null ||
-                      _liveAddress == "" ||
-                      _livePincode == "") {
-                    showCustomDialog(
-                      context: context,
-                      title: "Use your GPS Location",
-                      message:
-                          "Please use your GPS Location by clicking/enabling it",
-                    );
                   }
                 },
                 child: Container(
@@ -440,7 +410,7 @@ class _LocationPageState extends State<LocationPage> {
                   ),
                   child: Center(
                     child: Text(
-                      "SAVE ADDRESS",
+                      "EDIT ADDRESS",
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

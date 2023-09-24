@@ -1,6 +1,6 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_upi_payment/easy_upi_payment.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/orders_controller.dart';
@@ -9,6 +9,7 @@ import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
+import 'package:homeeaze_sourcecode/models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/bottom_bar_button.dart';
@@ -126,21 +127,18 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  AnimatedTextKit(
-                    isRepeatingAnimation: true,
-                    animatedTexts: [
-                      ScaleAnimatedText(
-                        "Coming Soon",
-                        textStyle: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: AppColors.tertiaryTextColor,
-                          fontWeight: FontWeight.w700,
-                        ),
+                  Animate(
+                    effects: [ShimmerEffect(delay: 1000.ms, duration: 1500.ms)],
+                    child: Text(
+                      "Coming Soon",
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: AppColors.tertiaryTextColor,
+                        fontWeight: FontWeight.w700,
                       ),
-                    ],
-                    pause: const Duration(milliseconds: 500),
-                    totalRepeatCount: 100,
-                  )
+                    ),
+                    onPlay: (controller) => controller.repeat(),
+                  ),
                 ],
               ),
             ),
@@ -303,12 +301,14 @@ class _PaymentPageState extends State<PaymentPage> {
                             ConnectionState.waiting) {
                           return const ColorLoader();
                         } else if (snapshot.hasData) {
-                          UserModel? userModel = snapshot.data;
+                          UserModel userModel = snapshot.data!;
+                          UserAddressModel userAddressModel = userModel
+                              .userAddressList[userModel.primaryAddressIndex];
                           _userModel = userModel;
                           return Container(
                             margin: const EdgeInsets.only(left: 36),
                             child: Text(
-                              userModel!.userManualAddress,
+                              userAddressModel.userManualAddress,
                               textAlign: TextAlign.start,
                               style: GoogleFonts.poppins(
                                 fontSize: 12,
@@ -368,6 +368,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                   itemCount: widget.itemCount,
                                   transactionDetailModel:
                                       transactionDetailModel,
+                                  userAddressModel: _userModel!.userAddressList[
+                                      _userModel!.primaryAddressIndex],
                                 );
 
                                 // Navigate to UPI Payment Page

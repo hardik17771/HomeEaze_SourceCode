@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
+import 'package:homeeaze_sourcecode/models/user_address_model.dart';
+import 'package:homeeaze_sourcecode/views/profile/address/add_address_page.dart';
+import 'package:homeeaze_sourcecode/views/profile/address/address_card.dart';
 
-class AddressBookPage extends StatelessWidget {
-  final String locality;
-  final String pincode;
+class AddressBookPage extends StatefulWidget {
+  final int primaryAddressIndex;
+  final List<UserAddressModel> userAddressList;
   const AddressBookPage({
     Key? key,
-    required this.locality,
-    required this.pincode,
+    required this.primaryAddressIndex,
+    required this.userAddressList,
   }) : super(key: key);
 
   @override
+  State<AddressBookPage> createState() => _AddressBookPageState();
+}
+
+class _AddressBookPageState extends State<AddressBookPage> {
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: AppColors.primaryBackgroundColor,
       appBar: AppBar(
@@ -35,7 +41,15 @@ class AddressBookPage extends StatelessWidget {
         children: [
           const SizedBox(height: 24),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const AddAddressPage();
+                  },
+                ),
+              );
+            },
             child: Container(
               color: AppColors.whiteColor,
               padding: const EdgeInsets.only(
@@ -83,62 +97,19 @@ class AddressBookPage extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            width: size.width,
-            color: AppColors.whiteColor,
-            padding: const EdgeInsets.only(left: 16, bottom: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: AppAssets.addressBookHomeIcon,
-                ),
-                const SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Home",
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Text(
-                      "$locality $pincode",
-                      style: GoogleFonts.poppins(
-                        color: AppColors.secondaryTextColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "Edit",
-                          style: GoogleFonts.poppins(
-                            color: AppColors.primaryButtonColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Text(
-                          "Delete",
-                          style: GoogleFonts.poppins(
-                            color: AppColors.redColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            itemCount: widget.userAddressList.length,
+            itemBuilder: (BuildContext context, int index) {
+              final UserAddressModel currentAddressModel =
+                  widget.userAddressList[index];
+              return AddressCard(
+                selectedAddressIndex: index,
+                primaryAddressIndex: widget.primaryAddressIndex,
+                userAddressModel: currentAddressModel,
+              );
+            },
           ),
         ],
       ),

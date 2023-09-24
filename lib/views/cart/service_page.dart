@@ -6,6 +6,7 @@ import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
+import 'package:homeeaze_sourcecode/models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/add_item_page.dart';
 import 'package:homeeaze_sourcecode/views/cart/my_basket_page.dart';
@@ -84,6 +85,8 @@ class _ServicePageState extends State<ServicePage> {
                   } else if (snapshot.hasData) {
                     debugPrint("has UserData");
                     final UserModel userModel = snapshot.data!;
+                    final UserAddressModel userAddressModel = userModel
+                        .userAddressList[userModel.primaryAddressIndex];
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +117,7 @@ class _ServicePageState extends State<ServicePage> {
                                       ),
                                     ),
                                     Text(
-                                      "${userModel.userManualAddress}, ${userModel.userManualPincode}",
+                                      "${userAddressModel.userManualAddress}, ${userAddressModel.userManualPincode}",
                                       style: GoogleFonts.poppins(
                                         color: AppColors.whiteColor,
                                         fontSize: 9,

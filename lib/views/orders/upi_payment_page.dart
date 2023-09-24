@@ -123,17 +123,17 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
 
                             if (transactionDetailModel != null) {
                               // ignore: use_build_context_synchronously
-                              await _orderController.placeOrder(
-                                pickUpTimeSlot: widget.pickUpTimeSlot,
-                                context: context,
-                                paymentMode: "UPI Payment",
-                                userModel: widget.userModel,
-                                vendorModel: widget.vendorModel,
-                                cartServices: widget.cartServices,
-                                outletServiceMenu: widget.outletServiceMenu,
-                                itemCount: widget.itemCount,
-                                transactionDetailModel: transactionDetailModel,
-                              );
+                              // await _orderController.placeOrder(
+                              //   pickUpTimeSlot: widget.pickUpTimeSlot,
+                              //   context: context,
+                              //   paymentMode: "UPI Payment",
+                              //   userModel: widget.userModel,
+                              //   vendorModel: widget.vendorModel,
+                              //   cartServices: widget.cartServices,
+                              //   outletServiceMenu: widget.outletServiceMenu,
+                              //   itemCount: widget.itemCount,
+                              //   transactionDetailModel: transactionDetailModel,
+                              // );
                             } else {
                               // ignore: use_build_context_synchronously
                               showCustomDialog(

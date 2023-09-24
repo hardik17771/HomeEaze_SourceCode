@@ -4,8 +4,8 @@ import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
-import 'package:homeeaze_sourcecode/views/auth/reset_password_page.dart';
-import 'package:homeeaze_sourcecode/views/auth/signup_page.dart';
+import 'package:homeeaze_sourcecode/views/auth/email_password/reset_password_page.dart';
+import 'package:homeeaze_sourcecode/views/auth/email_password/signup_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
 class LoginPage extends StatefulWidget {

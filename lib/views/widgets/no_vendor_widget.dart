@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
@@ -29,9 +30,13 @@ class NoVendorWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            SizedBox(
-              child: AppAssets.noVendorImage,
-            )
+            Animate(
+              effects: [ShimmerEffect(delay: 1000.ms, duration: 1500.ms)],
+              child: SizedBox(
+                child: AppAssets.noVendorImage,
+              ),
+              onPlay: (controller) => controller.repeat(),
+            ),
           ],
         ),
       ),

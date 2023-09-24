@@ -5,6 +5,7 @@ import 'package:homeeaze_sourcecode/controllers/notification_controller.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/order_model.dart';
+import 'package:homeeaze_sourcecode/models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/orders/order_placed_page.dart';
@@ -15,7 +16,6 @@ class OrdersController {
   final NotificationController _notificationController =
       NotificationController();
 
-  // place order
   Future placeOrder({
     required BuildContext context,
     required int itemCount,
@@ -26,6 +26,7 @@ class OrdersController {
     required List<Service> cartServices,
     required List<Map<String, dynamic>> outletServiceMenu,
     required TransactionDetailModel transactionDetailModel,
+    required UserAddressModel userAddressModel,
   }) async {
     final orderId = const Uuid().v1();
 
@@ -48,6 +49,7 @@ class OrdersController {
       paymentApprovalRefNo: (transactionDetailModel.approvalRefNo == null)
           ? transactionDetailModel.transactionId!
           : transactionDetailModel.approvalRefNo!,
+      userAddressModel: userAddressModel,
     );
 
     try {

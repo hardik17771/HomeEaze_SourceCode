@@ -33,6 +33,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761396048210:android:47ba4dd08431ecd7498a8b",
+        "android_client_info": {
+          "package_name": "com.example.homeeaze_sourcecode_vendor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "761396048210-17ukg82l9ghdgbjhmsfkg5vtum1v8u7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARWkT9FjcQFgHS1UuhLNA2k7LcXvxitVc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761396048210-17ukg82l9ghdgbjhmsfkg5vtum1v8u7n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

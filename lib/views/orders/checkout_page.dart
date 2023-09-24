@@ -7,6 +7,7 @@ import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
+import 'package:homeeaze_sourcecode/models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/widgets/pickup_time_card.dart';
@@ -656,11 +657,14 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const ColorLoader();
                   } else if (snapshot.hasData) {
-                    UserModel? userModel = snapshot.data;
+                    UserModel userModel = snapshot.data!;
+                    UserAddressModel userAddressModel =
+                        userModel.userAddressList[
+                            userModel.primaryAddressIndex]; // To be changed
                     return Container(
                       margin: const EdgeInsets.only(left: 36),
                       child: Text(
-                        userModel!.userManualAddress,
+                        userAddressModel.userManualAddress,
                         textAlign: TextAlign.start,
                         style: GoogleFonts.poppins(
                           fontSize: 12,

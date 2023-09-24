@@ -1,41 +1,29 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
-import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
-class LocationPage extends StatefulWidget {
-  final User user;
-  final String username;
-  final String userEmail;
-  final String userMobileNumber;
-  const LocationPage({
-    super.key,
-    required this.user,
-    required this.username,
-    required this.userEmail,
-    required this.userMobileNumber,
-  });
+class AddAddressPage extends StatefulWidget {
+  const AddAddressPage({super.key});
 
   @override
-  State<LocationPage> createState() => _LocationPageState();
+  State<AddAddressPage> createState() => _AddAddressPageState();
 }
 
-class _LocationPageState extends State<LocationPage> {
+class _AddAddressPageState extends State<AddAddressPage> {
   Position? _currentPosition;
   String _liveAddress = "";
   String _livePincode = "";
   bool? _isLocationLoading;
   bool? _isDataLoading;
   final _formKey = GlobalKey<FormState>();
-  AuthController authController = AuthController();
+  final DataController _dataController = DataController();
   final TextEditingController manualHouseNoController = TextEditingController();
   final TextEditingController manualLocalityController =
       TextEditingController();
@@ -156,8 +144,15 @@ class _LocationPageState extends State<LocationPage> {
       backgroundColor: AppColors.primaryBackgroundColor,
       appBar: AppBar(
         elevation: 0,
-        toolbarHeight: 0,
-        backgroundColor: AppColors.primaryBackgroundColor,
+        toolbarHeight: 90,
+        backgroundColor: AppColors.primaryButtonColor,
+        title: Text(
+          "Add Address",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -165,35 +160,6 @@ class _LocationPageState extends State<LocationPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Stack(
-                children: [
-                  Center(
-                    child: SizedBox(
-                      height: 250,
-                      width: 250,
-                      child: AppAssets.locationStarImage,
-                    ),
-                  ),
-                  Positioned(
-                    left: screenWidth / 2 - 75,
-                    top: 75,
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 120,
-                      width: 150,
-                      child: AppAssets.locationPinImage,
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                'Want to see services near you?',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Column(
@@ -403,11 +369,7 @@ class _LocationPageState extends State<LocationPage> {
                       userLatitude: _currentPosition!.latitude,
                     );
 
-                    await authController.saveUserDataToFirestore(
-                      user: widget.user,
-                      username: widget.username,
-                      userEmail: widget.userEmail,
-                      userMobileNumber: widget.userMobileNumber,
+                    await _dataController.addUserAddress(
                       userAddressModel: userAddressModel,
                       context: context,
                     );
@@ -440,7 +402,7 @@ class _LocationPageState extends State<LocationPage> {
                   ),
                   child: Center(
                     child: Text(
-                      "SAVE ADDRESS",
+                      "ADD ADDRESS",
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

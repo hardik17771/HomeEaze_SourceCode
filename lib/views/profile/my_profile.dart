@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
+import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
-import 'package:homeeaze_sourcecode/views/auth/location_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
-import 'package:homeeaze_sourcecode/views/profile/address_book_page.dart';
+import 'package:homeeaze_sourcecode/views/profile/address/address_book_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyProfilePage extends StatefulWidget {
@@ -198,8 +199,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                       MaterialPageRoute(
                         builder: (context) {
                           return AddressBookPage(
-                            locality: userModel.userManualAddress,
-                            pincode: userModel.userManualPincode,
+                            primaryAddressIndex: userModel.primaryAddressIndex,
+                            userAddressList: userModel.userAddressList,
                           );
                         },
                       ),

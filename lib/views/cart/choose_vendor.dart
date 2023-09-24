@@ -7,6 +7,7 @@ import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
+import 'package:homeeaze_sourcecode/models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/orders/checkout_page.dart';
@@ -59,12 +60,14 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
               return const NoVendorWidget();
             } else if (snapshot.hasData) {
               debugPrint("hasUserData");
-              UserModel? userModel = snapshot.data;
+              UserModel userModel = snapshot.data!;
+              UserAddressModel userAddressModel = userModel.userAddressList[
+                  userModel.primaryAddressIndex]; // To be changed
               return StreamBuilder<List<VendorModel>>(
                 stream: _dataController.fetchVendorOutletData(
                   context: context,
-                  userLatitude: userModel!.userLatitude,
-                  userLongitude: userModel.userLongitude,
+                  userLatitude: userAddressModel.userLatitude,
+                  userLongitude: userAddressModel.userLongitude,
                 ),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<VendorModel>> snapshot) {
@@ -128,9 +131,9 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                                             vendor: vendor,
                                             orderAmount: orderAmount,
                                             userLatitude:
-                                                userModel.userLatitude,
+                                                userAddressModel.userLatitude,
                                             userLongitude:
-                                                userModel.userLongitude,
+                                                userAddressModel.userLongitude,
                                           ),
                                         ),
                                       ),
@@ -191,11 +194,13 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const ColorLoader();
                   } else if (snapshot.hasData) {
-                    UserModel? userModel = snapshot.data;
+                    UserModel userModel = snapshot.data!;
+                    UserAddressModel userAddressModel = userModel
+                        .userAddressList[userModel.primaryAddressIndex];
                     return Container(
                       margin: const EdgeInsets.only(left: 36),
                       child: Text(
-                        userModel!.userManualAddress,
+                        userAddressModel.userManualAddress,
                         textAlign: TextAlign.start,
                         style: GoogleFonts.poppins(
                           fontSize: 12,
