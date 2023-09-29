@@ -7,12 +7,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/notification_controller.dart';
-import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/views/auth/email_password/email_verifly_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/first_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/user_info_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
+import 'package:homeeaze_sourcecode/views/widgets/refresh_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -125,7 +125,7 @@ class _MyAppState extends State<MyApp> {
       stream: _authController.authStateChanges,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const ColorLoader();
+          return const RefreshPage();
         } else if (snapshot.hasData) {
           User? currentUser = _authController.currentUser;
           if (currentUser!.emailVerified) {
@@ -133,11 +133,12 @@ class _MyAppState extends State<MyApp> {
               future: _authController.checkUserCredentials(currentUser),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData && snapshot.data == true) {
+                  // Restore Cart Data from Shared preferences
                   return const HomePage(currIndex: 0);
                 } else if (snapshot.hasData && snapshot.data == false) {
                   return UserInfoPage(user: currentUser);
                 } else {
-                  return const ColorLoader();
+                  return const RefreshPage();
                 }
               },
             );

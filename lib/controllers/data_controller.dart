@@ -7,6 +7,7 @@ import 'package:homeeaze_sourcecode/models/cart_model.dart';
 import 'package:homeeaze_sourcecode/models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
+import 'package:homeeaze_sourcecode/views/home_page.dart';
 
 class DataController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -50,7 +51,15 @@ class DataController {
           .update(updatedUserModel.toMap())
           .then((value) {
         showCustomToast(text: "Address Added sucessfully");
-        return Navigator.of(context).pop();
+
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return const HomePage(currIndex: 2);
+            },
+          ),
+        );
       });
     } on FirebaseException catch (e) {
       showCustomDialog(
@@ -61,7 +70,7 @@ class DataController {
     }
   }
 
-  Future<void> editUserAddress({
+  Future<void> updateUserAddress({
     required BuildContext context,
     required int selectedAddressIndex,
     required UserAddressModel updatedUserAddressModel,
@@ -88,8 +97,8 @@ class DataController {
           .doc(currentUser!.uid)
           .update(updatedUserModel.toMap())
           .then((value) {
-        showCustomToast(text: "Address Added sucessfully");
-        return Navigator.of(context).pop();
+        showCustomToast(text: "Address Updated sucessfully");
+        return Navigator.of(context).pop(updatedUserAddressModel);
       });
     } on FirebaseException catch (e) {
       showCustomDialog(
@@ -130,8 +139,8 @@ class DataController {
           .doc(currentUser!.uid)
           .update(updatedUserModel.toMap())
           .then((value) {
-        showCustomToast(text: "Address Added sucessfully");
-        return Navigator.of(context).pop();
+        showCustomToast(text: "Address Deleted sucessfully");
+        Navigator.of(context).pop();
       });
     } on FirebaseException catch (e) {
       showCustomDialog(
@@ -153,6 +162,8 @@ class DataController {
           .update({'primaryAddressIndex': updatedPrimaryAddressIndex});
 
       showCustomToast(text: "Primary Address updated sucessfully");
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
     } on FirebaseException catch (e) {
       showCustomDialog(
         context: context,

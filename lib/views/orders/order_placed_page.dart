@@ -6,19 +6,8 @@ import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/bottom_bar_button.dart';
 
-class OrderPlacedPage extends StatefulWidget {
+class OrderPlacedPage extends StatelessWidget {
   const OrderPlacedPage({super.key});
-
-  @override
-  State<OrderPlacedPage> createState() => _OrderPlacedPageState();
-}
-
-class _OrderPlacedPageState extends State<OrderPlacedPage> {
-  @override
-  void initState() {
-    super.initState();
-    // FlutterRingtonePlayer.playNotification();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +78,7 @@ class _OrderPlacedPageState extends State<OrderPlacedPage> {
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (context) {
-                          return const HomePage(
-                              currIndex: 2); // All Orders Page
+                          return const HomePage(currIndex: 1); // My Orders Page
                         },
                       ),
                       (route) => false,

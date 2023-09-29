@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.homeeaze_sourcecode">
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -38,8 +39,11 @@
            android:name="com.google.firebase.messaging.default_notification_channel_id"
            android:value="high_importance_channel" />
 
-        <!-- Auto retreive SMS codes -->
-        <receiver android:exported="true" android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+        <!-- Auto retreive SMS codes for Phone OTP -->
+        <receiver 
+            android:exported="true" 
+            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingReceiver" 
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>

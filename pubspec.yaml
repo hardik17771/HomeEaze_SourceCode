@@ -55,6 +55,7 @@ dependencies:
   url_launcher: ^6.1.14
   pinput: ^3.0.1
   flutter_animate: ^4.2.0+1
+  vibration: ^1.8.1
   
 
 dev_dependencies:
@@ -75,8 +76,11 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
-    - assets/icons/
     - assets/images/
+    - assets/icons/
+    - assets/icons/homepage/
+    - assets/icons/laundry_items/
+   
 
 
   # The following line ensures that the Material Icons font is

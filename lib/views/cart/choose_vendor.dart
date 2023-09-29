@@ -61,8 +61,8 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
             } else if (snapshot.hasData) {
               debugPrint("hasUserData");
               UserModel userModel = snapshot.data!;
-              UserAddressModel userAddressModel = userModel.userAddressList[
-                  userModel.primaryAddressIndex]; // To be changed
+              UserAddressModel userAddressModel =
+                  userModel.userAddressList[userModel.primaryAddressIndex];
               return StreamBuilder<List<VendorModel>>(
                 stream: _dataController.fetchVendorOutletData(
                   context: context,
@@ -197,14 +197,16 @@ class _ChooseVendorPageState extends State<ChooseVendorPage> {
                     UserModel userModel = snapshot.data!;
                     UserAddressModel userAddressModel = userModel
                         .userAddressList[userModel.primaryAddressIndex];
-                    return Container(
-                      margin: const EdgeInsets.only(left: 36),
-                      child: Text(
-                        userAddressModel.userManualAddress,
-                        textAlign: TextAlign.start,
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                    return Flexible(
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 36, right: 36),
+                        child: Text(
+                          userAddressModel.userManualAddress,
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     );

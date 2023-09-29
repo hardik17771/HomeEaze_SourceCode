@@ -661,14 +661,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     UserAddressModel userAddressModel =
                         userModel.userAddressList[
                             userModel.primaryAddressIndex]; // To be changed
-                    return Container(
-                      margin: const EdgeInsets.only(left: 36),
-                      child: Text(
-                        userAddressModel.userManualAddress,
-                        textAlign: TextAlign.start,
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                    return Flexible(
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 36),
+                        child: Text(
+                          userAddressModel.userManualAddress,
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     );

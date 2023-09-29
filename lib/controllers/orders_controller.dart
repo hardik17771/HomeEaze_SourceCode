@@ -10,6 +10,7 @@ import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/orders/order_placed_page.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vibration/vibration.dart';
 
 class OrdersController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -89,6 +90,13 @@ class OrdersController {
         userModel: userModel,
         vendorModel: vendorModel,
       );
+
+      bool? checkPermission = await Vibration.hasVibrator();
+      if (checkPermission == true) {
+        Vibration.vibrate();
+        await Future.delayed(const Duration(milliseconds: 1000));
+        Vibration.vibrate();
+      }
 
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(

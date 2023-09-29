@@ -11,6 +11,7 @@ import 'package:homeeaze_sourcecode/models/user_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/add_item_page.dart';
 import 'package:homeeaze_sourcecode/views/cart/my_basket_page.dart';
 import 'package:homeeaze_sourcecode/views/cart/widgets/service_card.dart';
+import 'package:homeeaze_sourcecode/views/profile/address/address_book_page.dart';
 import 'package:homeeaze_sourcecode/views/profile/my_profile.dart';
 
 class ServicePage extends StatefulWidget {
@@ -104,27 +105,44 @@ class _ServicePageState extends State<ServicePage> {
                                   child: AppAssets.locationPinPointIconFilled,
                                 ),
                                 const SizedBox(width: 8),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      "Home",
-                                      style: GoogleFonts.poppins(
-                                        color: AppColors.whiteColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return AddressBookPage(
+                                            primaryAddressIndex:
+                                                userModel.primaryAddressIndex,
+                                            userAddressList:
+                                                userModel.userAddressList,
+                                          );
+                                        },
                                       ),
-                                    ),
-                                    Text(
-                                      "${userAddressModel.userManualAddress}, ${userAddressModel.userManualPincode}",
-                                      style: GoogleFonts.poppins(
-                                        color: AppColors.whiteColor,
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.w500,
+                                    );
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "Home",
+                                        style: GoogleFonts.poppins(
+                                          color: AppColors.whiteColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      Text(
+                                        "${userAddressModel.userManualAddress}, ${userAddressModel.userManualPincode}",
+                                        style: GoogleFonts.poppins(
+                                          color: AppColors.whiteColor,
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

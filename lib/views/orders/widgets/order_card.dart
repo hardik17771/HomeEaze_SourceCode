@@ -50,78 +50,62 @@ class _OrderCardState extends State<OrderCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.vendorModel.outletName,
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.vendorModel.outletName,
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    Text(
-                      widget.vendorModel.manualAddress,
-                      style: GoogleFonts.poppins(
-                        color: AppColors.secondaryTextColor,
-                        fontSize: 9,
-                        fontWeight: FontWeight.w600,
+                      Text(
+                        widget.vendorModel.manualAddress,
+                        style: GoogleFonts.poppins(
+                          color: AppColors.secondaryTextColor,
+                          fontSize: 9,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    Text(
-                      DateFormat().format(widget.orderModel.orderReceivingTime),
-                      style: GoogleFonts.poppins(
-                        color: AppColors.primaryTextColor,
-                        fontSize: 6,
-                        fontWeight: FontWeight.w500,
+                      Text(
+                        DateFormat()
+                            .format(widget.orderModel.orderReceivingTime),
+                        style: GoogleFonts.poppins(
+                          color: AppColors.primaryTextColor,
+                          fontSize: 6,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          "Order Status : ",
-                          style: GoogleFonts.poppins(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w600,
-                          ),
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Order Status : ${widget.orderModel.orderStatus}",
+                        style: GoogleFonts.poppins(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.secondaryTextColor,
                         ),
-                        Text(
-                          widget.orderModel.orderStatus,
-                          style: GoogleFonts.poppins(
-                            color: AppColors.secondaryTextColor,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w600,
-                          ),
+                      ),
+                      Text(
+                        "Pick up slot : ${widget.orderModel.pickUpTimeSlot}",
+                        style: GoogleFonts.poppins(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.secondaryTextColor,
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Text(
-                          "Pick up slot : ",
-                          style: GoogleFonts.poppins(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          widget.orderModel.pickUpTimeSlot,
-                          style: GoogleFonts.poppins(
-                            color: AppColors.secondaryTextColor,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -198,6 +182,7 @@ class _OrderCardState extends State<OrderCard> {
                           String itemName = orderItem.keys.elementAt(index);
                           int itemQuantity = orderItem[itemName][0];
                           int itemPrice = orderItem[itemName][1];
+                          Image itemImage = itemImageMap[itemName];
                           return Container(
                             margin: const EdgeInsets.only(bottom: 4),
                             child: Row(
@@ -213,7 +198,7 @@ class _OrderCardState extends State<OrderCard> {
                                           bottom: 16),
                                       width: 22,
                                       height: 22,
-                                      child: AppAssets.tShirtIcon,
+                                      child: itemImage,
                                     ),
                                     Column(
                                       crossAxisAlignment:

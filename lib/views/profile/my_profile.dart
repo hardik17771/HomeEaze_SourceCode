@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
-import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/user_model.dart';
@@ -30,7 +28,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
         elevation: 0,
         toolbarHeight: 90,
         backgroundColor: AppColors.primaryButtonColor,
-        leading: const Icon(Icons.arrow_back),
+        // leading: const Icon(Icons.arrow_back),
         title: Text(
           "My Account",
           style: GoogleFonts.poppins(
@@ -236,7 +234,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
-                          return const HomePage(currIndex: 2);
+                          return const HomePage(currIndex: 1);
                         },
                       ),
                     );

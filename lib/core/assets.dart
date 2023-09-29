@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class AppAssets {
   // Icons
-  static final tShirtIcon = SvgPicture.asset("assets/icons/tshirt_icon.svg");
   static final deliveryBoyIcon =
       SvgPicture.asset("assets/icons/delivery_boy_icon.svg");
   static final convenienceFeeIcon =
@@ -19,6 +18,23 @@ class AppAssets {
   static final profileIcon = SvgPicture.asset("assets/icons/profile_icon.svg");
   static final pickUpTimeAlarmIcon =
       SvgPicture.asset("assets/icons/pickup_time_alarm_icon.svg");
+
+  static final tShirtIcon =
+      Image.asset("assets/icons/laundry_items/t_shirt_icon.png");
+  static final shirtIcon =
+      Image.asset("assets/icons/laundry_items/shirt_icon.png");
+  static final trouserIcon =
+      Image.asset("assets/icons/laundry_items/trouser_icon.png");
+  static final suitIcon =
+      Image.asset("assets/icons/laundry_items/suit_icon.png");
+  static final blazerIcon =
+      Image.asset("assets/icons/laundry_items/blazer_icon.png");
+  static final sareeIcon =
+      Image.asset("assets/icons/laundry_items/saree_icon.png");
+  static final curtainIcon =
+      Image.asset("assets/icons/laundry_items/curtain_icon.png");
+  static final bedsheetIcon =
+      Image.asset("assets/icons/laundry_items/bedsheet_icon.png");
 
   // Images
   static final ironingServiceImage =

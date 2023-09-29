@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
+import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/user_address_model.dart';
-import 'package:homeeaze_sourcecode/views/profile/address/edit_address_page.dart';
+import 'package:homeeaze_sourcecode/views/profile/address/update_address_page.dart';
 
 class AddressCard extends StatefulWidget {
   final int selectedAddressIndex;
   final int primaryAddressIndex;
-  final UserAddressModel userAddressModel;
-  const AddressCard({
+  UserAddressModel userAddressModel;
+  AddressCard({
     super.key,
     required this.selectedAddressIndex,
     required this.primaryAddressIndex,
@@ -23,6 +24,13 @@ class AddressCard extends StatefulWidget {
 
 class _AddressCardState extends State<AddressCard> {
   final DataController _dataController = DataController();
+  bool? _isPrimaryAddressLoading;
+
+  @override
+  void initState() {
+    super.initState();
+    _isPrimaryAddressLoading = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,54 +42,61 @@ class _AddressCardState extends State<AddressCard> {
       margin: const EdgeInsets.only(bottom: 2),
       padding: const EdgeInsets.only(left: 16, bottom: 8, right: 8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 20,
-                height: 20,
-                child: AppAssets.addressBookHomeIcon,
-              ),
-              const SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Home",
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
+          SizedBox(
+            width: 20,
+            height: 20,
+            child: AppAssets.addressBookHomeIcon,
+          ),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Home",
+                  style: GoogleFonts.poppins(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
                   ),
-                  Text(
-                    "${widget.userAddressModel.userManualAddress} ${widget.userAddressModel.userManualPincode}",
-                    style: GoogleFonts.poppins(
-                      color: AppColors.secondaryTextColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
+                ),
+                Text(
+                  "${widget.userAddressModel.userManualAddress} ${widget.userAddressModel.userManualPincode}",
+                  style: GoogleFonts.poppins(
+                    color: AppColors.secondaryTextColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
                   ),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return EditAddressPage(
-                                  selectedAddressIndex:
-                                      widget.selectedAddressIndex,
-                                  userAddressModel: widget.userAddressModel,
-                                );
-                              },
-                            ),
-                          );
-                        },
+                ),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        final updateAddrees = await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return UpdateAddressPage(
+                                selectedAddressIndex:
+                                    widget.selectedAddressIndex,
+                                userAddressModel: widget.userAddressModel,
+                              );
+                            },
+                          ),
+                        );
+
+                        setState(() {
+                          if (updateAddrees != null) {
+                            widget.userAddressModel = updateAddrees;
+                          }
+                        });
+                      },
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(right: 8, top: 8, bottom: 8),
                         child: Text(
-                          "Edit",
+                          "Update",
                           style: GoogleFonts.poppins(
                             color: AppColors.primaryButtonColor,
                             fontSize: 10,
@@ -89,17 +104,21 @@ class _AddressCardState extends State<AddressCard> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 16),
-                      if (widget.selectedAddressIndex != 0)
-                        InkWell(
-                          onTap: () async {
-                            await _dataController.deleteUserAddress(
-                              context: context,
-                              selectedAddressIndex: widget.selectedAddressIndex,
-                            );
+                    ),
+                    const SizedBox(width: 16),
+                    if (widget.selectedAddressIndex != 0)
+                      InkWell(
+                        onTap: () async {
+                          await _dataController.deleteUserAddress(
+                            context: context,
+                            selectedAddressIndex: widget.selectedAddressIndex,
+                          );
 
-                            setState(() {});
-                          },
+                          setState(() {});
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              right: 8, top: 8, bottom: 8),
                           child: Text(
                             "Delete",
                             style: GoogleFonts.poppins(
@@ -109,33 +128,46 @@ class _AddressCardState extends State<AddressCard> {
                             ),
                           ),
                         ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+                      ),
+                  ],
+                ),
+              ],
+            ),
           ),
           InkWell(
             onTap: () async {
               if (widget.selectedAddressIndex != widget.primaryAddressIndex) {
+                setState(() {
+                  _isPrimaryAddressLoading = true;
+                });
+
                 await _dataController.updateUserPrimaryAddressIndex(
                   context: context,
                   updatedPrimaryAddressIndex: widget.selectedAddressIndex,
                 );
-                setState(() {});
+
+                setState(() {
+                  _isPrimaryAddressLoading = false;
+                });
               }
             },
-            child: Text(
-              (widget.selectedAddressIndex == widget.primaryAddressIndex)
-                  ? "Primary"
-                  : "Set Primary",
-              style: GoogleFonts.poppins(
-                fontSize: 9,
-                fontWeight: FontWeight.w500,
-                color: AppColors.tertiaryTextColor,
-              ),
-            ),
-          )
+            child: (_isPrimaryAddressLoading == true)
+                ? const ColorLoader()
+                : Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text(
+                      (widget.selectedAddressIndex ==
+                              widget.primaryAddressIndex)
+                          ? "Primary"
+                          : "Set Primary",
+                      style: GoogleFonts.poppins(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.tertiaryTextColor,
+                      ),
+                    ),
+                  ),
+          ),
         ],
       ),
     );

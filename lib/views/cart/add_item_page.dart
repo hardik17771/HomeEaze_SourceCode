@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
+import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 import '../../../models/cart_model.dart';
 
 class AddItem extends StatefulWidget {
@@ -17,6 +18,7 @@ class AddItem extends StatefulWidget {
 class _AddItemState extends State<AddItem> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColors.primaryBackgroundColor,
@@ -57,12 +59,23 @@ class _AddItemState extends State<AddItem> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    item.name,
-                    style: GoogleFonts.poppins(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 35,
+                        width: 35,
+                        child: item.image,
+                      ),
+                      const SizedBox(width: 16),
+                      Text(
+                        item.name,
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
                   ),
                   (item.quantity == 0)
                       ? InkWell(
@@ -173,33 +186,22 @@ class _AddItemState extends State<AddItem> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
+        elevation: 0,
         color: AppColors.primaryBackgroundColor,
         child: Padding(
-          padding: const EdgeInsets.only(left: 120, right: 120, bottom: 16),
+          padding: EdgeInsets.only(
+              left: size.width / 5, right: size.width / 5, bottom: 16),
           child: GestureDetector(
             onTap: () {
               Navigator.pop(context, widget.service);
             },
-            child: Container(
-              width: 120,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.primaryButtonColor,
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                  color: AppColors.whiteColor,
-                  width: 2,
-                ),
-              ),
-              child: const Text(
-                "DONE",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppColors.whiteColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+            child: CustomButton(
+              text: "Done",
+              bgColor: AppColors.primaryButtonColor,
+              textColor: AppColors.whiteColor,
+              onPress: () {
+                Navigator.pop(context, widget.service);
+              },
             ),
           ),
         ),

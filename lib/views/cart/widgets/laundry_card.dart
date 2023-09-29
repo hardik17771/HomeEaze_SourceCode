@@ -6,7 +6,7 @@ import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/widgets/pickUp_time_card.dart';
 
-class LaundaryCard extends StatefulWidget {
+class LaundaryCard extends StatelessWidget {
   final double userLatitude;
   final double userLongitude;
   final VendorModel vendor;
@@ -20,18 +20,8 @@ class LaundaryCard extends StatefulWidget {
   });
 
   @override
-  State<LaundaryCard> createState() => _LaundaryCardState();
-}
-
-class _LaundaryCardState extends State<LaundaryCard> {
-  List<String> pickUpOptions = [
-    "8-9 AM",
-    "2-3 PM",
-    "6-7 PM",
-  ];
-
-  @override
   Widget build(BuildContext context) {
+    final List<String> pickUpOptions = ["8-9 AM", "2-3 PM", "6-7 PM"];
     final screenWidth = MediaQuery.of(context).size.width;
     return Container(
       width: screenWidth,
@@ -47,26 +37,28 @@ class _LaundaryCardState extends State<LaundaryCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.vendor.outletName,
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
+                Flexible(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        vendor.outletName,
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                    Text(
-                      widget.vendor.manualAddress,
-                      style: GoogleFonts.poppins(
-                        color: AppColors.secondaryTextColor,
-                        fontSize: 7,
-                        fontWeight: FontWeight.w700,
+                      Text(
+                        vendor.manualAddress,
+                        style: GoogleFonts.poppins(
+                          color: AppColors.secondaryTextColor,
+                          fontSize: 7,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
@@ -78,12 +70,12 @@ class _LaundaryCardState extends State<LaundaryCard> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      "${Geolocator.distanceBetween(
-                        widget.userLatitude,
-                        widget.userLongitude,
-                        widget.vendor.outletLatitude,
-                        widget.vendor.outletLongitude,
-                      ).toStringAsFixed(3)} kms",
+                      "${(Geolocator.distanceBetween(
+                            userLatitude,
+                            userLongitude,
+                            vendor.outletLatitude,
+                            vendor.outletLongitude,
+                          ) / 1000).toStringAsFixed(2)} kms",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         color: AppColors.secondaryTextColor,
@@ -141,7 +133,7 @@ class _LaundaryCardState extends State<LaundaryCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        widget.vendor.outletRating.toString(),
+                        vendor.outletRating.toString(),
                         style: GoogleFonts.poppins(
                           color: AppColors.blackColor,
                           fontSize: 9,
@@ -157,7 +149,7 @@ class _LaundaryCardState extends State<LaundaryCard> {
                   ),
                 ),
                 Text(
-                  "Grand Total    ₹ ${widget.orderAmount}",
+                  "Grand Total    ₹ $orderAmount",
                   style: GoogleFonts.poppins(
                     color: AppColors.secondaryTextColor,
                     fontSize: 10,

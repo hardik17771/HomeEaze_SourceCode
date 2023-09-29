@@ -9,20 +9,20 @@ import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
-class EditAddressPage extends StatefulWidget {
+class UpdateAddressPage extends StatefulWidget {
   final int selectedAddressIndex;
   final UserAddressModel userAddressModel;
-  const EditAddressPage({
+  const UpdateAddressPage({
     super.key,
     required this.userAddressModel,
     required this.selectedAddressIndex,
   });
 
   @override
-  State<EditAddressPage> createState() => _EditAddressPageState();
+  State<UpdateAddressPage> createState() => _UpdateAddressPageState();
 }
 
-class _EditAddressPageState extends State<EditAddressPage> {
+class _UpdateAddressPageState extends State<UpdateAddressPage> {
   Position? _currentPosition;
   String _liveAddress = "";
   String _livePincode = "";
@@ -163,7 +163,7 @@ class _EditAddressPageState extends State<EditAddressPage> {
         toolbarHeight: 90,
         backgroundColor: AppColors.primaryButtonColor,
         title: Text(
-          "EDIT ADDRESS",
+          "UPDATE ADDRESS",
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -380,13 +380,13 @@ class _EditAddressPageState extends State<EditAddressPage> {
                       userLivePincode: _livePincode,
                       userLongitude: (_currentPosition != null)
                           ? _currentPosition!.longitude
-                          : widget.userAddressModel.userLatitude,
-                      userLatitude: (_currentPosition != null)
-                          ? _currentPosition!.longitude
                           : widget.userAddressModel.userLongitude,
+                      userLatitude: (_currentPosition != null)
+                          ? _currentPosition!.latitude
+                          : widget.userAddressModel.userLatitude,
                     );
 
-                    await _dataController.editUserAddress(
+                    await _dataController.updateUserAddress(
                       selectedAddressIndex: widget.selectedAddressIndex,
                       updatedUserAddressModel: userAddressModel,
                       context: context,
@@ -410,7 +410,7 @@ class _EditAddressPageState extends State<EditAddressPage> {
                   ),
                   child: Center(
                     child: Text(
-                      "EDIT ADDRESS",
+                      "UPDATE ADDRESS",
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
