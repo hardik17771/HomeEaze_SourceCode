@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
+import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/views/auth/location_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
@@ -19,14 +20,14 @@ class UserInfoPage extends StatefulWidget {
 class _UserInfoPageState extends State<UserInfoPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
-  // TextEditingController emailController = TextEditingController();
-  TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  // TextEditingController mobileNumberController = TextEditingController();
 
   @override
   void dispose() {
     nameController.dispose();
-    // emailController.dispose();
-    mobileNumberController.dispose();
+    emailController.dispose();
+    // mobileNumberController.dispose();
 
     super.dispose();
   }
@@ -99,43 +100,15 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                // TextFormField(
-                //   controller: emailController,
-                //   validator: (value) =>
-                //       value!.isValidEmail() ? null : "Enter a valid email",
-                //   decoration: InputDecoration(
-                //     filled: true,
-                //     fillColor: AppColors.whiteColor,
-                //     errorStyle: GoogleFonts.poppins(fontSize: 10),
-                //     labelText: 'Email *',
-                //     labelStyle: GoogleFonts.poppins(
-                //       color: AppColors.primaryTextColor,
-                //       fontSize: 10,
-                //       fontWeight: FontWeight.w500,
-                //     ),
-                //     border: const OutlineInputBorder(
-                //       borderSide: BorderSide(
-                //         color: AppColors.primaryBorderColor,
-                //         width: 10,
-                //       ),
-                //       borderRadius: BorderRadius.all(Radius.circular(5)),
-                //     ),
-                //     contentPadding: const EdgeInsets.all(16.0),
-                //   ),
-                // ),
                 TextFormField(
-                  controller: mobileNumberController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty || value.length != 10) {
-                      return 'Enter a valid Mobile Number';
-                    }
-                    return null;
-                  },
+                  controller: emailController,
+                  validator: (value) =>
+                      value!.isValidEmail() ? null : "Enter a valid email",
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: AppColors.whiteColor,
                     errorStyle: GoogleFonts.poppins(fontSize: 10),
-                    labelText: 'Mobile Number *',
+                    labelText: 'Email *',
                     labelStyle: GoogleFonts.poppins(
                       color: AppColors.primaryTextColor,
                       fontSize: 10,
@@ -151,6 +124,34 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     contentPadding: const EdgeInsets.all(16.0),
                   ),
                 ),
+                // TextFormField(
+                //   controller: mobileNumberController,
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty || value.length != 10) {
+                //       return 'Enter a valid Mobile Number';
+                //     }
+                //     return null;
+                //   },
+                //   decoration: InputDecoration(
+                //     filled: true,
+                //     fillColor: AppColors.whiteColor,
+                //     errorStyle: GoogleFonts.poppins(fontSize: 10),
+                //     labelText: 'Mobile Number *',
+                //     labelStyle: GoogleFonts.poppins(
+                //       color: AppColors.primaryTextColor,
+                //       fontSize: 10,
+                //       fontWeight: FontWeight.w500,
+                //     ),
+                //     border: const OutlineInputBorder(
+                //       borderSide: BorderSide(
+                //         color: AppColors.primaryBorderColor,
+                //         width: 10,
+                //       ),
+                //       borderRadius: BorderRadius.all(Radius.circular(5)),
+                //     ),
+                //     contentPadding: const EdgeInsets.all(16.0),
+                //   ),
+                // ),
                 const SizedBox(height: 24),
                 CustomButton(
                   text: "Next",
@@ -164,10 +165,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             return LocationPage(
                               user: widget.user,
                               username: nameController.text.trim(),
-                              userEmail: widget
-                                  .user.email!, // emailController.text.trim()
-                              userMobileNumber: mobileNumberController.text
-                                  .trim(), // widget.user.email!
+                              userEmail: emailController.text.trim(),
+                              userMobileNumber: widget.user.phoneNumber!,
                             );
                           },
                         ),

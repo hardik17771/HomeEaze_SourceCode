@@ -81,7 +81,7 @@ class _MyBasketPageState extends State<MyBasketPage> {
                               margin: const EdgeInsets.all(16),
                               width: 28,
                               height: 28,
-                              child: currentItem.image,
+                              child: itemImageMap[currentItem.name],
                             ),
                             Column(
                               mainAxisSize: MainAxisSize.min,

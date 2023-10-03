@@ -313,7 +313,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                             bottom: 16),
                                         width: 24,
                                         height: 24,
-                                        child: currentService.image,
+                                        child: itemImageMap[currentItem.name],
                                       ),
                                       Column(
                                         crossAxisAlignment:

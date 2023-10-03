@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/controllers/cart_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/notification_controller.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
-import 'package:homeeaze_sourcecode/views/auth/email_password/email_verifly_page.dart';
+import 'package:homeeaze_sourcecode/models/cart_model.dart';
+// import 'package:homeeaze_sourcecode/views/auth/email_password/email_verifly_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/first_page.dart';
 import 'package:homeeaze_sourcecode/views/auth/user_info_page.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
@@ -47,6 +49,7 @@ class _MyAppState extends State<MyApp> {
   final AuthController _authController = AuthController();
   final NotificationController _notificationController =
       NotificationController();
+  final CartController _cartController = CartController();
 
   @override
   void initState() {
@@ -62,7 +65,20 @@ class _MyAppState extends State<MyApp> {
     subscription = Connectivity().onConnectivityChanged.listen((event) async {
       checkInternet();
     });
+
+    readCartItems();
     super.initState();
+  }
+
+  Future<void> readCartItems() async {
+    for (int idx = 0; idx < services.length; idx++) {
+      bool isServiceExist =
+          await _cartController.isServiceExist(services[idx].name);
+      if (isServiceExist) {
+        services[idx] = await _cartController.read(services[idx].name);
+        debugPrint(services[idx].toString());
+      }
+    }
   }
 
   checkInternet() async {
@@ -128,39 +144,42 @@ class _MyAppState extends State<MyApp> {
           return const RefreshPage();
         } else if (snapshot.hasData) {
           User? currentUser = _authController.currentUser;
-          if (currentUser!.emailVerified) {
-            return FutureBuilder(
-              future: _authController.checkUserCredentials(currentUser),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData && snapshot.data == true) {
-                  // Restore Cart Data from Shared preferences
-                  return const HomePage(currIndex: 0);
-                } else if (snapshot.hasData && snapshot.data == false) {
-                  return UserInfoPage(user: currentUser);
-                } else {
-                  return const RefreshPage();
-                }
-              },
-            );
-          } else {
-            return const EmailVerificationPage();
-          }
+
+          // --- Email Password  ---->
+          // if (currentUser!.emailVerified) {
+          //   return FutureBuilder(
+          //     future: _authController.checkUserCredentials(currentUser),
+          //     builder: (BuildContext context, AsyncSnapshot snapshot) {
+          //       if (snapshot.hasData && snapshot.data == true) {
+          //         // Restore Cart Data from Shared preferences
+          //         return const HomePage(currIndex: 0);
+          //       } else if (snapshot.hasData && snapshot.data == false) {
+          //         return UserInfoPage(user: currentUser);
+          //       } else {
+          //         return const RefreshPage();
+          //       }
+          //     },
+          //   );
+          // } else {
+          //   return const EmailVerificationPage();
+          // }
+
+          // --- Phone OTP ---->
+          return FutureBuilder(
+            future: _authController.checkUserCredentials(currentUser!),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData && snapshot.data == true) {
+                return const HomePage(currIndex: 0);
+              } else if (snapshot.hasData && snapshot.data == false) {
+                return UserInfoPage(user: currentUser);
+              } else {
+                return const RefreshPage();
+              }
+            },
+          );
         } else {
           return const FirstPage();
         }
-        // Phone OTP
-        // return FutureBuilder(
-        //   future: _authController.checkUserCredentials(currentUser!),
-        //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-        //     if (snapshot.hasData && snapshot.data == true) {
-        //       return const HomePage(currIndex: 0);
-        //     } else if (snapshot.hasData && snapshot.data == false) {
-        //       return UserInfoPage(user: currentUser);
-        //     } else {
-        //       return const ColorLoader();
-        //     }
-        //   },
-        // );
       },
     );
   }

@@ -91,7 +91,7 @@ class _PhoneOTPVeriflyPageState extends State<PhoneOTPVeriflyPage> {
             _verificationCode = verificationID;
           });
         },
-        timeout: const Duration(seconds: 120));
+        timeout: const Duration(seconds: 5));
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_upi_payment/easy_upi_payment.dart';
+import 'package:homeeaze_sourcecode/controllers/cart_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/notification_controller.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
@@ -16,6 +17,7 @@ class OrdersController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final NotificationController _notificationController =
       NotificationController();
+  final CartController _cartController = CartController();
 
   Future placeOrder({
     required BuildContext context,
@@ -82,6 +84,15 @@ class OrdersController {
       }
       for (int i = 0; i < services.length; i++) {
         services[i].selectedItems = [];
+      }
+
+      // remove all items from cartController
+      for (int idx = 0; idx < services.length; idx++) {
+        bool isServiceExist =
+            await _cartController.isServiceExist(services[idx].name);
+        if (isServiceExist) {
+          _cartController.remove(services[idx].name);
+        }
       }
 
       await _notificationController.sendOrderNotification(

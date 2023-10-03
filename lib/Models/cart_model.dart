@@ -1,28 +1,75 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 
 class Service {
   final String name;
-  final Image image;
   final List<Item> items;
   List<Item> selectedItems;
   Service({
     required this.name,
-    required this.image,
     required this.items,
-  }) : selectedItems = [];
+    required this.selectedItems,
+  });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'name': name,
+      'items': items.map((x) => x.toMap()).toList(),
+      'selectedItems': selectedItems.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  factory Service.fromMap(Map<String, dynamic> map) {
+    return Service(
+      name: map['name'] as String,
+      items: List<Item>.from(
+        (map['items'] as List<dynamic>).map<Item>(
+          (x) => Item.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+      selectedItems: List<Item>.from(
+        (map['selectedItems'] as List<dynamic>).map<Item>(
+          (x) => Item.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Service.fromJson(String source) =>
+      Service.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class Item {
   final String name;
-  final Image image;
   late int quantity;
   Item({
     required this.name,
-    required this.image,
     required this.quantity,
   });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'name': name,
+      'quantity': quantity,
+    };
+  }
+
+  factory Item.fromMap(Map<String, dynamic> map) {
+    return Item(
+      name: map['name'] as String,
+      quantity: map['quantity'] as int,
+    );
+  }
 }
+
+Map<String, dynamic> serviceImageMap = {
+  "Dry Clean": AppAssets.dryCleanServiceImage,
+  "Ironing": AppAssets.ironingServiceImage,
+  "Wash & Iron": AppAssets.washAndIronServiceImage,
+  "Washing": AppAssets.washingServiceImage,
+};
 
 Map<String, dynamic> itemImageMap = {
   "SHIRT": AppAssets.shirtIcon,
@@ -38,58 +85,58 @@ Map<String, dynamic> itemImageMap = {
 List<Service> services = [
   Service(
     name: "Dry Clean",
-    image: AppAssets.dryCleanServiceImage,
+    selectedItems: [],
     items: [
-      Item(name: "SHIRT", quantity: 0, image: AppAssets.shirtIcon),
-      Item(name: 'T-SHIRT', quantity: 0, image: AppAssets.tShirtIcon),
-      Item(name: "TROUSER", quantity: 0, image: AppAssets.trouserIcon),
-      Item(name: 'BLAZER', quantity: 0, image: AppAssets.blazerIcon),
-      Item(name: "SUIT", quantity: 0, image: AppAssets.suitIcon),
-      Item(name: "SAREE", quantity: 0, image: AppAssets.sareeIcon),
-      Item(name: "CURTAINS", quantity: 0, image: AppAssets.curtainIcon),
-      Item(name: 'BEDSHEET', quantity: 0, image: AppAssets.bedsheetIcon),
+      Item(name: "SHIRT", quantity: 0),
+      Item(name: 'T-SHIRT', quantity: 0),
+      Item(name: "TROUSER", quantity: 0),
+      Item(name: 'BLAZER', quantity: 0),
+      Item(name: "SUIT", quantity: 0),
+      Item(name: "SAREE", quantity: 0),
+      Item(name: "CURTAINS", quantity: 0),
+      Item(name: 'BEDSHEET', quantity: 0),
     ],
   ),
   Service(
     name: "Ironing",
-    image: AppAssets.ironingServiceImage,
+    selectedItems: [],
     items: [
-      Item(name: "SHIRT", quantity: 0, image: AppAssets.shirtIcon),
-      Item(name: 'T-SHIRT', quantity: 0, image: AppAssets.tShirtIcon),
-      Item(name: "TROUSER", quantity: 0, image: AppAssets.trouserIcon),
-      Item(name: 'BLAZER', quantity: 0, image: AppAssets.blazerIcon),
-      Item(name: "SUIT", quantity: 0, image: AppAssets.suitIcon),
-      Item(name: "SAREE", quantity: 0, image: AppAssets.sareeIcon),
-      Item(name: "CURTAINS", quantity: 0, image: AppAssets.curtainIcon),
-      Item(name: 'BEDSHEET', quantity: 0, image: AppAssets.bedsheetIcon),
+      Item(name: "SHIRT", quantity: 0),
+      Item(name: 'T-SHIRT', quantity: 0),
+      Item(name: "TROUSER", quantity: 0),
+      Item(name: 'BLAZER', quantity: 0),
+      Item(name: "SUIT", quantity: 0),
+      Item(name: "SAREE", quantity: 0),
+      Item(name: "CURTAINS", quantity: 0),
+      Item(name: 'BEDSHEET', quantity: 0),
     ],
   ),
   Service(
     name: "Wash & Iron",
-    image: AppAssets.washAndIronServiceImage,
+    selectedItems: [],
     items: [
-      Item(name: "SHIRT", quantity: 0, image: AppAssets.shirtIcon),
-      Item(name: 'T-SHIRT', quantity: 0, image: AppAssets.tShirtIcon),
-      Item(name: "TROUSER", quantity: 0, image: AppAssets.trouserIcon),
-      Item(name: 'BLAZER', quantity: 0, image: AppAssets.blazerIcon),
-      Item(name: "SUIT", quantity: 0, image: AppAssets.suitIcon),
-      Item(name: "SAREE", quantity: 0, image: AppAssets.sareeIcon),
-      Item(name: "CURTAINS", quantity: 0, image: AppAssets.curtainIcon),
-      Item(name: 'BEDSHEET', quantity: 0, image: AppAssets.bedsheetIcon),
+      Item(name: "SHIRT", quantity: 0),
+      Item(name: 'T-SHIRT', quantity: 0),
+      Item(name: "TROUSER", quantity: 0),
+      Item(name: 'BLAZER', quantity: 0),
+      Item(name: "SUIT", quantity: 0),
+      Item(name: "SAREE", quantity: 0),
+      Item(name: "CURTAINS", quantity: 0),
+      Item(name: 'BEDSHEET', quantity: 0),
     ],
   ),
   Service(
     name: "Washing",
-    image: AppAssets.washingServiceImage,
+    selectedItems: [],
     items: [
-      Item(name: "SHIRT", quantity: 0, image: AppAssets.shirtIcon),
-      Item(name: 'T-SHIRT', quantity: 0, image: AppAssets.tShirtIcon),
-      Item(name: "TROUSER", quantity: 0, image: AppAssets.trouserIcon),
-      Item(name: 'BLAZER', quantity: 0, image: AppAssets.blazerIcon),
-      Item(name: "SUIT", quantity: 0, image: AppAssets.suitIcon),
-      Item(name: "SAREE", quantity: 0, image: AppAssets.sareeIcon),
-      Item(name: "CURTAINS", quantity: 0, image: AppAssets.curtainIcon),
-      Item(name: 'BEDSHEET', quantity: 0, image: AppAssets.bedsheetIcon),
+      Item(name: "SHIRT", quantity: 0),
+      Item(name: 'T-SHIRT', quantity: 0),
+      Item(name: "TROUSER", quantity: 0),
+      Item(name: 'BLAZER', quantity: 0),
+      Item(name: "SUIT", quantity: 0),
+      Item(name: "SAREE", quantity: 0),
+      Item(name: "CURTAINS", quantity: 0),
+      Item(name: 'BEDSHEET', quantity: 0),
     ],
   ),
 ];

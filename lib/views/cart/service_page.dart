@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/controllers/cart_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
@@ -22,6 +23,7 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
+  final CartController _cartController = CartController();
   final AuthController _authController = AuthController();
   int _itemCount = 0;
 
@@ -36,7 +38,16 @@ class _ServicePageState extends State<ServicePage> {
     );
 
     if (updatedService != null) {
+      // Saving to local Storage -> Shared Preferences
+      bool isServiceExist =
+          await _cartController.isServiceExist(updatedService.name);
+      if (isServiceExist) {
+        _cartController.remove(updatedService.name);
+      }
+      _cartController.save(updatedService.name, updatedService);
+
       showCustomToast(text: "Cart Items have been updated");
+
       setState(() {
         service.selectedItems = updatedService.selectedItems;
       });
@@ -222,7 +233,7 @@ class _ServicePageState extends State<ServicePage> {
                         },
                         child: ServiceCard(
                           itemCount: services[0].selectedItems.length,
-                          serviceImage: services[0].image,
+                          serviceImage: serviceImageMap[services[0].name],
                           serviceName: services[0].name,
                         ),
                       ),
@@ -232,7 +243,7 @@ class _ServicePageState extends State<ServicePage> {
                         },
                         child: ServiceCard(
                           itemCount: services[1].selectedItems.length,
-                          serviceImage: services[1].image,
+                          serviceImage: serviceImageMap[services[1].name],
                           serviceName: services[1].name,
                         ),
                       ),
@@ -248,7 +259,7 @@ class _ServicePageState extends State<ServicePage> {
                         },
                         child: ServiceCard(
                           itemCount: services[2].selectedItems.length,
-                          serviceImage: services[2].image,
+                          serviceImage: serviceImageMap[services[2].name],
                           serviceName: services[2].name,
                         ),
                       ),
@@ -258,7 +269,7 @@ class _ServicePageState extends State<ServicePage> {
                         },
                         child: ServiceCard(
                           itemCount: services[3].selectedItems.length,
-                          serviceImage: services[3].image,
+                          serviceImage: serviceImageMap[services[3].name],
                           serviceName: services[3].name,
                         ),
                       ),

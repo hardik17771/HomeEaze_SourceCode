@@ -65,7 +65,7 @@ class _AddItemState extends State<AddItem> {
                       SizedBox(
                         height: 35,
                         width: 35,
-                        child: item.image,
+                        child: itemImageMap[item.name],
                       ),
                       const SizedBox(width: 16),
                       Text(
