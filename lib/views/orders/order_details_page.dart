@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/orders_controller.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
-import 'package:homeeaze_sourcecode/models/cart_model.dart';
-import 'package:homeeaze_sourcecode/models/order_model.dart';
-import 'package:homeeaze_sourcecode/models/vendor_model.dart';
+import 'package:homeeaze_sourcecode/Models/cart_model.dart';
+import 'package:homeeaze_sourcecode/Models/order_model.dart';
+import 'package:homeeaze_sourcecode/Models/vendor_model.dart';
 import 'package:intl/intl.dart';
 
 class OrderDetailsPage extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:homeeaze_sourcecode/models/cart_model.dart';
+import 'package:homeeaze_sourcecode/Models/cart_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartController {

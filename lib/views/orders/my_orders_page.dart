@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/controllers/orders_controller.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
-import 'package:homeeaze_sourcecode/models/order_model.dart';
+import 'package:homeeaze_sourcecode/Models/order_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/no_orders_widget.dart';
 import 'package:homeeaze_sourcecode/views/orders/widgets/order_card.dart';
 

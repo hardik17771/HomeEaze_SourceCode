@@ -3,8 +3,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
-import 'package:homeeaze_sourcecode/models/vendor_model.dart';
-import 'package:homeeaze_sourcecode/views/cart/widgets/pickUp_time_card.dart';
+import 'package:homeeaze_sourcecode/Models/vendor_model.dart';
+import 'package:homeeaze_sourcecode/views/cart/widgets/pickup_time_card.dart';
 
 class LaundaryCard extends StatelessWidget {
   final double userLatitude;

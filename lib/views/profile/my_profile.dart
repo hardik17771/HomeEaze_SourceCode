@@ -4,7 +4,7 @@ import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
-import 'package:homeeaze_sourcecode/models/user_model.dart';
+import 'package:homeeaze_sourcecode/Models/user_model.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 import 'package:homeeaze_sourcecode/views/profile/address/address_book_page.dart';
 import 'package:url_launcher/url_launcher.dart';

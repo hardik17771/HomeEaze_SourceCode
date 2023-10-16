@@ -5,9 +5,9 @@ import 'package:homeeaze_sourcecode/controllers/orders_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
-import 'package:homeeaze_sourcecode/models/cart_model.dart';
-import 'package:homeeaze_sourcecode/models/user_model.dart';
-import 'package:homeeaze_sourcecode/models/vendor_model.dart';
+import 'package:homeeaze_sourcecode/Models/cart_model.dart';
+import 'package:homeeaze_sourcecode/Models/user_model.dart';
+import 'package:homeeaze_sourcecode/Models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
 class UpiPaymentPage extends StatefulWidget {

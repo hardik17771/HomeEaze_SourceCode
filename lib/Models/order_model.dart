@@ -1,4 +1,4 @@
-import 'package:homeeaze_sourcecode/models/user_address_model.dart';
+import 'package:homeeaze_sourcecode/Models/user_address_model.dart';
 
 class OrderModel {
   final String userUid;

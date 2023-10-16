@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
-import '../../../models/cart_model.dart';
+import '../../../Models/cart_model.dart';
 
 class AddItem extends StatefulWidget {
   final Service service;

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:homeeaze_sourcecode/models/order_model.dart';
-import 'package:homeeaze_sourcecode/models/user_model.dart';
-import 'package:homeeaze_sourcecode/models/vendor_model.dart';
+import 'package:homeeaze_sourcecode/Models/order_model.dart';
+import 'package:homeeaze_sourcecode/Models/user_model.dart';
+import 'package:homeeaze_sourcecode/Models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/orders/my_orders_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';

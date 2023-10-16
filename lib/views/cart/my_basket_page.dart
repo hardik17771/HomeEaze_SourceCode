@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
-import 'package:homeeaze_sourcecode/models/cart_model.dart';
+import 'package:homeeaze_sourcecode/Models/cart_model.dart';
 import 'package:homeeaze_sourcecode/views/cart/choose_vendor.dart';
 import 'package:homeeaze_sourcecode/views/widgets/bottom_bar_button.dart';
 

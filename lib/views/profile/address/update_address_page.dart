@@ -6,7 +6,7 @@ import 'package:homeeaze_sourcecode/controllers/data_controller.dart';
 import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
-import 'package:homeeaze_sourcecode/models/user_address_model.dart';
+import 'package:homeeaze_sourcecode/Models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
 class UpdateAddressPage extends StatefulWidget {

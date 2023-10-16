@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
-import 'package:homeeaze_sourcecode/models/cart_model.dart';
-import 'package:homeeaze_sourcecode/models/user_address_model.dart';
-import 'package:homeeaze_sourcecode/models/user_model.dart';
-import 'package:homeeaze_sourcecode/models/vendor_model.dart';
+import 'package:homeeaze_sourcecode/Models/cart_model.dart';
+import 'package:homeeaze_sourcecode/Models/user_address_model.dart';
+import 'package:homeeaze_sourcecode/Models/user_model.dart';
+import 'package:homeeaze_sourcecode/Models/vendor_model.dart';
 import 'package:homeeaze_sourcecode/views/home_page.dart';
 
 class DataController {

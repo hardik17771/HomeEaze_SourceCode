@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
-import 'package:homeeaze_sourcecode/models/user_address_model.dart';
+import 'package:homeeaze_sourcecode/Models/user_address_model.dart';
 import 'package:homeeaze_sourcecode/views/profile/address/add_address_page.dart';
 import 'package:homeeaze_sourcecode/views/profile/address/address_card.dart';
 
