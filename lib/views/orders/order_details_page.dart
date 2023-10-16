@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:homeeaze_sourcecode/controllers/orders_controller.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/models/cart_model.dart';
@@ -7,7 +8,7 @@ import 'package:homeeaze_sourcecode/models/order_model.dart';
 import 'package:homeeaze_sourcecode/models/vendor_model.dart';
 import 'package:intl/intl.dart';
 
-class OrderDetailsPage extends StatelessWidget {
+class OrderDetailsPage extends StatefulWidget {
   final OrderModel orderModel;
   final VendorModel vendorModel;
   final List<Map<String, dynamic>> orderServices;
@@ -17,6 +18,13 @@ class OrderDetailsPage extends StatelessWidget {
     required this.vendorModel,
     required this.orderServices,
   });
+
+  @override
+  State<OrderDetailsPage> createState() => _OrderDetailsPageState();
+}
+
+class _OrderDetailsPageState extends State<OrderDetailsPage> {
+  final OrdersController _orderController = OrdersController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +69,7 @@ class OrderDetailsPage extends StatelessWidget {
                       children: [
                         const SizedBox(height: 8),
                         Text(
-                          "${vendorModel.outletName}  |  ${vendorModel.outletMobileNumber}",
+                          "${widget.vendorModel.outletName}  |  ${widget.vendorModel.outletMobileNumber}",
                           style: GoogleFonts.poppins(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -107,7 +115,7 @@ class OrderDetailsPage extends StatelessWidget {
                       children: [
                         const SizedBox(height: 8),
                         Text(
-                          "Order Accepted at ${DateFormat().format(orderModel.orderReceivingTime)}",
+                          "Order Accepted at ${DateFormat().format(widget.orderModel.orderReceivingTime)}",
                           style: GoogleFonts.poppins(
                             fontSize: 6,
                             fontStyle: FontStyle.italic,
@@ -117,7 +125,7 @@ class OrderDetailsPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "Order Status ${orderModel.orderStatus}}",
+                          "Order Status ${widget.orderModel.orderStatus}",
                           style: GoogleFonts.poppins(
                             fontSize: 6,
                             fontStyle: FontStyle.italic,
@@ -126,14 +134,31 @@ class OrderDetailsPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        if (orderModel.orderStatus == "Completed")
+                        if (widget.orderModel.orderStatus == "Completed")
                           Text(
-                            "Order Delivered at ${DateFormat().format(orderModel.orderDeliveryTime)}",
+                            "Order Delivered at ${DateFormat().format(widget.orderModel.orderDeliveryTime)}",
                             style: GoogleFonts.poppins(
                               fontSize: 6,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.w500,
                               color: AppColors.primaryTextColor,
+                            ),
+                          ),
+                        if (widget.orderModel.orderStatus == "To be picked up")
+                          InkWell(
+                            onTap: () async {
+                              await _orderController.cancelOrder(
+                                  orderId: widget.orderModel.orderId);
+
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              "Cancel Order",
+                              style: GoogleFonts.poppins(
+                                fontSize: 8,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.redColor,
+                              ),
                             ),
                           ),
                       ],
@@ -163,10 +188,11 @@ class OrderDetailsPage extends StatelessWidget {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const ClampingScrollPhysics(),
-                  itemCount: orderServices.length,
+                  itemCount: widget.orderServices.length,
                   itemBuilder: (BuildContext context, int index) {
                     String serviceName = services[index].name;
-                    Map<String, dynamic> orderItem = orderServices[index];
+                    Map<String, dynamic> orderItem =
+                        widget.orderServices[index];
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
@@ -274,7 +300,7 @@ class OrderDetailsPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "${orderModel.orderAmount - 60}",
+                        "${widget.orderModel.orderAmount - 60}",
                         style: GoogleFonts.poppins(
                           color: AppColors.secondaryTextColor,
                           fontSize: 11,
@@ -357,7 +383,7 @@ class OrderDetailsPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "₹ ${orderModel.orderAmount}",
+                        "₹ ${widget.orderModel.orderAmount}",
                         style: GoogleFonts.poppins(
                           color: AppColors.secondaryTextColor,
                           fontSize: 12,

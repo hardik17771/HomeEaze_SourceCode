@@ -209,7 +209,7 @@ class _OrderCardState extends State<OrderCard> {
                 ],
               ),
               Text(
-                "View Pricings  >",
+                "View Details  >",
                 style: GoogleFonts.poppins(
                   color: AppColors.tertiaryTextColor,
                   fontSize: 10,

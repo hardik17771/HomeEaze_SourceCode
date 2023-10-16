@@ -243,12 +243,10 @@ class DataController {
   }) {
     double orderAmount = 0;
     for (int i = 0; i < cartServices.length; i++) {
-      Map<String, dynamic> outletItem = outletServiceMenu[i];
-      Service currentService = cartServices[i];
-      for (int j = 0; j < currentService.selectedItems.length; j++) {
-        String itemName = currentService.selectedItems[j].name;
-        int itemQuantity = currentService.selectedItems[j].quantity;
-        orderAmount += (outletItem[itemName] as int) * (itemQuantity);
+      for (int j = 0; j < cartServices[i].items.length; j++) {
+        String itemName = cartServices[i].items[j].name;
+        int itemQuantity = cartServices[i].items[j].quantity;
+        orderAmount += (outletServiceMenu[i][itemName] as int) * (itemQuantity);
       }
     }
     // debugPrint(orderAmount.toString());

@@ -155,6 +155,17 @@ class OrdersController {
     return list;
   }
 
+  Future<void> cancelOrder({
+    required String orderId,
+  }) async {
+    await _firestore
+        .collection("orders")
+        .doc(orderId)
+        .update({'orderStatus': "Cancelled"});
+
+    showCustomToast(text: "Order Cancelled");
+  }
+
   Future<TransactionDetailModel?> makeUPIPayment({
     required BuildContext context,
     required double amount,
