@@ -521,7 +521,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         ),
                       ),
                       Text(
-                        _subTotalAmount.toString(),
+                        "₹ ${_subTotalAmount.toString()}",
                         style: GoogleFonts.poppins(
                           color: AppColors.secondaryTextColor,
                           fontSize: 11,
