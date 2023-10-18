@@ -139,7 +139,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
               child: Row(
                 children: [
                   SizedBox(
-                    height: 24,
+                    height: 35,
                     width: 24,
                     child: AppAssets.pickUpTimeAlarmIcon,
                   ),
@@ -147,10 +147,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   Text(
                     "Choose a pickup slot convenient for you:",
                     style: GoogleFonts.poppins(
-                      color: AppColors.secondaryTextColor,
-                      fontSize: 8,
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.italic,
+                      color: AppColors.blackColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
@@ -180,9 +179,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         Text(
                           pickUpSlotDayOptions[0],
                           style: GoogleFonts.poppins(
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.secondaryTextColor,
+                            color: AppColors.blackColor,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -208,9 +207,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         Text(
                           pickUpSlotDayOptions[1],
                           style: GoogleFonts.poppins(
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.secondaryTextColor,
+                            color: AppColors.blackColor,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -236,9 +235,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         Text(
                           pickUpSlotDayOptions[2],
                           style: GoogleFonts.poppins(
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.secondaryTextColor,
+                            color: AppColors.blackColor,
                           ),
                         ),
                         const SizedBox(height: 4),

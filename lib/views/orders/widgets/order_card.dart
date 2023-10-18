@@ -98,6 +98,15 @@ class _OrderCardState extends State<OrderCard> {
     required VendorModel vendorModel,
     required List<Map<String, dynamic>> orderServices,
   }) {
+    Color textColor;
+
+    if (widget.orderModel.orderStatus == 'Cancelled') {
+      textColor = Colors.red;
+    } else if (widget.orderModel.orderStatus == 'To be picked up') {
+      textColor = Colors.blue;
+    } else {
+      textColor = Colors.black;
+    }
     return SizedBox(
       width: size.width,
       child: Column(
@@ -148,17 +157,18 @@ class _OrderCardState extends State<OrderCard> {
                     Text(
                       "Order Status : ${widget.orderModel.orderStatus}",
                       style: GoogleFonts.poppins(
-                        fontSize: 9,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.secondaryTextColor,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: textColor
                       ),
                     ),
+
                     Text(
                       "Pick up slot : ${widget.orderModel.pickUpTimeSlot}",
                       style: GoogleFonts.poppins(
-                        fontSize: 9,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.secondaryTextColor,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.blackColor,
                       ),
                     ),
                   ],

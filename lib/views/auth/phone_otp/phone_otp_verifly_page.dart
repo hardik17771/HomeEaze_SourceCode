@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/auth_controller.dart';
+import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/core/utils.dart';
 import 'package:homeeaze_sourcecode/views/auth/user_info_page.dart';
@@ -20,6 +21,7 @@ class PhoneOTPVeriflyPage extends StatefulWidget {
 }
 
 class _PhoneOTPVeriflyPageState extends State<PhoneOTPVeriflyPage> {
+  bool? _isLoading;
   String? _verificationCode;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _pinController = TextEditingController();
@@ -28,6 +30,7 @@ class _PhoneOTPVeriflyPageState extends State<PhoneOTPVeriflyPage> {
   @override
   void initState() {
     _verifyPhoneNumber();
+    _isLoading = false;
     super.initState();
   }
 
@@ -38,7 +41,7 @@ class _PhoneOTPVeriflyPageState extends State<PhoneOTPVeriflyPage> {
           user: currentUser,
         ),
       ),
-      (route) => false,
+          (route) => false,
     );
   }
 
@@ -47,7 +50,7 @@ class _PhoneOTPVeriflyPageState extends State<PhoneOTPVeriflyPage> {
       MaterialPageRoute(
         builder: (context) => const HomePage(currIndex: 0),
       ),
-      (route) => false,
+          (route) => false,
     );
   }
 
@@ -64,7 +67,7 @@ class _PhoneOTPVeriflyPageState extends State<PhoneOTPVeriflyPage> {
               // Check for Vendor Data with same number (Remain)
 
               bool hasUserData =
-                  await _authController.checkUserCredentials(currentUser);
+              await _authController.checkUserCredentials(currentUser);
               if (hasUserData == true) {
                 _navigateToHomePage();
               } else {
@@ -123,74 +126,95 @@ class _PhoneOTPVeriflyPageState extends State<PhoneOTPVeriflyPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Pinput(
-                    length: 6,
-                    defaultPinTheme: PinTheme(
-                      width: 54,
-                      height: 54,
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        color: AppColors.tertiaryTextColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.primaryBorderColor),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    controller: _pinController,
-                    pinAnimationType: PinAnimationType.fade,
-                    onCompleted: (pin) async {
-                      try {
-                        await FirebaseAuth.instance
-                            .signInWithCredential(
-                          PhoneAuthProvider.credential(
-                            verificationId: _verificationCode!,
-                            smsCode: pin,
+                (_isLoading == true)
+                    ? const ColorLoader()
+                    : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Pinput(
+                        length: 6,
+                        defaultPinTheme: PinTheme(
+                          width: 54,
+                          height: 54,
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            color: AppColors.tertiaryTextColor,
+                            fontWeight: FontWeight.w600,
                           ),
-                        )
-                            .then(
-                          (value) async {
-                            User? currentUser = value.user;
-                            if (currentUser != null) {
-                              // Check for Vendor Data with same number (Remain)
-                              bool hasUserData = await _authController
-                                  .checkUserCredentials(currentUser);
-                              if (hasUserData == true) {
-                                _navigateToHomePage();
-                              } else {
-                                _navigateToUserInfoPage(currentUser);
-                              }
-                            }
-                          },
-                        );
-                      } on FirebaseException catch (e) {
-                        showCustomDialog(
-                          context: context,
-                          title: "Authentication Error",
-                          message: e.message!,
-                        );
-                      }
-                    },
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    _verifyPhoneNumber();
-                  },
-                  child: Text(
-                    "Didn't recieve OTP?\n Resend",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.tertiaryTextColor,
-                      fontSize: 12,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppColors.primaryBorderColor),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        controller: _pinController,
+                        pinAnimationType: PinAnimationType.fade,
+                        onCompleted: (pin) async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+
+                          try {
+                            await FirebaseAuth.instance
+                                .signInWithCredential(
+                              PhoneAuthProvider.credential(
+                                verificationId: _verificationCode!,
+                                smsCode: pin,
+                              ),
+                            )
+                                .then(
+                                  (value) async {
+                                User? currentUser = value.user;
+                                if (currentUser != null) {
+                                  // Check for Vendor Data with same number (Remain)
+                                  bool hasUserData = await _authController
+                                      .checkUserCredentials(currentUser);
+                                  if (hasUserData == true) {
+                                    _navigateToHomePage();
+                                  } else {
+                                    _navigateToUserInfoPage(currentUser);
+                                  }
+                                }
+                              },
+                            );
+                          } on FirebaseException catch (e) {
+                            showCustomDialog(
+                              context: context,
+                              title: "Authentication Error",
+                              message: e.message!,
+                            );
+                          }
+
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                      ),
                     ),
-                  ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        _verifyPhoneNumber();
+                        setState(() {
+                          _isLoading = false;
+                        });
+                      },
+                      child: Text(
+                        "Didn't recieve OTP?\n Resend",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.tertiaryTextColor,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 36),
               ],
             ),
           ),

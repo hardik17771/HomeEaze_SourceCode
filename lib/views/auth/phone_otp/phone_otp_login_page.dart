@@ -4,6 +4,8 @@ import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/views/auth/phone_otp/phone_otp_verifly_page.dart';
 import 'package:homeeaze_sourcecode/views/widgets/custom_button.dart';
 
+import '../../../core/animations/color_loader.dart';
+
 class PhoneOTPLoginPage extends StatefulWidget {
   const PhoneOTPLoginPage({super.key});
 

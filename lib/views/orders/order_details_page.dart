@@ -1,11 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:homeeaze_sourcecode/controllers/orders_controller.dart';
+import 'package:homeeaze_sourcecode/core/animations/color_loader.dart';
 import 'package:homeeaze_sourcecode/core/assets.dart';
 import 'package:homeeaze_sourcecode/core/colors.dart';
 import 'package:homeeaze_sourcecode/Models/cart_model.dart';
 import 'package:homeeaze_sourcecode/Models/order_model.dart';
 import 'package:homeeaze_sourcecode/Models/vendor_model.dart';
+import 'package:homeeaze_sourcecode/views/orders/my_orders_page.dart';
 import 'package:intl/intl.dart';
 
 class OrderDetailsPage extends StatefulWidget {
@@ -28,6 +31,15 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    Color textColor;
+
+    if (widget.orderModel.orderStatus == 'Cancelled') {
+      textColor = Colors.red;
+    } else if (widget.orderModel.orderStatus == 'To be picked up') {
+      textColor = Colors.blue;
+    } else {
+      textColor = Colors.black;
+    }
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColors.primaryBackgroundColor,
@@ -53,7 +65,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
               width: size.width,
               margin: const EdgeInsets.only(top: 16, bottom: 16),
               padding:
-                  const EdgeInsets.only(top: 16, bottom: 16, left: 8, right: 8),
+              const EdgeInsets.only(top: 16, bottom: 16, left: 8, right: 8),
               decoration: BoxDecoration(
                 color: AppColors.whiteColor,
                 borderRadius: BorderRadius.circular(20),
@@ -117,20 +129,20 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                         Text(
                           "Order Accepted at ${DateFormat().format(widget.orderModel.orderReceivingTime)}",
                           style: GoogleFonts.poppins(
-                            fontSize: 6,
+                            fontSize: 8.5,
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.primaryTextColor,
+                            color: AppColors.blackColor,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "Order Status ${widget.orderModel.orderStatus}",
+                          "Order Status: ${widget.orderModel.orderStatus}",
                           style: GoogleFonts.poppins(
-                            fontSize: 6,
+                            fontSize: 12,
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.primaryTextColor,
+                            color: textColor,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -138,7 +150,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                           Text(
                             "Order Delivered at ${DateFormat().format(widget.orderModel.orderDeliveryTime)}",
                             style: GoogleFonts.poppins(
-                              fontSize: 6,
+                              fontSize: 12,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.w500,
                               color: AppColors.primaryTextColor,
@@ -146,17 +158,15 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                           ),
                         if (widget.orderModel.orderStatus == "To be picked up")
                           InkWell(
-                            onTap: () async {
-                              await _orderController.cancelOrder(
+                            onTap: () {
+                              cancelOrderDialog(
                                   orderId: widget.orderModel.orderId);
-
-                              Navigator.of(context).pop();
                             },
                             child: Text(
                               "Cancel Order",
                               style: GoogleFonts.poppins(
-                                fontSize: 8,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 13.5,
+                                fontWeight: FontWeight.w700,
                                 color: AppColors.redColor,
                               ),
                             ),
@@ -192,7 +202,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   itemBuilder: (BuildContext context, int index) {
                     String serviceName = services[index].name;
                     Map<String, dynamic> orderItem =
-                        widget.orderServices[index];
+                    widget.orderServices[index];
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
@@ -221,7 +231,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                   ),
                                   Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "$itemQuantity * $itemName",
@@ -300,7 +310,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                         ),
                       ),
                       Text(
-                        "${widget.orderModel.orderAmount - 60}",
+                        "₹ ${widget.orderModel.orderAmount - 60}",
                         style: GoogleFonts.poppins(
                           color: AppColors.secondaryTextColor,
                           fontSize: 11,
@@ -398,6 +408,87 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void cancelOrderDialog({required String orderId, isLoading = false}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(builder: (BuildContext context, setState) {
+          return AlertDialog(
+            title: Text(
+              "Order Cancellation",
+              style: GoogleFonts.poppins(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w700,
+                color: AppColors.blackColor,
+              ),
+            ),
+            content: Text(
+              "Are you sure you want to cancel your order?",
+              style: GoogleFonts.poppins(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600,
+                color: AppColors.secondaryTextColor,
+              ),
+            ),
+            actions: [
+              (isLoading == true)
+                  ? const ColorLoader()
+                  : Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    child: Text(
+                      "Close",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.tertiaryTextColor,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: Text(
+                      "Cancel Order",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.redColor,
+                      ),
+                    ),
+                    onPressed: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      _orderController
+                          .cancelOrder(orderId: orderId)
+                          .then((value) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) {
+                            return const MyOrdersPage();
+                          }),
+                              (route) => false,
+                        );
+                      });
+
+                      setState(() {
+                        isLoading = false;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+      },
     );
   }
 }

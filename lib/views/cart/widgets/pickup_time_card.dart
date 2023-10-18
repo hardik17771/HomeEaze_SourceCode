@@ -13,7 +13,7 @@ class PickUpTimeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 25,
+      height: 34,
       width: 85,
       decoration: BoxDecoration(
         color: bgColor,
@@ -24,7 +24,8 @@ class PickUpTimeCard extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
-            fontSize: 11,
+            color: Colors.white,
+            fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
